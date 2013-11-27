@@ -2,6 +2,7 @@
 
 (dolist (p '("~/.emacs.d"
              "~/.emacs.d/org/lisp"
+             "~/.emacs.d/auto-complete"
              "~/.emacs.d/evil"))
   (add-to-list 'load-path p))
 
@@ -21,7 +22,7 @@
 
 ; load ac
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/auto-complete/ac-dict")
 (ac-config-default)
 
 ;; load highlight indentation
