@@ -37,9 +37,6 @@
 ;; load highlight indentation
 (require 'highlight-indentation)
 
-;; load orgmod
-(require 'org-install)
-
 (defun dev-basic ()
   (linum-mode t)
   (highlight-indentation-mode))
