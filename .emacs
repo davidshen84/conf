@@ -1,10 +1,16 @@
 ;; -*- Emacs-Lisp -*-
 
 (dolist (p '("~/.emacs.d"
-             "~/.emacs.d/org/lisp"
-             "~/.emacs.d/auto-complete"
-             "~/.emacs.d/evil"))
+             "~/.emacs.d/auto-complete"))
   (add-to-list 'load-path p))
+
+;; markdown-mode
+(progn 
+  (autoload 'markdown-mode "markdown-mode"
+    "Major mode for editing Markdown files" t)
+  (dolist (p '(("\\.markdown\\'" . markdown-mode)
+               ("\\.md\\'" . markdown-mode)))
+    (add-to-list 'auto-mode-alist p)))
 
 ;; load theme
 (if (display-graphic-p)
@@ -18,7 +24,7 @@
   (global-set-key (kbd "C-c l") 'linum-mode)
   (global-set-key (kbd "C-c b") 'whitespace-mode))
 
-;; some basic default settings
+;; some basic settings
 (progn
   ;; set tab offset
   (setq-default tab-width 4
@@ -68,9 +74,8 @@
                (dev-basic)
                (setq js2-basic-offset 2))))
 
-;; load orgmod
+;; load org-mod
 (progn
-  (require 'org-install)
   (add-hook 'org-mode-hook
             '(lambda ()
                (auto-fill-mode t))))
