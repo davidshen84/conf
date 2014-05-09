@@ -4,6 +4,12 @@
              "~/.emacs.d/auto-complete"))
   (add-to-list 'load-path p))
 
+;; add melpa package
+(progn
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t))
+
 ;; markdown-mode
 (progn 
   (autoload 'markdown-mode "markdown-mode"
