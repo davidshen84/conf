@@ -1,8 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-(dolist (p '("~/.emacs.d"
-             "~/.emacs.d/auto-complete"))
-  (add-to-list 'load-path p))
+(add-to-list 'load-path "~/.emacs.d")
 
 ;; add melpa package
 (progn
@@ -43,7 +41,6 @@
 ;; load ac
 (progn
   (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
   (ac-config-default))
 
 ;; load highlight indentation
