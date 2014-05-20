@@ -41,7 +41,11 @@
 ;; load ac
 (progn
   (require 'auto-complete-config)
-  (ac-config-default))
+  (ac-config-default)
+  ;; In your project root directory, do follow command to make tags file.
+  ;; etags --verbose -R --fields="+afikKlmnsSzt"
+  (require 'auto-complete-exuberant-ctags)
+  (ac-exuberant-ctags-setup))
 
 ;; load highlight indentation
 (require 'highlight-indentation)
