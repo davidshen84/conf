@@ -9,9 +9,7 @@ my personal gist :)
   - `auto-complete`
   - `auto-complete-exuberant-ctags`
     - In your project root directory, do follow command to make tags file.
-
       > etags --verbose -R --fields="+afikKlmnsSzt"
-
   - `markdown-mode`
 
 
