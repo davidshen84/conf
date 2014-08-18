@@ -4,7 +4,8 @@ my personal gist :)
 
 - Grab [highlight-indentation][1] and drop it at ~/.emacs.d
 - Install the following from **Packages**
-  - `js2-mode`
+  - `js3-mode`
+  - `json-mode`
   - `org` *aka org-mode*
   - `auto-complete`
   - `auto-complete-exuberant-ctags`

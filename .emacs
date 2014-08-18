@@ -52,7 +52,8 @@
 
 (defun dev-basic ()
   (linum-mode t)
-  (highlight-indentation-mode))
+  (highlight-indentation-mode)
+  (auto-complete-mode))
 
 ;; for shell script
 (add-hook 'sh-mode-hook
@@ -71,17 +72,25 @@
              (dev-basic)
              (setq python-indent 2)))
 
-;; for js
+;; for js/json
 (progn
-  ;; bind js/json to js2-mode
+  ;; bind js to js3-mode
   (add-to-list 'auto-mode-alist
-               '("\\(\\.js\\|\\.json\\)\\'" . js2-mode))
-  (add-hook 'js2-mode-hook
+               '("\\.js\\'" . js3-mode))
+  (add-hook 'js3-mode-hook
             '(lambda ()
                (dev-basic)
-               (setq js2-basic-offset 2))))
+               (setq js3-basic-offset 2)))
 
-;; load org-mod
+  ;; bind json to json-mode
+  (add-to-list 'auto-mode-alist
+               '("\\.json\\'" . json-mode))
+  (add-hook 'json-mode-hook
+            '(lambda ()
+               (dev-basic)
+               (setq js-indent-level 2))))
+
+;; for org-mod
 (progn
   (add-hook 'org-mode-hook
             '(lambda ()
@@ -102,5 +111,5 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     '(default ((t (:family "Source Code Pro" :weight normal :height 180 :width normal))))))
+     '(default ((t (:family "Droid Sans Mono" :weight normal :height 180 :width normal))))))
 
