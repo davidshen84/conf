@@ -26,7 +26,10 @@
   ;; bind goto line function with Ctrl-c-g
   (global-set-key (kbd "C-c g") 'goto-line)
   (global-set-key (kbd "C-c l") 'linum-mode)
-  (global-set-key (kbd "C-c b") 'whitespace-mode))
+  (global-set-key (kbd "C-c b") 'whitespace-mode)
+  (global-set-key (kbd "C-c c") 'comment)
+  (global-set-key (kbd "C-c C") 'comment-region)
+  (global-set-key (kbd "C-c U") 'uncomment-region))
 
 ;; some basic settings
 (progn
@@ -90,11 +93,24 @@
                (dev-basic)
                (setq js-indent-level 2))))
 
+;; for css
+(progn
+  (add-hook 'css-mode
+            '(lambda ()
+               (dev-basic)
+               (css-indent-offset 2))))
+
 ;; for org-mod
 (progn
   (add-hook 'org-mode-hook
             '(lambda ()
                (auto-fill-mode t))))
+
+;; for LaTeX
+(progn
+  (add-hook 'LaTeX-mode
+            '(lambda ()
+               (auto-complete-mode t))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
