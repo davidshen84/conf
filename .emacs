@@ -1,6 +1,6 @@
 ;; -*- Emacs-Lisp -*-
 
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;; add melpa package
 (progn
@@ -47,8 +47,9 @@
   (ac-config-default)
   ;; In your project root directory, do follow command to make tags file.
   ;; etags --verbose -R --fields="+afikKlmnsSzt"
-  (require 'auto-complete-exuberant-ctags)
-  (ac-exuberant-ctags-setup))
+  ;; (require 'auto-complete-exuberant-ctags)
+  ;; (ac-exuberant-ctags-setup)
+  )
 
 ;; load highlight indentation
 (require 'highlight-indentation)
@@ -127,5 +128,5 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     '(default ((t (:family "Droid Sans Mono" :weight normal :height 180 :width normal))))))
+     '(default ((t (:family "Source Code Pro" :weight normal :height 180 :width normal))))))
 
