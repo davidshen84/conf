@@ -74,6 +74,7 @@
 (add-hook 'python-mode-hook
           '(lambda ()
              (dev-basic)
+             (hs-minor-mode t)
              (setq python-indent 2)))
 
 ;; for js/json
@@ -99,7 +100,7 @@
   (add-hook 'css-mode
             '(lambda ()
                (dev-basic)
-               (css-indent-offset 2))))
+               (setq css-indent-offset 2))))
 
 ;; for org-mod
 (progn
@@ -109,7 +110,13 @@
 
 ;; for LaTeX
 (progn
-  (add-hook 'LaTeX-mode
+  (add-hook 'LaTeX-mode-hook
+            '(lambda ()
+               (auto-complete-mode t))))
+
+;; for html
+(progn
+  (add-hook 'html-mode-hook
             '(lambda ()
                (auto-complete-mode t))))
 
