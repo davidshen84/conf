@@ -1,12 +1,13 @@
 ;; -*- Emacs-Lisp -*-
 
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(autoload 'dirtree "dirtree" "Add directory to tree view" t)
 
 ;; add melpa package
 (progn
   (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (package-initialize))
 
 ;; markdown-mode
 (progn 
@@ -49,8 +50,9 @@
   (ac-config-default)
   ;; In your project root directory, do follow command to make tags file.
   ;; etags --verbose -R --fields="+afikKlmnsSzt"
-  (require 'auto-complete-exuberant-ctags)
-  (ac-exuberant-ctags-setup))
+  ;; (require 'auto-complete-exuberant-ctags)
+  ;; (ac-exuberant-ctags-setup)
+  )
 
 ;; load highlight indentation
 (require 'highlight-indentation)
@@ -75,7 +77,12 @@
 (add-hook 'python-mode-hook
           '(lambda ()
              (dev-basic)
-             (setq python-indent 2)))
+             (hs-minor-mode t)
+             (setq python-indent-offset 2)))
+
+(add-hook 'pylint-mode-hook
+          '(lambda ()
+             (setq pylint-options '("--reports=n"))))
 
 ;; for js/json
 (progn
@@ -100,7 +107,7 @@
   (add-hook 'css-mode
             '(lambda ()
                (dev-basic)
-               (css-indent-offset 2))))
+               (setq css-indent-offset 2))))
 
 ;; for org-mod
 (progn
@@ -110,18 +117,29 @@
 
 ;; for LaTeX
 (progn
-  (add-hook 'LaTeX-mode
+  (add-hook 'LaTeX-mode-hook
             '(lambda ()
                (auto-complete-mode t))))
+
+;; for html
+(progn
+  (add-hook 'html-mode-hook
+            '(lambda ()
+               (auto-complete-mode t))))
+
+;; load project settings
+(load-file "~/.emacs.d/project-settings.el")
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(menu-bar-mode nil)
+ '(safe-local-variable-values (quote ((python-indent-offset . 4))))
  '(show-paren-mode t)
- '(tool-bar-mode nil)
- '(menu-bar-mode nil))
+ '(tool-bar-mode nil))
 
 (if (display-graphic-p)
     (custom-set-faces
@@ -129,5 +147,4 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     '(default ((t (:family "Droid Sans Mono" :weight normal :height 180 :width normal))))))
-
+     '(default ((t (:family "Menlo" :weight normal :height 180 :width normal))))))
