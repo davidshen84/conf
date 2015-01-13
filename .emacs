@@ -1,12 +1,13 @@
 ;; -*- Emacs-Lisp -*-
 
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(autoload 'dirtree "dirtree" "Add directory to tree view" t)
 
 ;; add melpa package
 (progn
   (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (package-initialize))
 
 ;; markdown-mode
 (progn 
@@ -74,7 +75,11 @@
           '(lambda ()
              (dev-basic)
              (hs-minor-mode t)
-             (setq python-indent 2)))
+             (setq python-indent-offset 2)))
+
+(add-hook 'pylint-mode-hook
+          '(lambda ()
+             (setq pylint-options '("--reports=n"))))
 
 ;; for js/json
 (progn
@@ -119,14 +124,19 @@
             '(lambda ()
                (auto-complete-mode t))))
 
+;; load project settings
+;; (load-file "~/.emacs.d/project-settings.el")
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(menu-bar-mode nil)
+ '(safe-local-variable-values (quote ((python-indent-offset . 4))))
  '(show-paren-mode t)
- '(tool-bar-mode nil)
- '(menu-bar-mode nil))
+ '(tool-bar-mode nil))
 
 (if (display-graphic-p)
     (custom-set-faces
@@ -134,5 +144,4 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     '(default ((t (:family "Droid Sans Mono" :weight normal :height 180 :width normal))))))
-
+     '(default ((t (:family "Source Code Pro" :weight normal :height 180 :width normal))))))
