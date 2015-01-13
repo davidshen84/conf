@@ -29,7 +29,9 @@
   (global-set-key (kbd "C-c b") 'whitespace-mode)
   (global-set-key (kbd "C-c c") 'comment)
   (global-set-key (kbd "C-c C") 'comment-region)
-  (global-set-key (kbd "C-c U") 'uncomment-region))
+  (global-set-key (kbd "C-c U") 'uncomment-region)
+  (global-set-key (kbd "C-c .") 'fold-this)
+  (global-set-key (kbd "C-c C-.") 'fold-this-unfold-a))
 
 ;; some basic settings
 (progn
