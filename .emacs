@@ -6,8 +6,8 @@
 ;; add melpa package
 (progn
   (require 'package)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (package-initialize))
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t))
 
 ;; markdown-mode
 (progn 
