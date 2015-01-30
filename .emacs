@@ -123,9 +123,12 @@
 
 ;; for html
 (progn
-  (add-hook 'html-mode-hook
+  (add-to-list 'auto-mode-alist
+               '("\\.html\\'" . web-mode))
+
+  (add-hook 'web-mode-hook
             '(lambda ()
-               (auto-complete-mode t))))
+               (web-mode-markup-indentation 2))))
 
 ;; load project settings
 (load-file "~/.emacs.d/project-settings.el")
@@ -137,7 +140,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(menu-bar-mode nil)
- '(safe-local-variable-values (quote ((python-indent-offset . 4))))
+ '(safe-local-variable-values
+   (quote
+    ((web-mode-markup-indentation . 4)
+     (js3-basic-offset . 4)
+     (python-indent-offset . 4))))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
@@ -147,4 +154,4 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     '(default ((t (:family "Menlo" :weight normal :height 180 :width normal))))))
+     '(default ((t (:family "Source Code Pro" :weight normal :height 180 :width normal))))))
