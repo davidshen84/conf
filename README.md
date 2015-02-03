@@ -1,8 +1,10 @@
-#gist
+# README
 
 my personal gist :)
 
-- Grab [highlight-indentation][1] and drop it at ~/.emacs.d
+
+## For Emacs
+- Grab [highlight-indentation][1] and drop it at ~/.emacs.d/lisp
 - Install the following from **Packages**
   - `js3-mode`
   - `json-mode`
