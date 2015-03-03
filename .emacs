@@ -34,6 +34,9 @@
   (global-set-key (kbd "C-c .") 'fold-this)
   (global-set-key (kbd "C-c C-.") 'fold-this-unfold-a))
 
+;; my variable
+(defconst my-indent-offset 2 "my global indent offset")
+
 ;; some basic settings
 (progn
   ;; set tab offset
@@ -58,6 +61,7 @@
 (require 'highlight-indentation)
 
 (defun dev-basic ()
+  (setq-default tab-width my-indent-offset)
   (linum-mode t)
   (highlight-indentation-mode)
   (auto-complete-mode))
@@ -66,7 +70,7 @@
 (add-hook 'sh-mode-hook
           '(lambda ()
              (dev-basic)
-             (setq sh-basic-offset 2)))
+             (setq sh-basic-offset my-indent-offset)))
 
 ;; for elisp
 (add-hook 'emacs-lisp-mode-hook
@@ -78,7 +82,7 @@
           '(lambda ()
              (dev-basic)
              (hs-minor-mode t)
-             (setq python-indent-offset 2)))
+             (setq python-indent-offset my-indent-offset)))
 
 (add-hook 'pylint-mode-hook
           '(lambda ()
@@ -154,5 +158,4 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     '(default ((t (:family "Source Code Pro" :weight normal :height 180 :width normal))))))
-
+     '(default ((t (:family "Menlo" :weight normal :height 180 :width normal))))))
