@@ -135,7 +135,7 @@
                (web-mode-markup-indentation 2))))
 
 ;; load project settings
-(load-file "~/.emacs.d/project-settings.el")
+;; (load-file "~/.emacs.d/project-settings.el")
 
 
 (custom-set-variables
