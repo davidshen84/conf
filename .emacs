@@ -13,6 +13,7 @@
 (progn 
   (autoload 'markdown-mode "markdown-mode"
     "Major mode for editing Markdown files" t)
+  ;; bind file extension with mode
   (dolist (p '(("\\.markdown\\'" . markdown-mode)
                ("\\.md\\'" . markdown-mode)))
     (add-to-list 'auto-mode-alist p)))
@@ -96,7 +97,7 @@
   (add-hook 'js3-mode-hook
             '(lambda ()
                (dev-basic)
-               (setq js3-basic-offset 2)))
+               (setq js3-basic-offset my-indent-offset)))
 
   ;; bind json to json-mode
   (add-to-list 'auto-mode-alist
@@ -104,35 +105,46 @@
   (add-hook 'json-mode-hook
             '(lambda ()
                (dev-basic)
-               (setq js-indent-level 2))))
+               (setq js-indent-level my-indent-offset))))
 
 ;; for css
 (progn
-  (add-hook 'css-mode
+  (add-hook 'css-mode-hook
             '(lambda ()
                (dev-basic)
-               (setq css-indent-offset 2))))
+               (setq css-indent-offset my-indent-offset))))
 
 ;; for org-mod
-(progn
-  (add-hook 'org-mode-hook
-            '(lambda ()
-               (auto-fill-mode t))))
+(add-hook 'org-mode-hook
+          '(lambda ()
+             (auto-fill-mode t)
+             ;; load python in org-mod
+             (org-babel-do-load-languages
+              'org-babel-load-languages
+              '((python . t)
+                ;; add more languages
+                ))))
 
-;; for LaTeX
-(progn
-  (add-hook 'LaTeX-mode-hook
-            '(lambda ()
-               (auto-complete-mode t))))
+;; For LaTeX
+(add-hook 'LaTeX-mode-hook
+          '(lambda ()
+             (auto-complete-mode t)))
 
 ;; for html
 (progn
+  ;; bind file extension to web-mode
   (add-to-list 'auto-mode-alist
                '("\\.html\\'" . web-mode))
 
   (add-hook 'web-mode-hook
             '(lambda ()
-               (web-mode-markup-indentation 2))))
+               (web-mode-markup-indentation my-indent-offset))))
+
+;; for cuda
+(progn
+  (add-hook 'cuda-mode-hook
+            '(lambda ()
+               (dev-basic))))
 
 ;; load project settings
 ;; (load-file "~/.emacs.d/project-settings.el")
@@ -158,4 +170,4 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     '(default ((t (:family "Menlo" :weight normal :height 180 :width normal))))))
+     '(default ((t (:family "Source Code Pro" :weight normal :height 180 :width normal))))))
