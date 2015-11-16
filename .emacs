@@ -35,15 +35,12 @@
   (global-set-key (kbd "C-c .") 'fold-this)
   (global-set-key (kbd "C-c C-.") 'fold-this-unfold-a))
 
-;; my variable
-(defconst my-indent-offset 2 "my global indent offset")
-
 ;; some basic settings
 (progn
-  ;; set tab offset
-  (setq-default tab-width 4
-                indent-tabs-mode nil
-                indent-line-function 'insert-tab)
+  ;; enable editorconfig mode
+  (setq editorconfig-get-properties-function
+        'editorconfig-core-get-properties-hash)
+  (editorconfig-mode)
   (ido-mode)
   ;; bind list buffer to ibuffer
   (defalias 'list-buffers 'ibuffer))
@@ -62,7 +59,6 @@
 (require 'highlight-indentation)
 
 (defun dev-basic ()
-  (setq-default tab-width my-indent-offset)
   (linum-mode t)
   (highlight-indentation-mode)
   (auto-complete-mode))
@@ -70,8 +66,7 @@
 ;; for shell script
 (add-hook 'sh-mode-hook
           '(lambda ()
-             (dev-basic)
-             (setq sh-basic-offset my-indent-offset)))
+             (dev-basic)))
 
 ;; for elisp
 (add-hook 'emacs-lisp-mode-hook
@@ -82,8 +77,7 @@
 (add-hook 'python-mode-hook
           '(lambda ()
              (dev-basic)
-             (hs-minor-mode t)
-             (setq python-indent-offset my-indent-offset)))
+             (hs-minor-mode t)))
 
 (add-hook 'pylint-mode-hook
           '(lambda ()
@@ -96,23 +90,20 @@
                '("\\.js\\'" . js3-mode))
   (add-hook 'js3-mode-hook
             '(lambda ()
-               (dev-basic)
-               (setq js3-basic-offset my-indent-offset)))
+               (dev-basic)))
 
   ;; bind json to json-mode
   (add-to-list 'auto-mode-alist
                '("\\.json\\'" . json-mode))
   (add-hook 'json-mode-hook
             '(lambda ()
-               (dev-basic)
-               (setq js-indent-level my-indent-offset))))
+               (dev-basic))))
 
 ;; for css
 (progn
   (add-hook 'css-mode-hook
             '(lambda ()
-               (dev-basic)
-               (setq css-indent-offset my-indent-offset))))
+               (dev-basic))))
 
 ;; for org-mod
 (add-hook 'org-mode-hook
@@ -134,11 +125,7 @@
 (progn
   ;; bind file extension to web-mode
   (add-to-list 'auto-mode-alist
-               '("\\.html\\'" . web-mode))
-
-  (add-hook 'web-mode-hook
-            '(lambda ()
-               (web-mode-markup-indentation my-indent-offset))))
+               '("\\.html\\'" . web-mode)))
 
 ;; for cuda
 (progn
@@ -156,11 +143,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(menu-bar-mode nil)
- '(safe-local-variable-values
-   (quote
-    ((web-mode-markup-indentation . 4)
-     (js3-basic-offset . 4)
-     (python-indent-offset . 4))))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
@@ -171,3 +153,9 @@
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
      '(default ((t (:family "Source Code Pro" :weight normal :height 180 :width normal))))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Source Code Pro" :weight normal :height 180 :width normal)))))
