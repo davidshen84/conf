@@ -40,7 +40,7 @@
   ;; enable editorconfig mode
   (setq editorconfig-get-properties-function
         'editorconfig-core-get-properties-hash)
-  (editorconfig-mode)
+  (editorconfig-mode 1)
   (ido-mode)
   ;; bind list buffer to ibuffer
   (defalias 'list-buffers 'ibuffer))
