@@ -5,9 +5,9 @@ my personal gist :)
 
 ## For Emacs
 
-- Grab [highlight-indentation][1] and drop it at ~/.emacs.d/lisp
 - Install the following from **Packages**
-    - `js3-mode`
+    - `highlight-indentation`
+    - `js2-mode`
     - `json-mode`
     - `org` *aka org-mode*
     - `auto-complete`
@@ -23,6 +23,3 @@ my personal gist :)
             (setq editorconfig-get-properties-function
                 'editorconfig-core-get-properties-hash)
             (editorconfig-mode 1)
-
-
-[1]: https://raw.githubusercontent.com/antonj/Highlight-Indentation-for-Emacs/master/highlight-indentation.el

@@ -55,9 +55,6 @@
   ;; (ac-exuberant-ctags-setup)
   )
 
-;; load highlight indentation
-(require 'highlight-indentation)
-
 (defun dev-basic ()
   (linum-mode t)
   (highlight-indentation-mode)
