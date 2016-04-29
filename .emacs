@@ -23,6 +23,12 @@
     (load-theme 'deeper-blue 1)
   (load-theme 'manoj-dark 1))
 
+(defun buffer-new ()
+  (interactive)
+  (switch-to-buffer
+    (get-buffer-create
+      (format "*scratch %X*" (random)))))
+
 ;; my key binding
 (progn
   ;; bind goto line function with Ctrl-c-g
@@ -33,7 +39,8 @@
   (global-set-key (kbd "C-c C") 'comment-region)
   (global-set-key (kbd "C-c U") 'uncomment-region)
   (global-set-key (kbd "C-c .") 'fold-this)
-  (global-set-key (kbd "C-c C-.") 'fold-this-unfold-a))
+  (global-set-key (kbd "C-c C-.") 'fold-this-unfold-a)
+  (global-set-key (kbd "C-c n") 'buffer-new))
 
 ;; some basic settings
 (progn
