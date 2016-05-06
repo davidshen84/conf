@@ -23,11 +23,10 @@
     (load-theme 'deeper-blue 1)
   (load-theme 'manoj-dark 1))
 
-(defun buffer-new ()
+(defun new-scratch-buffer ()
+  "create a new scratch buffer with a random name"
   (interactive)
-  (switch-to-buffer
-    (get-buffer-create
-      (format "*scratch %X*" (random)))))
+  (switch-to-buffer (get-buffer-create (format "*scratch %X*" (random)))))
 
 ;; my key binding
 (progn
@@ -35,19 +34,13 @@
   (global-set-key (kbd "C-c g") 'goto-line)
   (global-set-key (kbd "C-c l") 'linum-mode)
   (global-set-key (kbd "C-c b") 'whitespace-mode)
-  (global-set-key (kbd "C-c c") 'comment)
-  (global-set-key (kbd "C-c C") 'comment-region)
-  (global-set-key (kbd "C-c U") 'uncomment-region)
-  (global-set-key (kbd "C-c .") 'fold-this)
-  (global-set-key (kbd "C-c C-.") 'fold-this-unfold-a)
-  (global-set-key (kbd "C-c n") 'buffer-new))
+  (global-set-key (kbd "C-c c") 'comment-region)
+  (global-set-key (kbd "C-c C") 'uncomment-region)
+  (global-set-key (kbd "C-c M-c") 'comment)
+  (global-set-key (kbd "C-c n") 'new-scratch-buffer))
 
 ;; some basic settings
 (progn
-  ;; enable editorconfig mode
-  (setq editorconfig-get-properties-function
-        'editorconfig-core-get-properties-hash)
-  (editorconfig-mode 1)
   (ido-mode)
   ;; bind list buffer to ibuffer
   (defalias 'list-buffers 'ibuffer))
@@ -62,7 +55,17 @@
   ;; (ac-exuberant-ctags-setup)
   )
 
-(defun dev-basic ()
+(defun dev-common ()
+  "common development settings"
+
+  ;; setup editorconfig
+  (setq editorconfig-get-properties-function
+        'editorconfig-core-get-properties-hash)
+  ;; disable editorconfig in these major modes
+  (setq editorconfig-exclude-modes
+	'(emacs-lisp-mode json-mode))
+  (editorconfig-mode t)
+
   (linum-mode t)
   (highlight-indentation-mode)
   (auto-complete-mode))
@@ -70,17 +73,18 @@
 ;; for shell script
 (add-hook 'sh-mode-hook
           '(lambda ()
-             (dev-basic)))
+	     (dev-common)))
 
 ;; for elisp
 (add-hook 'emacs-lisp-mode-hook
           '(lambda ()
-             (dev-basic)))
+             (dev-common)
+	     ))
 
 ;; for python
 (add-hook 'python-mode-hook
           '(lambda ()
-             (dev-basic)
+             (dev-common)
              (hs-minor-mode t)))
 
 (add-hook 'pylint-mode-hook
@@ -94,20 +98,21 @@
                '("\\.js\\'" . js3-mode))
   (add-hook 'js3-mode-hook
             '(lambda ()
-               (dev-basic)))
+               (dev-common)))
 
   ;; bind json to json-mode
   (add-to-list 'auto-mode-alist
                '("\\.json\\'" . json-mode))
   (add-hook 'json-mode-hook
             '(lambda ()
-               (dev-basic))))
+               (dev-common)
+	       (global-set-key (kbd "C-c =") 'json-pretty-print-buffer))))
 
 ;; for css
 (progn
   (add-hook 'css-mode-hook
             '(lambda ()
-               (dev-basic))))
+               (dev-common))))
 
 ;; for org-mod
 (add-hook 'org-mode-hook
@@ -135,7 +140,7 @@
 (progn
   (add-hook 'cuda-mode-hook
             '(lambda ()
-               (dev-basic))))
+               (dev-common))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
