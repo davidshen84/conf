@@ -9,19 +9,9 @@
   (package-initialize)
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t))
 
-;; markdown-mode
-(progn 
-  (autoload 'markdown-mode "markdown-mode"
-    "Major mode for editing Markdown files" t)
-  ;; bind file extension with mode
-  (dolist (p '(("\\.markdown\\'" . markdown-mode)
-               ("\\.md\\'" . markdown-mode)))
-    (add-to-list 'auto-mode-alist p)))
-
 ;; load theme
-(if (display-graphic-p)
-    (load-theme 'deeper-blue 1)
-  (load-theme 'manoj-dark 1))
+(cond ((display-graphic-p) (load-theme 'deeper-blue 1))
+      ('t (load-theme 'manoj-dark 1)))
 
 (defun new-scratch-buffer ()
   "create a new scratch buffer with a random name"
@@ -40,10 +30,9 @@
   (global-set-key (kbd "C-c n") 'new-scratch-buffer))
 
 ;; some basic settings
-(progn
-  (ido-mode)
-  ;; bind list buffer to ibuffer
-  (defalias 'list-buffers 'ibuffer))
+(ido-mode)
+;; bind list buffer to ibuffer
+(defalias 'list-buffers 'ibuffer)
 
 ;; load ac
 (progn
@@ -78,8 +67,7 @@
 ;; for elisp
 (add-hook 'emacs-lisp-mode-hook
           '(lambda ()
-             (dev-common)
-	     ))
+             (dev-common)))
 
 ;; for python
 (add-hook 'python-mode-hook
@@ -114,11 +102,18 @@
             '(lambda ()
                (dev-common))))
 
+;; for markdown-mode
+(progn 
+  (autoload 'markdown-mode "markdown-mode"
+    "Major mode for editing Markdown files" t)
+  ;; bind file extension with mode
+  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+
 ;; for org-mod
 (add-hook 'org-mode-hook
           '(lambda ()
              (auto-fill-mode t)
-             ;; load python in org-mod
              (org-babel-do-load-languages
               'org-babel-load-languages
               '((python . t)
@@ -126,7 +121,7 @@
                 ;; add more languages
                 ))))
 
-;; For LaTeX
+;; for LaTeX
 (add-hook 'LaTeX-mode-hook
           '(lambda ()
              (auto-complete-mode t)))
