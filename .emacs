@@ -59,6 +59,7 @@
 
 ;; some basic settings
 (progn
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (ido-mode)
   (autoload 'dirtree "dirtree" "Add directory to tree view" t)
   ;; bind list buffer to ibuffer
