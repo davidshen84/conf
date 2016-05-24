@@ -63,7 +63,7 @@
         'editorconfig-core-get-properties-hash)
   ;; disable editorconfig in these major modes
   (setq editorconfig-exclude-modes
-	'(emacs-lisp-mode json-mode))
+	'(emacs-lisp-mode lisp-interaction-mode json-mode))
   (editorconfig-mode t)
 
   (linum-mode t)
@@ -149,6 +149,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(menu-bar-mode nil)
+ '(safe-local-variable-values
+   (quote
+    ((make-backup-files))))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 
