@@ -39,11 +39,11 @@
   ;; disable editorconfig for these major modes
   (setq editorconfig-exclude-modes
 	'(emacs-lisp-mode lisp-interaction-mode json-mode))
-  (editorconfig-mode t)
+  (editorconfig-mode 1)
 
-  (linum-mode t)
-  (highlight-indentation-mode)
-  (auto-complete-mode))
+  (linum-mode 1)
+  (highlight-indentation-mode 1)
+  (auto-complete-mode 1))
 
 ;; my key binding
 (progn
@@ -63,8 +63,8 @@
   (setq org-agenda-files '("~/notebook/agenda"))
   (setq safe-local-variable-values '((make-backup-files)))
 
-  (ido-mode)
-  (show-paren-mode t)
+  (ido-mode 1)
+  (show-paren-mode 1)
 
   (autoload 'dirtree "dirtree" "Add directory to tree view" t)
   ;; bind list buffer to ibuffer
@@ -137,7 +137,7 @@
 ;; for LaTeX
 (add-hook 'LaTeX-mode-hook
           '(lambda ()
-             (auto-complete-mode t)))
+             (auto-complete-mode 1)))
 
 ;; for html
 ;; bind file extension to web-mode
@@ -154,7 +154,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(menu-bar-mode nil)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(org-src-fontify-natively t))
 
 (cond ((display-graphic-p)
     (custom-set-faces
