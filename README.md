@@ -3,9 +3,9 @@
 my personal gist :)
 
 
-## For Emacs ##
+## For Emacs
 
-### Install the following from *Packages* ###
+### Install the following from *Packages*
 
   - highlight-indentation
   - js2-mode
@@ -14,14 +14,14 @@ my personal gist :)
   - auto-complete
   - auto-complete-exuberant-ctags
 
-  In your project root directory, do follow command to make tags file.
+        In your project root directory, do follow command to make tags file.
 
-        etags --verbose -R --fields="+afikKlmnsSzt"
+            etags --verbose -R --fields="+afikKlmnsSzt"
 
   - markdown-mode
   - editorconfig and editorconfig-core
 
-### Windows context menu integration ###
+### Windows context menu integration
 
 If you want to create a `Open with GNU Emacs` shortcut for all types
 of files. Update the path in the `OpenWithEmacs.reg` file, make sure
@@ -31,7 +31,7 @@ change.
 If you want to remove the integration, double click on the
 `OpenWithEmacs - Delete.reg` file.
 
-## Setup Cygwin Environment ##
+## Setup Cygwin Environment
 
 To get a nice `zsh` environment on Windows, create a shortcut and set
 the `Target` as:
