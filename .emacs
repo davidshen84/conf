@@ -60,7 +60,12 @@
 ;; some basic settings
 (progn
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
+  (setq org-agenda-files '("~/notebook/agenda"))
+  (setq safe-local-variable-values '((make-backup-files)))
+
   (ido-mode)
+  (show-paren-mode t)
+
   (autoload 'dirtree "dirtree" "Add directory to tree view" t)
   ;; bind list buffer to ibuffer
   (defalias 'list-buffers 'ibuffer)
@@ -94,21 +99,16 @@
           '(lambda ()
              (setq pylint-options '("--reports=n"))))
 
-;; for js/json
-(progn
-  ;; bind js to js3-mode
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
-  (add-hook 'js3-mode-hook
-            '(lambda ()
-               (dev-common)))
+;; bind js to js3-mode
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
+(add-hook 'js3-mode-hook
+	  '(lambda ()
+	     (dev-common)))
 
-  ;; bind json to json-mode
-  (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-  (add-hook 'json-mode-hook
-            '(lambda ()
-               (dev-common)
-	       (use-local-map (copy-keymap json-mode-map))
-	       (local-set-key (kbd "C-c =") 'json-pretty-print-buffer))))
+;; bind json to json-mode
+(add-hook 'json-mode-hook
+	  '(lambda ()
+	     (dev-common)))
 
 ;; for css
 (add-hook 'css-mode-hook
@@ -116,23 +116,23 @@
 	     (dev-common)))
 
 ;; for markdown-mode
-(progn 
-  (autoload 'markdown-mode "markdown-mode"
-    "Major mode for editing Markdown files" t)
-  ;; bind file extension with mode
-  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+;; bind file extension with mode
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;; for org-mod
 (add-hook 'org-mode-hook
           '(lambda ()
              (auto-fill-mode t)
-             (org-babel-do-load-languages
-              'org-babel-load-languages
-              '((python . t)
-		(sh . t)
-                ;; add more languages
-                ))))
+	     (setq org-log-done 'time)
+             (org-babel-do-load-languages 'org-babel-load-languages
+					  '((python . t)
+					    (sh . t)
+					    (sql . t)
+					    ;; add more languages
+					    ))))
 
 ;; for LaTeX
 (add-hook 'LaTeX-mode-hook
@@ -154,9 +154,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(menu-bar-mode nil)
- '(org-src-fontify-natively t)
- '(safe-local-variable-values (quote ((make-backup-files))))
- '(show-paren-mode t)
  '(tool-bar-mode nil))
 
 (cond ((display-graphic-p)
@@ -165,4 +162,4 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     '(default ((t (:family "Source Code Pro" :weight normal :height 180 :width normal)))))))
+     '(default ((t (:inherit nil :weight normal :height 180 :width normal :foundry "outline" :family "Source Code Pro")))))))
