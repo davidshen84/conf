@@ -77,7 +77,8 @@
   ;; etags --verbose -R --fields="+afikKlmnsSzt"
   ;; (require 'auto-complete-exuberant-ctags)
   ;; (ac-exuberant-ctags-setup)
-  )
+
+  (server-start))
 
 ;; for shell script
 (add-hook 'sh-mode-hook
