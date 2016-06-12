@@ -55,11 +55,9 @@
 (global-set-key (kbd "C-c n") 'new-scratch-buffer)
 (global-set-key (kbd "C-c d") 'duplicate-line)
 
-
 ;; some basic settings
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (autoload 'dirtree "dirtree" "Add directory to tree view" t)
-
 (ido-mode 1)
 (show-paren-mode 1)
 
@@ -72,6 +70,8 @@
 ;; (require 'auto-complete-exuberant-ctags)
 ;; (ac-exuberant-ctags-setup)
 
+;; start emacs server
+(server-start)
 
 ;; for shell script
 (add-hook 'sh-mode-hook
