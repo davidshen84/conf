@@ -46,36 +46,32 @@
   (auto-complete-mode 1))
 
 ;; my key binding
-(progn
-  (global-set-key (kbd "C-c g") 'goto-line)
-  (global-set-key (kbd "C-c l") 'linum-mode)
-  (global-set-key (kbd "C-c b") 'whitespace-mode)
-  (global-set-key (kbd "C-c c") 'comment-region)
-  (global-set-key (kbd "C-c C") 'uncomment-region)
-  (global-set-key (kbd "C-c M-c") 'comment)
-  (global-set-key (kbd "C-c n") 'new-scratch-buffer)
-  (global-set-key (kbd "C-c d") 'duplicate-line)
-  )
+(global-set-key (kbd "C-c g") 'goto-line)
+(global-set-key (kbd "C-c l") 'linum-mode)
+(global-set-key (kbd "C-c b") 'whitespace-mode)
+(global-set-key (kbd "C-c c") 'comment-region)
+(global-set-key (kbd "C-c C") 'uncomment-region)
+(global-set-key (kbd "C-c M-c") 'comment)
+(global-set-key (kbd "C-c n") 'new-scratch-buffer)
+(global-set-key (kbd "C-c d") 'duplicate-line)
+
 
 ;; some basic settings
-(progn
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(autoload 'dirtree "dirtree" "Add directory to tree view" t)
 
-  (ido-mode 1)
-  (show-paren-mode 1)
+(ido-mode 1)
+(show-paren-mode 1)
 
-  (autoload 'dirtree "dirtree" "Add directory to tree view" t)
-  ;; bind list buffer to ibuffer
-  (defalias 'list-buffers 'ibuffer)
+;; bind list buffer to ibuffer
+(defalias 'list-buffers 'ibuffer)
 
-  ;; load ac
-  (require 'auto-complete-config)
-  (ac-config-default)
-  ;; In your project root directory, do follow command to make tags file.
-  ;; etags --verbose -R --fields="+afikKlmnsSzt"
-  ;; (require 'auto-complete-exuberant-ctags)
-  ;; (ac-exuberant-ctags-setup)
-  )
+;; require ac
+(require 'auto-complete-config)
+(ac-config-default)
+;; (require 'auto-complete-exuberant-ctags)
+;; (ac-exuberant-ctags-setup)
+
 
 ;; for shell script
 (add-hook 'sh-mode-hook
@@ -145,6 +141,14 @@
 (add-hook 'cuda-mode-hook
 	  '(lambda ()
 	     (dev-common)))
+
+;; for c/c++
+(mapc '(lambda (hook)
+	 (add-hook hook
+		   '(lambda ()
+		      (require 'clang-format)
+		      (setq clang-format-style "Google"))))
+      '(c-mode-hook c++-mode-hook))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
