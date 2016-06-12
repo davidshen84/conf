@@ -60,8 +60,6 @@
 ;; some basic settings
 (progn
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
-  (setq org-agenda-files '("~/notebook/agenda"))
-  (setq safe-local-variable-values '((make-backup-files)))
 
   (ido-mode 1)
   (show-paren-mode 1)
@@ -154,8 +152,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(menu-bar-mode nil)
- '(tool-bar-mode nil)
- '(org-src-fontify-natively t))
+ '(org-agenda-files '("~/notebook/agenda"))
+ '(org-src-fontify-natively t)
+ '(safe-local-variable-values '((make-backup-files)))
+ '(tool-bar-mode nil))
 
 (cond ((display-graphic-p)
     (custom-set-faces
