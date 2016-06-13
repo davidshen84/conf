@@ -7,7 +7,8 @@
 (progn
   (require 'package)
   (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t))
 
 ;; load theme
 (cond ((display-graphic-p) (load-theme 'deeper-blue))
