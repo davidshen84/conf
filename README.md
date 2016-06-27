@@ -31,7 +31,7 @@ And set the `Start in` property as well.
   - highlight-indentation
   - js2-mode
   - json-mode
-  - org *aka org-mode*
+  - org *aka org-mode*, or org-plus-contrib which includes contrib packages
   - auto-complete
   - auto-complete-exuberant-ctags
 

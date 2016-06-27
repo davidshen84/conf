@@ -116,6 +116,8 @@
              (dev-common)))
 
 ;; for org-mod
+(require 'org-notify)
+;; (org-notify-start)
 (setq org-default-notes-file (concat org-directory "/.notes"))
 (setq org-capture-templates
       '(("t" "Task" entry (file+headline nil "Tasks")
