@@ -4,8 +4,7 @@ my personal gist :)
 
 ## Cygwin Environment Setup
 
-To get a nice `zsh` environment on Windows, create a shortcut and set
-the `Target` as:
+To get a nice `zsh` environment on Windows, create a shortcut and set the `Target` as:
 
     x:\path\to\cygwin\bin\mintty.exe -i /Cygwin-Terminal.ico -e /bin/zsh -li
     
@@ -52,3 +51,8 @@ change.
 If you want to remove the integration, double click on the
 `OpenWithEmacs - Delete.reg` file.
 
+### Set font face per buffer with mode-line
+
+    # ;; Local Variables:
+    # ;; eval: (face-remap-add-relative 'default :family "AR PL KaitiM GB" :foundry "ARPH")
+    # ;; End:
