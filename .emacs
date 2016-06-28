@@ -116,6 +116,8 @@
              (dev-common)))
 
 ;; for org-mod
+(require 'org-notify)
+;; (org-notify-start)
 (setq org-default-notes-file (concat org-directory "/.notes"))
 (setq org-capture-templates
       '(("t" "Task" entry (file+headline nil "Tasks")
@@ -173,3 +175,4 @@
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
      '(default ((t (:inherit nil :weight normal :height 180 :width normal :foundry "outline" :family "Source Code Pro"))))))
+
