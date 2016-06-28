@@ -53,6 +53,6 @@ If you want to remove the integration, double click on the
 
 ### Set font face per buffer with mode-line
 
-    *Local Variables*:
+    Local Variables:
     eval: (face-remap-add-relative 'default :family "AR PL KaitiM GB" :foundry "ARPH")
-    *End*:
+    End:
