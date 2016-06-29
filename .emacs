@@ -163,7 +163,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(menu-bar-mode nil)
- '(org-agenda-files '("~/org/agenda"))
+ '(org-agenda-files (quote (org-default-notes-file "~/org/agenda")))
  '(org-src-fontify-natively t)
  '(safe-local-variable-values '((make-backup-files)))
  '(tool-bar-mode nil))
