@@ -80,40 +80,40 @@
 
 ;; for shell script
 (add-hook 'sh-mode-hook
-          '(lambda ()
-             (dev-common)))
+          #'(lambda ()
+              (dev-common)))
 
 ;; for lisp
 (add-hook 'emacs-lisp-mode-hook
-          '(lambda ()
-             (dev-common)
-             (setq indent-tabs-mode nil)))
+          #'(lambda ()
+              (dev-common)
+              (setq indent-tabs-mode nil)))
 
 ;; for python
 (add-hook 'python-mode-hook
-          '(lambda ()
-             (dev-common)
-             (hs-minor-mode t)))
+          #'(lambda ()
+              (dev-common)
+              (hs-minor-mode t)))
 
 (add-hook 'pylint-mode-hook
-          '(lambda ()
-             (setq pylint-options '("--reports=n"))))
+          #'(lambda ()
+              (setq pylint-options '("--reports=n"))))
 
 ;; bind js to js3-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
 (add-hook 'js3-mode-hook
-          '(lambda ()
-             (dev-common)))
+          #'(lambda ()
+              (dev-common)))
 
 ;; bind json to json-mode
 (add-hook 'json-mode-hook
-          '(lambda ()
-             (dev-common)))
+          #'(lambda ()
+              (dev-common)))
 
 ;; for css
 (add-hook 'css-mode-hook
-          '(lambda ()
-             (dev-common)))
+          #'(lambda ()
+              (dev-common)))
 
 ;; for org-mod
 (require 'org-notify)
@@ -126,35 +126,35 @@
          "* On %t %^g \n  %i%?")))
 
 (add-hook 'org-mode-hook
-          '(lambda ()
-             (auto-fill-mode t)
-             (setq org-log-done 'time)
-             (org-babel-do-load-languages 'org-babel-load-languages
-                                          '((python . t)
-                                            (sh . t)
-                                            (sql . t)
-                                            ;; add more languages
-                                            ))))
+          #'(lambda ()
+              (auto-fill-mode t)
+              (setq org-log-done 'time)
+              (org-babel-do-load-languages 'org-babel-load-languages
+                                           '((python . t)
+                                             (sh . t)
+                                             (sql . t)
+                                             ;; add more languages
+                                             ))))
 
 ;; for LaTeX
 (add-hook 'LaTeX-mode-hook
-          '(lambda ()
-             (auto-complete-mode 1)))
+          #'(lambda ()
+              (auto-complete-mode 1)))
 
 ;; for html
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 
 ;; for cuda
 (add-hook 'cuda-mode-hook
-          '(lambda ()
-             (dev-common)))
+          #'(lambda ()
+              (dev-common)))
 
 ;; for c/c++
-(mapc '(lambda (hook)
-         (add-hook hook
-                   '(lambda ()
-                      (require 'clang-format)
-                      (setq clang-format-style "Google"))))
+(mapc #'(lambda (hook)
+          (add-hook hook
+                    #'(lambda ()
+                        (require 'clang-format)
+                        (setq clang-format-style "Google"))))
       '(c-mode-hook c++-mode-hook))
 
 (custom-set-variables
