@@ -126,35 +126,36 @@
          "* On %t %^g \n  %i%?")))
 
 (add-hook 'org-mode-hook
-          '(lambda ()
-             (auto-fill-mode t)
-             (setq org-log-done 'time)
-             (org-babel-do-load-languages 'org-babel-load-languages
-                                          '((python . t)
-                                            (sh . t)
-                                            (sql . t)
-                                            ;; add more languages
-                                            ))))
+          #'(lambda ()
+              (auto-fill-mode t)
+              (setq org-log-done 'time)
+              (org-babel-do-load-languages 'org-babel-load-languages
+                                           '((python . t)
+                                             (sh . t)
+                                             (shell . t)
+                                             (sql . t)
+                                             ;; add more languages
+                                             ))))
 
 ;; for LaTeX
 (add-hook 'LaTeX-mode-hook
-          '(lambda ()
-             (auto-complete-mode 1)))
+          #'(lambda ()
+              (auto-complete-mode 1)))
 
 ;; for html
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 
 ;; for cuda
 (add-hook 'cuda-mode-hook
-          '(lambda ()
-             (dev-common)))
+          #'(lambda ()
+              (dev-common)))
 
 ;; for c/c++
-(mapc '(lambda (hook)
-         (add-hook hook
-                   '(lambda ()
-                      (require 'clang-format)
-                      (setq clang-format-style "Google"))))
+(mapc #'(lambda (hook)
+          (add-hook hook
+                    #'(lambda ()
+                        (require 'clang-format)
+                        (setq clang-format-style "Google"))))
       '(c-mode-hook c++-mode-hook))
 
 (custom-set-variables
