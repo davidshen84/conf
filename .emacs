@@ -6,7 +6,7 @@
 ;; setup elpa package source
 (require 'package)
 (package-initialize)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
 ;; load theme
@@ -166,7 +166,7 @@
  '(menu-bar-mode nil)
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-src-fontify-natively t)
- '(safe-local-variable-values '((make-backup-files)))
+ '(safe-local-variable-values (quote ((make-backup-files))))
  '(tool-bar-mode nil))
 
 (if (display-graphic-p)
