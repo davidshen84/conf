@@ -165,7 +165,7 @@
  '(menu-bar-mode nil)
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-src-fontify-natively t)
- '(safe-local-variable-values '((make-backup-files)))
+ '(safe-local-variable-values (quote ((make-backup-files))))
  '(tool-bar-mode nil))
 
 (if (display-graphic-p)
