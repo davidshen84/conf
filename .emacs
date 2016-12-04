@@ -166,6 +166,12 @@
  '(menu-bar-mode nil)
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-src-fontify-natively t)
+ '(package-selected-packages
+   (quote
+    (web-mode scala-mode2 sbt-mode org-plus-contrib
+              markdown-preview-mode magit json-mode js2-mode
+              highlight-indentation editorconfig-core editorconfig
+              dracula-theme cuda-mode cmake-mode auto-complete)))
  '(safe-local-variable-values (quote ((make-backup-files))))
  '(tool-bar-mode nil))
 
@@ -175,5 +181,7 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     '(default ((t (:inherit nil :weight normal :height 180 :width normal :foundry "outline" :family "Source Code Pro"))))))
+     '(default ((t (:inherit nil :weight normal :height 180
+                             :width normal :foundry "outline"
+                             :family "Source Code Pro"))))))
 
