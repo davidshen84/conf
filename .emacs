@@ -163,6 +163,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(erc-nick "davidshen84")
  '(menu-bar-mode nil)
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-src-fontify-natively t)
