@@ -168,11 +168,18 @@
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-src-fontify-natively t)
  '(package-selected-packages
-   (quote
-    (web-mode scala-mode2 sbt-mode org-plus-contrib
-              markdown-preview-mode magit json-mode js2-mode
-              highlight-indentation editorconfig-core editorconfig
-              dracula-theme cuda-mode cmake-mode auto-complete)))
+   (quote (
+           ;; sorted alphabetically
+           auto-complete
+           editorconfig
+           highlight-indentation
+           js2-mode
+           json-mode
+           magit
+           markdown-mode
+           markdown-preview-mode
+           org-plus-contrib
+           )))
  '(safe-local-variable-values (quote ((make-backup-files))))
  '(tool-bar-mode nil))
 
