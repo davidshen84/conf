@@ -158,6 +158,12 @@
                         (setq clang-format-style "Google"))))
       '(c-mode-hook c++-mode-hook))
 
+;; for eshell
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (setq eshell-path-env
+                    (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
