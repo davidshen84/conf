@@ -46,7 +46,8 @@
 
   (linum-mode 1)
   (highlight-indentation-mode 1)
-  (auto-complete-mode 1))
+  (auto-complete-mode 1)
+  (hs-minor-mode 1))
 
 ;; some basic settings
 (require 'org)
@@ -154,6 +155,7 @@
 (mapc #'(lambda (hook)
           (add-hook hook
                     #'(lambda ()
+                        (dev-common)
                         (require 'clang-format)
                         (setq clang-format-style "Google"))))
       '(c-mode-hook c++-mode-hook))
