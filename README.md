@@ -8,8 +8,8 @@ To get a nice `zsh` environment on Windows, create a shortcut and set the `Targe
 
     x:\path\to\cygwin\bin\mintty.exe -i /Cygwin-Terminal.ico -e /bin/zsh -li
     
-- -l for login so you have the user environment
-- -i for interactive session
+- `-l` for login so you have the user environment
+- `-i` for interactive session
 
 And set the `Start in` property to the path of your Cygwin user home directory.
 
@@ -34,9 +34,9 @@ And set the `Start in` property as well.
   - auto-complete
   - auto-complete-exuberant-ctags
 
-        In your project root directory, do follow command to make tags file.
+  In your project root directory, execute this command to create tags file.
 
-            etags --verbose -R --fields="+afikKlmnsSzt"
+  `ctags -e --verbose -R --fields="+afikKlmnsSzt"`
 
   - markdown-mode
   - editorconfig
