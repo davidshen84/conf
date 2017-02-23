@@ -10,7 +10,9 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 
 ;; load theme
-(if (display-graphic-p) (load-theme 'deeper-blue)
+(if (display-graphic-p)
+    ; (load-theme 'deeper-blue)
+    (require 'dracula-theme)
   (load-theme 'manoj-dark))
 
 (defun new-scratch-buffer ()
@@ -50,7 +52,6 @@
   (hs-minor-mode 1))
 
 ;; some basic settings
-(require 'org)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (autoload 'dirtree "dirtree" "Add directory to tree view" t)
 (ido-mode 1)
@@ -71,10 +72,11 @@
 (defalias 'list-buffers 'ibuffer)
 
 ;; require ac
+(require 'auto-complete)
 (require 'auto-complete-config)
-(ac-config-default)
-;; (require 'auto-complete-exuberant-ctags)
-;; (ac-exuberant-ctags-setup)
+(eval-after-load "etags"
+  '(progn
+     (ac-etags-setup)))
 
 ;; start emacs server
 (server-start)
@@ -117,6 +119,7 @@
               (dev-common)))
 
 ;; for org-mod
+(require 'org)
 (require 'org-notify)
 ;; (org-notify-start)
 (setq org-default-notes-file (concat org-directory "/.notes"))
@@ -152,12 +155,14 @@
               (dev-common)))
 
 ;; for c/c++
+(require 'clang-format)
+(setq clang-format-style "Google")
 (mapc #'(lambda (hook)
           (add-hook hook
                     #'(lambda ()
                         (dev-common)
-                        (require 'clang-format)
-                        (setq clang-format-style "Google"))))
+                        (ac-etags-ac-setup)
+                        )))
       '(c-mode-hook c++-mode-hook))
 
 ;; for eshell
