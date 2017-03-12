@@ -26,10 +26,11 @@
   (let ((begin (line-beginning-position))
         (end (line-end-position)))
 
-    (if (> (forward-line) 0) (newline))
+    (forward-line)
+    (if (= (forward-line) 1) (newline))
     (insert-buffer-substring (current-buffer) begin end))
   (newline)
-  (previous-line)
+  (forward-line -1)
   (beginning-of-line))
 
 (defun dev-common ()
