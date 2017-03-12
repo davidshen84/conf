@@ -1,4 +1,8 @@
+;;; .emacs --- Summary
+;;; Commentary:
 ;; -*- coding: utf-8 -*-
+
+;;; Code:
 
 ;; load custom scripts
 (add-to-list 'load-path "~/.emacs.d/lisp")
@@ -38,26 +42,19 @@
 
   ;; make it `interactive' so it can be invoked anywhere
   (interactive)
-
-  ;; setup editorconfig
-  (setq editorconfig-get-properties-function
-        'editorconfig-core-get-properties-hash)
-  ;; disable editorconfig for some major modes
-  (setq editorconfig-exclude-modes
-        '(emacs-lisp-mode lisp-mode json-mode))
-  (editorconfig-mode 1)
-
-  (linum-mode 1)
-  (highlight-indentation-mode 1)
-  (auto-complete-mode 1)
-  (hs-minor-mode 1))
+  (editorconfig-mode t)
+  (linum-mode t)
+  (highlight-indentation-mode t)
+  (auto-complete-mode t)
+  (hs-minor-mode t))
 
 ;; some basic settings
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (autoload 'dirtree "dirtree" "Add directory to tree view" t)
-(ido-mode 1)
-(show-paren-mode 1)
-(delete-selection-mode 1)
+(ido-mode t)
+(show-paren-mode t)
+(delete-selection-mode t)
+(global-flycheck-mode)
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -99,10 +96,6 @@
               (dev-common)
               (hs-minor-mode t)))
 
-(add-hook 'pylint-mode-hook
-          #'(lambda ()
-              (setq pylint-options '("--reports=n"))))
-
 ;; bind js to js3-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
 (add-hook 'js3-mode-hook
@@ -124,11 +117,6 @@
 (require 'org-notify)
 ;; (org-notify-start)
 (setq org-default-notes-file (concat org-directory "/.notes"))
-(setq org-capture-templates
-      '(("t" "Task" entry (file+headline nil "Tasks")
-         "* TODO %? %^g")
-        ("q" "Quick note" entry (file+headline nil "Quick Notes")
-         "* On %t %^g \n  %i%?")))
 
 (add-hook 'org-mode-hook
           #'(lambda ()
@@ -145,7 +133,7 @@
 ;; for LaTeX
 (add-hook 'LaTeX-mode-hook
           #'(lambda ()
-              (auto-complete-mode 1)))
+              (auto-complete-mode t)))
 
 ;; for html
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
@@ -166,37 +154,30 @@
                         )))
       '(c-mode-hook c++-mode-hook))
 
-;; for eshell
-(add-hook 'eshell-mode-hook
-          #'(lambda ()
-              (setq eshell-path-env
-                    (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
+ '(editorconfig-get-properties-function (quote editorconfig-core-get-properties-hash))
+ '(editorconfig-mode t)
  '(erc-nick "davidshen84")
+ '(eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))
  '(menu-bar-mode nil)
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-src-fontify-natively t)
+ '(org-capture-templates
+   (quote
+    (("t" "Task" entry
+      (file+headline nil "Tasks")
+      "* TODO %? %^g")
+     ("q" "Quick note" entry
+      (file+headline nil "Quick Notes")
+      "* On %t %^g %i%?"))))
  '(package-selected-packages
-   (quote (
-           ;; sorted alphabetically
-           auto-complete
-           docker
-           dockerfile-mode
-           editorconfig
-           highlight-indentation
-           js2-mode
-           json-mode
-           magit
-           markdown-mode
-           markdown-preview-mode
-           org-plus-contrib
-           yaml-mode
-           )))
+   (quote
+    (flycheck docker dockerfile-mode yaml-mode auto-complete editorconfig highlight-indentation js2-mode json-mode magit markdown-mode markdown-preview-mode org-plus-contrib)))
  '(safe-local-variable-values (quote ((make-backup-files))))
  '(tool-bar-mode nil))
 
@@ -210,3 +191,9 @@
                              :width normal :foundry "outline"
                              :family "Source Code Pro"))))))
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :weight normal :height 180 :width normal :foundry "outline" :family "Source Code Pro")))))
