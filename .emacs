@@ -184,6 +184,8 @@
    (quote (
            ;; sorted alphabetically
            auto-complete
+           docker
+           dockerfile-mode
            editorconfig
            highlight-indentation
            js2-mode
@@ -192,6 +194,7 @@
            markdown-mode
            markdown-preview-mode
            org-plus-contrib
+           yaml-mode
            )))
  '(safe-local-variable-values (quote ((make-backup-files))))
  '(tool-bar-mode nil))
