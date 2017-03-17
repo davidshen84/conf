@@ -164,6 +164,7 @@
  '(editorconfig-mode t)
  '(erc-nick "davidshen84")
  '(eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))
+ '(flycheck-clang-language-standard "c++11")
  '(menu-bar-mode nil)
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-src-fontify-natively t)
@@ -206,3 +207,6 @@
      '(default ((t (:inherit nil :weight normal :height 180
                              :width normal :foundry "outline"
                              :family "Source Code Pro"))))))
+
+(provide '.emacs)
+;;; .emacs ends here
