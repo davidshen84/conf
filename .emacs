@@ -164,6 +164,7 @@
  '(editorconfig-mode t)
  '(erc-nick "davidshen84")
  '(eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))
+ '(flycheck-clang-language-standard "c++11")
  '(menu-bar-mode nil)
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-src-fontify-natively t)
