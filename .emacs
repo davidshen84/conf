@@ -197,3 +197,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :weight normal :height 180 :width normal :foundry "outline" :family "Source Code Pro")))))
+
+(provide '.emacs)
+;;; .emacs ends here
