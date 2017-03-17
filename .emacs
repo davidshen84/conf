@@ -176,8 +176,24 @@
       (file+headline nil "Quick Notes")
       "* On %t %^g %i%?"))))
  '(package-selected-packages
-   (quote
-    (flycheck docker dockerfile-mode yaml-mode auto-complete editorconfig highlight-indentation js2-mode json-mode magit markdown-mode markdown-preview-mode org-plus-contrib)))
+   (quote (
+           ;; sorted alphabetically
+           js2-mode
+           auto-complete
+           cmake-mode
+           docker
+           dockerfile-mode
+           dracula-theme
+           editorconfig
+           flycheck-pyflakes
+           groovy-mode
+           highlight-indentation
+           json-mode
+           magit
+           markdown-mode
+           markdown-preview-mode
+           org-plus-contrib
+           yaml-mode)))
  '(safe-local-variable-values (quote ((make-backup-files))))
  '(tool-bar-mode nil))
 
@@ -190,10 +206,3 @@
      '(default ((t (:inherit nil :weight normal :height 180
                              :width normal :foundry "outline"
                              :family "Source Code Pro"))))))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :weight normal :height 180 :width normal :foundry "outline" :family "Source Code Pro")))))
