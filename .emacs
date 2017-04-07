@@ -31,7 +31,7 @@
         (end (line-end-position)))
 
     (forward-line)
-    (if (= (forward-line) 1) (newline))
+    (if (= end (point)) (newline))
     (insert-buffer-substring (current-buffer) begin end))
   (newline)
   (forward-line -1)
