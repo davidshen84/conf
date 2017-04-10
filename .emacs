@@ -169,37 +169,37 @@
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-capture-templates
    (quote
-    ( ("t" "Task" entry      (file+headline nil "Tasks")      "* TODO %? %^g")
-      ("q" "Quick note" entry      (file+headline nil "Quick Notes")      "* On %t %^g %i%?"))))
+    (("t" "Task" entry      (file+headline nil "Tasks")      "* TODO %? %^g")
+     ("q" "Quick note" entry      (file+headline nil "Quick Notes")      "* On %t %^g %i%?"))))
  '(org-src-fontify-natively t)
  '(safe-local-variable-values (quote ((make-backup-files))))
  '(tool-bar-mode nil)
  '(package-selected-packages
-   (quote (
-           ;; sorted alphabetically
-           js2-mode
-           auto-complete
-           cmake-mode
-           docker
-           dockerfile-mode
-           dracula-theme
-           editorconfig
-           flycheck-pyflakes
-           groovy-mode
-           highlight-indentation
-           json-mode
-           magit
-           markdown-mode
-           markdown-preview-mode
-           org-plus-contrib
-           yaml-mode))))
+   (quote
+    (;; sorted alphabetically
+     js2-mode
+     auto-complete
+     cmake-mode
+     docker
+     dockerfile-mode
+     dracula-theme
+     editorconfig
+     flycheck-pyflakes
+     groovy-mode
+     highlight-indentation
+     json-mode
+     magit
+     markdown-mode
+     markdown-preview-mode
+     org-plus-contrib
+     yaml-mode))))
 
-(if (display-graphic-p)
-    (custom-set-faces
-     ;; custom-set-faces was added by Custom.
-     ;; If you edit it by hand, you could mess it up, so be careful.
-     ;; Your init file should contain only one such instance.
-     ;; If there is more than one, they won't work right.
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ (if (display-graphic-p)
      '(default ((t (:inherit nil :weight normal :height 180 :width normal :foundry "outline" :family "Source Code Pro"))))))
 
 (provide '.emacs)
