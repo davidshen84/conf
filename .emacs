@@ -49,8 +49,8 @@
   (hs-minor-mode t))
 
 ;; some basic settings
+(require 'dirtree)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(autoload 'dirtree "dirtree" "Add directory to tree view" t)
 (ido-mode t)
 (show-paren-mode t)
 (delete-selection-mode t)
@@ -169,17 +169,16 @@
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-capture-templates
    (quote
-    (("t" "Task" entry      (file+headline nil "Tasks")      "* TODO %? %^g")
-     ("q" "Quick note" entry      (file+headline nil "Quick Notes")      "* On %t %^g %i%?"))))
+    (("t" "Task" entry (file+headline nil "Tasks") "* TODO %? %^g")
+     ("q" "Quick note" entry (file+headline nil "Quick Notes") "* On %t %^g %i%?"))))
  '(org-src-fontify-natively t)
- '(safe-local-variable-values (quote ((make-backup-files))))
- '(tool-bar-mode nil)
  '(package-selected-packages
    (quote
     (;; sorted alphabetically
-     js2-mode
      auto-complete
+     clang-format
      cmake-mode
+     dirtree
      docker
      dockerfile-mode
      dracula-theme
@@ -187,12 +186,14 @@
      flycheck-pyflakes
      groovy-mode
      highlight-indentation
+     js2-mode
      json-mode
      magit
      markdown-mode
      markdown-preview-mode
-     org-plus-contrib
-     yaml-mode))))
+     yaml-mode)))
+ '(safe-local-variable-values (quote ((make-backup-files))))
+ '(tool-bar-mode nil))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
