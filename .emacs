@@ -15,7 +15,7 @@
 
 ;; load theme
 (if (display-graphic-p)
-    ; (load-theme 'deeper-blue)
+    ;; (load-theme 'deeper-blue)
     (require 'dracula-theme)
   (load-theme 'manoj-dark))
 
