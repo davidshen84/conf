@@ -50,7 +50,6 @@
 
 ;; some basic settings
 (require 'dirtree)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
 (ido-mode t)
 (show-paren-mode t)
 (delete-selection-mode t)
@@ -159,22 +158,37 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+
+ ;; editorconfig
  '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
  '(editorconfig-get-properties-function (quote editorconfig-core-get-properties-hash))
  '(editorconfig-mode t)
+
+ ;; erc
  '(erc-nick "davidshen84")
+
+ ;; eshell
  '(eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))
+
+ ;; flycheck
  '(flycheck-clang-language-standard "c++11")
+
+ ;; maximize emacs
+ '(initial-frame-alist '((fullscreen . maximized)))
  '(menu-bar-mode nil)
+ '(scroll-bar-mode nil)
+ '(tool-bar-mode nil)
+
+ ;; org
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-capture-templates
-   (quote
-    (("t" "Task" entry (file+headline nil "Tasks") "* TODO %? %^g")
-     ("q" "Quick note" entry (file+headline nil "Quick Notes") "* On %t %^g %i%?"))))
+   '(("t" "Task" entry (file+headline nil "Tasks") "* TODO %? %^g")
+     ("q" "Quick note" entry (file+headline nil "Quick Notes") "* On %t %^g %i%?")))
  '(org-src-fontify-natively t)
+
+ ;; package
  '(package-selected-packages
-   (quote
-    (;; sorted alphabetically
+   '(;; sorted alphabetically
      auto-complete
      clang-format
      cmake-mode
@@ -191,9 +205,10 @@
      magit
      markdown-mode
      markdown-preview-mode
-     yaml-mode)))
- '(safe-local-variable-values (quote ((make-backup-files))))
- '(tool-bar-mode nil))
+     yaml-mode))
+
+ ;; local-variable
+ '(safe-local-variable-values (quote ((make-backup-files)))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
