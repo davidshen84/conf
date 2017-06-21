@@ -51,6 +51,13 @@ change.
 If you want to remove the integration, double click on the
 `OpenWithEmacs - Delete.reg` file.
 
+### Swap `CapsLock` and `Ctrl_L` key on Windows
+
+- Execute `caps-ctrl-swap.reg` to enable
+- Execute `caps-ctrl-swap - Delete.reg` to disable
+
+**Reboot is required!!!**
+
 ### Set font face per buffer with mode-line
 
     Local Variables:
