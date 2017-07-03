@@ -78,6 +78,11 @@
 ;; start emacs server
 (server-start)
 
+;; use ibuffer group
+(add-hook 'ibuffer-mode-hook
+          #'(lambda ()
+              (ibuffer-switch-to-saved-filter-groups "default")))
+
 ;; for shell script
 (add-hook 'sh-mode-hook
           #'(lambda ()
@@ -158,6 +163,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+
+ ;; ibuffer groups
+ '(ibuffer-saved-filter-groups '(("default"
+                                  ("magit" (name . "^\\*magit.*$")))))
 
  ;; editorconfig
  '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
