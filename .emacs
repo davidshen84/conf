@@ -147,6 +147,20 @@
           #'(lambda ()
               (dev-common)))
 
+;; for xml
+(require 'sgml-mode)
+(add-hook 'nxml-mode-hook
+          #'(lambda ()
+              (hs-minor-mode)))
+(add-to-list 'hs-special-modes-alist
+             '(nxml-mode
+                "<!--\\|<[^/>]*[^/]>"
+               "-->\\|</[^/>]*[^/]>"
+
+               "<!--"
+               sgml-skip-tag-forward
+               nil))
+
 ;; for c/c++
 (require 'clang-format)
 (setq clang-format-style "Google")
