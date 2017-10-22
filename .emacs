@@ -154,7 +154,7 @@
               (hs-minor-mode)))
 (add-to-list 'hs-special-modes-alist
              '(nxml-mode
-                "<!--\\|<[^/>]*[^/]>"
+               "<!--\\|<[^/>]*[^/]>"
                "-->\\|</[^/>]*[^/]>"
 
                "<!--"
@@ -183,9 +183,8 @@
                                   ("magit" (name . "^\\*magit.*$")))))
 
  ;; editorconfig
- '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
+ ;; '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
  '(editorconfig-get-properties-function (quote editorconfig-core-get-properties-hash))
- '(editorconfig-mode t)
 
  ;; erc
  '(erc-nick "davidshen84")
