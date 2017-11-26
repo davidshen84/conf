@@ -204,8 +204,8 @@
  ;; org
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-capture-templates
-   '(("t" "Task" entry (file+headline nil "Tasks") "* TODO %? %^g")
-     ("q" "Quick note" entry (file+datetree nil) "* [%<%H:%M>] %?")))
+   '(("t" "Task" entry (file+headline "" "Tasks") "* TODO %? %^g")
+     ("q" "Quick note" entry (file+datetree "") "* [%<%H:%M>] %?")))
  '(org-src-fontify-natively t)
 
  ;; package
