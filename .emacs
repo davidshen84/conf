@@ -227,6 +227,7 @@
      magit
      markdown-mode
      markdown-preview-mode
+     org-plus-contrib
      yaml-mode))
 
  ;; local-variable
