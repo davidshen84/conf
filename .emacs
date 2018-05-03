@@ -228,7 +228,9 @@
      markdown-mode
      markdown-preview-mode
      org-plus-contrib
-     yaml-mode))
+     web-mode
+     yaml-mode
+     ))
 
  ;; local-variable
  '(safe-local-variable-values (quote ((make-backup-files)))))
