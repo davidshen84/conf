@@ -53,7 +53,6 @@
 (ido-mode t)
 (show-paren-mode t)
 (delete-selection-mode t)
-(global-flycheck-mode)
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -155,13 +154,12 @@
                nil))
 
 ;; for c/c++
-(require 'clang-format)
-(setq clang-format-style "Google")
 (mapc #'(lambda (hook)
           (add-hook hook
                     #'(lambda ()
                         (dev-common)
-                        (ac-etags-ac-setup)
+                        (require 'clang-format)
+                        (setq clang-format-style "Google")
                         )))
       '(c-mode-hook c++-mode-hook))
 
@@ -173,7 +171,7 @@
 
  ;; ibuffer groups
  '(ibuffer-saved-filter-groups '(("default"
-                                  ("magit" (name . "^\\*magit.*$")))))
+                                  ("magit" (name . "magit")))))
 
  ;; editorconfig
  ;; '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
