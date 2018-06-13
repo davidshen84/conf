@@ -45,7 +45,7 @@
   (editorconfig-mode t)
   (linum-mode t)
   (highlight-indentation-mode t)
-  (auto-complete-mode t)
+  (company-mode t)
   (hs-minor-mode t))
 
 ;; some basic settings
@@ -67,13 +67,6 @@
 
 ;; bind list buffer to ibuffer
 (defalias 'list-buffers 'ibuffer)
-
-;; require ac
-(require 'auto-complete)
-(require 'auto-complete-config)
-(eval-after-load "etags"
-  '(progn
-     (ac-etags-setup)))
 
 ;; start emacs server
 (server-start)
@@ -137,7 +130,7 @@
 ;; for LaTeX
 (add-hook 'LaTeX-mode-hook
           #'(lambda ()
-              (auto-complete-mode t)))
+              (company-mode t)))
 
 ;; for html
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
@@ -211,9 +204,9 @@
  ;; package
  '(package-selected-packages
    '(;; sorted alphabetically
-     auto-complete
      clang-format
      cmake-mode
+     company
      dirtree
      docker
      dockerfile-mode
