@@ -42,17 +42,11 @@
 
   ;; make it `interactive' so it can be invoked anywhere
   (interactive)
-  (editorconfig-mode t)
-  (linum-mode t)
-  (highlight-indentation-mode t)
   (company-mode t)
-  (hs-minor-mode t))
-
-;; some basic settings
-(require 'dirtree)
-(ido-mode t)
-(show-paren-mode t)
-(delete-selection-mode t)
+  (editorconfig-mode t)
+  (highlight-indentation-mode t)
+  (hs-minor-mode t)
+  (linum-mode t))
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -64,11 +58,25 @@
 (global-set-key (kbd "C-c d") 'duplicate-line)
 (global-set-key (kbd "C-c c") 'org-capture)
 
-;; bind list buffer to ibuffer
-(defalias 'list-buffers 'ibuffer)
+(add-hook 'after-init-hook
+          #'(lambda ()
+              (require 'dirtree)
 
-;; start emacs server
-(server-start)
+              (ido-mode t)
+              (show-paren-mode t)
+              (delete-selection-mode t)
+
+              ;; start emacs server
+              (server-start)
+
+              ;; bind list buffer to ibuffer
+              (defalias 'list-buffers 'ibuffer)
+
+               ;; maximize emacs
+              (setq initial-frame-alist '((fullscreen . maximized)))
+              (menu-bar-mode -1)
+              (scroll-bar-mode -1)
+              (tool-bar-mode -1)))
 
 ;; use ibuffer group
 (add-hook 'ibuffer-mode-hook
@@ -76,37 +84,23 @@
               (ibuffer-switch-to-saved-filter-groups "default")))
 
 ;; for shell script
-(add-hook 'sh-mode-hook
-          #'(lambda ()
-              (dev-common)))
+(add-hook 'sh-mode-hook 'dev-common)
 
 ;; for lisp
-(add-hook 'emacs-lisp-mode-hook
-          #'(lambda ()
-              (dev-common)
-              (setq indent-tabs-mode nil)))
+(add-hook 'emacs-lisp-mode-hook 'dev-common)
 
 ;; for python
 (add-hook 'python-mode-hook
           #'(lambda ()
-              (dev-common)
-              (hs-minor-mode t)))
+              (dev-common)))
 
-;; bind js to js3-mode
+;; for js
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
-(add-hook 'js3-mode-hook
-          #'(lambda ()
-              (dev-common)))
-
-;; bind json to json-mode
-(add-hook 'json-mode-hook
-          #'(lambda ()
-              (dev-common)))
+(add-hook 'js3-mode-hook 'dev-common)
+(add-hook 'json-mode-hook 'dev-common)
 
 ;; for css
-(add-hook 'css-mode-hook
-          #'(lambda ()
-              (dev-common)))
+(add-hook 'css-mode-hook 'dev-common)
 
 ;; for org-mod
 (require 'org)
@@ -127,23 +121,17 @@
                                              ))))
 
 ;; for LaTeX
-(add-hook 'LaTeX-mode-hook
-          #'(lambda ()
-              (company-mode t)))
+(add-hook 'LaTeX-mode-hook 'company-mode)
 
 ;; for html
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 
 ;; for cuda
-(add-hook 'cuda-mode-hook
-          #'(lambda ()
-              (dev-common)))
+(add-hook 'cuda-mode-hook 'dev-common)
 
 ;; for xml
 (require 'sgml-mode)
-(add-hook 'nxml-mode-hook
-          #'(lambda ()
-              (hs-minor-mode)))
+(add-hook 'nxml-mode-hook 'dev-common)
 (add-to-list 'hs-special-modes-alist
              '(nxml-mode
                "<!--\\|<[^/>]*[^/]>"
@@ -160,7 +148,8 @@
                         (dev-common)
                         (require 'clang-format)
                         (setq clang-format-style "Google")
-                        )))
+                         ;; flycheck
+                        (setq flycheck-clang-language-standard "c++11"))))
       '(c-mode-hook c++-mode-hook))
 
 (custom-set-variables
@@ -183,15 +172,6 @@
  ;; eshell
  '(eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))
 
- ;; flycheck
- '(flycheck-clang-language-standard "c++11")
-
- ;; maximize emacs
- '(initial-frame-alist '((fullscreen . maximized)))
- '(menu-bar-mode nil)
- '(scroll-bar-mode nil)
- '(tool-bar-mode nil)
-
  ;; org
  '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
  '(org-capture-templates
@@ -213,7 +193,7 @@
      flycheck-pyflakes
      groovy-mode
      highlight-indentation
-     js2-mode
+     js3-mode
      json-mode
      magit
      markdown-mode
