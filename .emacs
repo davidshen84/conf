@@ -16,7 +16,13 @@
 ;; load theme
 (if (display-graphic-p)
     ;; (load-theme 'deeper-blue)
-    (require 'dracula-theme)
+    (progn (require 'dracula-theme)
+           (set-face-attribute 'default nil
+                               :family "Source Code Pro"
+                               :foundry 'outline
+                               :height 180
+                               :inherit nil
+                               :weight 'normal))
   (load-theme 'manoj-dark))
 
 (defun new-scratch-buffer ()
@@ -199,15 +205,6 @@
 
 ;; local-variable settings
 (setq safe-local-variable-values '((make-backup-files)))
-
-;; set default font
-(if (display-graphic-p)
-    (set-face-attribute 'default nil
-                        :family "Source Code Pro"
-                        :foundry 'outline
-                        :height 180
-                        :inherit nil
-                        :weight 'normal))
 
 (provide '.emacs)
 
