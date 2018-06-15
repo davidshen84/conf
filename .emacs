@@ -79,7 +79,10 @@
               (scroll-bar-mode -1)
               (tool-bar-mode -1)))
 
-;; use ibuffer group
+;; (declare-function ibuffer-switch-to-saved-filters "ibuf-ext.el" nil)
+;; ibuffer settings
+(setq ibuffer-saved-filter-groups '(("default"
+                                     ("magit" (name . "magit")))))
 (add-hook 'ibuffer-mode-hook
           #'(lambda ()
               (ibuffer-switch-to-saved-filter-groups "default")))
@@ -108,11 +111,15 @@
 (require 'org-notify)
 ;; (org-notify-start)
 (setq org-default-notes-file (concat org-directory "/.notes"))
-
+(setq org-agenda-files (list org-default-notes-file "~/org/agenda"))
+(setq org-capture-templates
+      '(("t" "Task" entry (file+headline "" "Tasks") "* TODO %? %^g")
+        ("q" "Quick note" entry (file+datetree "") "* [%<%H:%M>] %?")))
+(setq org-log-done 'time)
+(setq org-src-fontify-natively t)
 (add-hook 'org-mode-hook
           #'(lambda ()
               (auto-fill-mode t)
-              (setq org-log-done 'time)
               (org-babel-do-load-languages 'org-babel-load-languages
                                            '((python . t)
                                              (sh . t)
@@ -153,68 +160,59 @@
                         (setq flycheck-clang-language-standard "c++11"))))
       '(c-mode-hook c++-mode-hook))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+;; editorconfig settings
+;; '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
+(setq editorconfig-get-properties-function 'editorconfig-core-get-properties-hash)
 
- ;; ibuffer groups
- '(ibuffer-saved-filter-groups '(("default"
-                                  ("magit" (name . "magit")))))
+;; erc settings
+(setq erc-nick "davidshen84")
 
- ;; editorconfig
- ;; '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
- '(editorconfig-get-properties-function (quote editorconfig-core-get-properties-hash))
+;; eshell settings
+(add-hook 'eshell-load-hook
+          #'(lambda ()
+              (setq-default eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))))
 
- ;; erc
- '(erc-nick "davidshen84")
+ ;; package settings
+(setq package-selected-packages
+      '(;; sorted alphabetically
+        clang-format
+        cmake-mode
+        company
+        dirtree
+        docker
+        dockerfile-mode
+        dracula-theme
+        editorconfig
+        flycheck-pyflakes
+        groovy-mode
+        highlight-indentation
+        iedit
+        js3-mode
+        json-mode
+        magit
+        markdown-mode
+        markdown-preview-mode
+        org-plus-contrib
+        web-mode
+        yaml-mode
+        ))
 
- ;; eshell
- '(eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))
+;; local-variable settings
+(setq safe-local-variable-values '((make-backup-files)))
 
- ;; org
- '(org-agenda-files (list org-default-notes-file "~/org/agenda"))
- '(org-capture-templates
-   '(("t" "Task" entry (file+headline "" "Tasks") "* TODO %? %^g")
-     ("q" "Quick note" entry (file+datetree "") "* [%<%H:%M>] %?")))
- '(org-src-fontify-natively t)
-
- ;; package
- '(package-selected-packages
-   '(;; sorted alphabetically
-     clang-format
-     cmake-mode
-     company
-     dirtree
-     docker
-     dockerfile-mode
-     dracula-theme
-     editorconfig
-     flycheck-pyflakes
-     groovy-mode
-     highlight-indentation
-     iedit
-     js3-mode
-     json-mode
-     magit
-     markdown-mode
-     markdown-preview-mode
-     org-plus-contrib
-     web-mode
-     yaml-mode
-     ))
-
- ;; local-variable
- '(safe-local-variable-values (quote ((make-backup-files)))))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- (if (display-graphic-p)
-     '(default ((t (:inherit nil :weight normal :height 180 :width normal :foundry "outline" :family "Source Code Pro"))))))
+;; set default font
+(if (display-graphic-p)
+    (set-face-attribute 'default nil
+                        :family "Source Code Pro"
+                        :foundry 'outline
+                        :height 180
+                        :inherit nil
+                        :weight 'normal))
 
 (provide '.emacs)
+
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars unresolved)
+;; End:
+
 ;;; .emacs ends here
