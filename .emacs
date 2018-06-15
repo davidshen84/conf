@@ -61,6 +61,7 @@
 (add-hook 'after-init-hook
           #'(lambda ()
               (require 'dirtree)
+              (require 'iedit)
 
               (ido-mode t)
               (show-paren-mode t)
@@ -193,6 +194,7 @@
      flycheck-pyflakes
      groovy-mode
      highlight-indentation
+     iedit
      js3-mode
      json-mode
      magit
