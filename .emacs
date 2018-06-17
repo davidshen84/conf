@@ -85,7 +85,7 @@
               (scroll-bar-mode -1)
               (tool-bar-mode -1)))
 
-;; (declare-function ibuffer-switch-to-saved-filters "ibuf-ext.el" nil)
+(declare-function ibuffer-switch-to-saved-filter-groups "ibuf-ext.el" (name))
 ;; ibuffer settings
 (setq ibuffer-saved-filter-groups '(("default"
                                      ("magit" (name . "magit")))))
@@ -209,7 +209,7 @@
 (provide '.emacs)
 
 ;; Local Variables:
-;; byte-compile-warnings: (not free-vars unresolved)
+;; byte-compile-warnings: (not free-vars)
 ;; End:
 
 ;;; .emacs ends here
