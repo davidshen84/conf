@@ -52,7 +52,8 @@
   (editorconfig-mode t)
   (highlight-indentation-mode t)
   (hs-minor-mode t)
-  (linum-mode t))
+  (linum-mode t)
+  (flycheck-mode t))
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -102,7 +103,8 @@
 ;; for python
 (add-hook 'python-mode-hook
           #'(lambda ()
-              (dev-common)))
+              (dev-common)
+              (add-to-list 'company-backends 'company-jedi)))
 
 ;; for js
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
@@ -135,17 +137,20 @@
                                              ))))
 
 ;; for LaTeX
-(add-hook 'LaTeX-mode-hook 'company-mode)
+; (add-hook 'LaTeX-mode-hook 'company-mode)
 
 ;; for html
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 
 ;; for cuda
-(add-hook 'cuda-mode-hook 'dev-common)
+; (add-hook 'cuda-mode-hook 'dev-common)
 
 ;; for xml
-(require 'sgml-mode)
-(add-hook 'nxml-mode-hook 'dev-common)
+
+(add-hook 'nxml-mode-hook
+          #'(lambds ()
+                    (dev-common)
+                    (require 'sgml-mode)))
 (add-to-list 'hs-special-modes-alist
              '(nxml-mode
                "<!--\\|<[^/>]*[^/]>"
@@ -156,15 +161,15 @@
                nil))
 
 ;; for c/c++
-(mapc #'(lambda (hook)
-          (add-hook hook
-                    #'(lambda ()
-                        (dev-common)
-                        (require 'clang-format)
-                        (setq clang-format-style "Google")
-                         ;; flycheck
-                        (setq flycheck-clang-language-standard "c++11"))))
-      '(c-mode-hook c++-mode-hook))
+;; (mapc #'(lambda (hook)
+;;           (add-hook hook
+;;                     #'(lambda ()
+;;                         (dev-common)
+;;                         (require 'clang-format)
+;;                         (setq clang-format-style "Google")
+;;                          ;; flycheck
+;;                         (setq flycheck-clang-language-standard "c++11"))))
+;;       '(c-mode-hook c++-mode-hook))
 
 ;; editorconfig settings
 ;; '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
@@ -184,6 +189,7 @@
         clang-format
         cmake-mode
         company
+        company-jedi
         dirtree
         docker
         dockerfile-mode
