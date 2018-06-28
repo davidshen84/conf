@@ -98,7 +98,11 @@
 (add-hook 'sh-mode-hook 'dev-common)
 
 ;; for lisp
-(add-hook 'emacs-lisp-mode-hook 'dev-common)
+(add-hook 'emacs-lisp-mode-hook
+          #'(lambda ()
+              (dev-common)
+              (setq indent-tabs-mode nil)))
+
 
 ;; for python
 (add-hook 'python-mode-hook
@@ -108,8 +112,9 @@
 
 ;; for js
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
-(add-hook 'js3-mode-hook 'dev-common)
-(add-hook 'json-mode-hook 'dev-common)
+(mapc #'(lambda (hook)
+          (add-hook hook 'dev-common))
+      '(js3-mode-hook json-mode-hook))
 
 ;; for css
 (add-hook 'css-mode-hook 'dev-common)
@@ -167,12 +172,12 @@
 ;;                         (dev-common)
 ;;                         (require 'clang-format)
 ;;                         (setq clang-format-style "Google")
-;;                          ;; flycheck
+;;                         ;; flycheck
 ;;                         (setq flycheck-clang-language-standard "c++11"))))
 ;;       '(c-mode-hook c++-mode-hook))
 
 ;; editorconfig settings
-;; '(editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
+(setq editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
 (setq editorconfig-get-properties-function 'editorconfig-core-get-properties-hash)
 
 ;; erc settings
@@ -182,6 +187,13 @@
 (add-hook 'eshell-load-hook
           #'(lambda ()
               (setq-default eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))))
+
+;; for TypeScript
+;; (add-hook 'typescript-mode-hook
+;;           #'(lambda ()
+;;               (dev-common)
+;;               (tide-setup)
+;;               (eldoc-mode t)))
 
  ;; package settings
 (setq package-selected-packages
@@ -205,6 +217,7 @@
         markdown-mode
         markdown-preview-mode
         org-plus-contrib
+        tide
         web-mode
         yaml-mode
         ))
