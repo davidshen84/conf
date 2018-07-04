@@ -153,9 +153,9 @@
 ;; for xml
 
 (add-hook 'nxml-mode-hook
-          #'(lambds ()
-                    (dev-common)
-                    (require 'sgml-mode)))
+          #'(lambda ()
+              (dev-common)
+              (require 'sgml-mode)))
 (add-to-list 'hs-special-modes-alist
              '(nxml-mode
                "<!--\\|<[^/>]*[^/]>"
