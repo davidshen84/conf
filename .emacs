@@ -16,7 +16,7 @@
 ;; load theme
 (if (display-graphic-p)
     ;; (load-theme 'deeper-blue)
-    (progn (require 'dracula-theme)
+    (progn (require 'flatui-dark-theme)
            (set-face-attribute 'default nil
                                :family "Source Code Pro"
                                :foundry 'outline
@@ -207,6 +207,7 @@
         dockerfile-mode
         dracula-theme
         editorconfig
+        flatui-dark-theme
         flycheck-pyflakes
         groovy-mode
         highlight-indentation
