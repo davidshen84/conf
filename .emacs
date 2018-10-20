@@ -127,7 +127,7 @@
 (setq org-agenda-files (list org-default-notes-file "~/org/agenda"))
 (setq org-capture-templates
       '(("t" "Task" entry (file+headline "" "Tasks") "* TODO %? %^g")
-        ("q" "Quick note" entry (file+datetree "") "* [%<%H:%M>] %?")))
+        ("q" "Quick note" entry (file+olp+datetree "") "* [%<%H:%M>] %?")))
 (setq org-log-done 'time)
 (setq org-src-fontify-natively t)
 (add-hook 'org-mode-hook
@@ -135,7 +135,6 @@
               (auto-fill-mode t)
               (org-babel-do-load-languages 'org-babel-load-languages
                                            '((python . t)
-                                             (sh . t)
                                              (shell . t)
                                              (sql . t)
                                              ;; add more languages
