@@ -121,13 +121,12 @@
 
 ;; for org-mod
 (require 'org)
-(require 'org-notify)
-;; (org-notify-start)
-(setq org-default-notes-file (concat org-directory "/.notes"))
-(setq org-agenda-files (list org-default-notes-file "~/org/agenda"))
+;; (require 'org-notify)
 (setq org-capture-templates
-      '(("t" "Task" entry (file+headline "" "Tasks") "* TODO %? %^g")
-        ("q" "Quick note" entry (file+olp+datetree "") "* [%<%H:%M>] %?")))
+ '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+        "* TODO %?\n  %i\n  %a")
+   ("j" "Journal" entry (file+datetree "~/org/journal.org" "Journal")
+        "* %?\nEntered on %U\n  %i\n  %a")))
 (setq org-log-done 'time)
 (setq org-src-fontify-natively t)
 (add-hook 'org-mode-hook
