@@ -182,8 +182,10 @@
 (setq erc-nick "davidshen84")
 
 ;; eshell settings
+(require 'esh-autosuggest)
 (add-hook 'eshell-load-hook
           #'(lambda ()
+              (esh-autosuggest-mode 1)
               (setq-default eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))))
 
 ;; for TypeScript
@@ -205,6 +207,7 @@
         dockerfile-mode
         dracula-theme
         editorconfig
+        esh-autosuggest
         flatui-dark-theme
         flycheck-pyflakes
         groovy-mode
