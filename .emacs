@@ -126,7 +126,8 @@
  '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
         "* TODO %?\n  %i\n  %a")
    ("j" "Journal" entry (file+datetree "~/org/journal.org" "Journal")
-        "* %?\nEntered on %U\n  %i\n  %a")))
+    "* %?\nEntered on %U\n  %i\n  %a")))
+(setq org-agenda-files (list "~/org/todo.org"))
 (setq org-log-done 'time)
 (setq org-src-fontify-natively t)
 (add-hook 'org-mode-hook
@@ -182,6 +183,10 @@
 (setq erc-nick "davidshen84")
 
 ;; eshell settings
+(require 'esh-autosuggest)
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (esh-autosuggest-mode t)))
 (add-hook 'eshell-load-hook
           #'(lambda ()
               (setq-default eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))))
@@ -205,6 +210,7 @@
         dockerfile-mode
         dracula-theme
         editorconfig
+        esh-autosuggest
         flatui-dark-theme
         flycheck-pyflakes
         groovy-mode
@@ -217,6 +223,7 @@
         markdown-preview-mode
         org-plus-contrib
         tide
+        typescript-mode
         web-mode
         yaml-mode
         ))
