@@ -190,7 +190,8 @@
               ;; Needs to set everytime entering the mode.
               (setq eshell-path-env
                     (mapconcat 'identity
-                               `("C:\\Program Files\\Git\\usr\\bin\\",
+                               `(
+                                 ;; "C:\\Program Files\\Git\\usr\\bin\\",
                                  eshell-path-env)
                                ";"))))
 
@@ -199,7 +200,8 @@
               ;; Only needs to set once.
               (setenv "PATH"
                       (mapconcat 'identity
-                                 `("C:\\Program Files\\Git\\usr\\bin\\",
+                                 `(
+                                   ;; "C:\\Program Files\\Git\\usr\\bin\\",
                                    (getenv "PATH"))
                                  ";"))))
 
