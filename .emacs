@@ -186,11 +186,22 @@
 (require 'esh-autosuggest)
 (add-hook 'eshell-mode-hook
           #'(lambda ()
-              (esh-autosuggest-mode t)))
+              (esh-autosuggest-mode t)
+              ;; Needs to set everytime entering the mode.
+              (setq eshell-path-env
+                    (mapconcat 'identity
+                               `("C:\\Program Files\\Git\\usr\\bin\\",
+                                 eshell-path-env)
+                               ";"))))
+
 (add-hook 'eshell-load-hook
           #'(lambda ()
-              (esh-autosuggest-mode 1)
-              (setq-default eshell-path-env (mapconcat 'identity `("/usr/local/bin", eshell-path-env) ":"))))
+              ;; Only needs to set once.
+              (setenv "PATH"
+                      (mapconcat 'identity
+                                 `("C:\\Program Files\\Git\\usr\\bin\\",
+                                   (getenv "PATH"))
+                                 ";"))))
 
 ;; for TypeScript
 ;; (add-hook 'typescript-mode-hook
