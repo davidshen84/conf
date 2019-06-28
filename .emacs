@@ -86,8 +86,16 @@
               (scroll-bar-mode -1)
               (tool-bar-mode -1)))
 
-(declare-function ibuffer-switch-to-saved-filter-groups "ibuf-ext.el" (name))
+;; for Windows environment
+(setenv "PATH"
+        (mapconcat 'identity
+                   `(
+                     ;; //windows/path
+                     (getenv "PATH"))
+                   ";"))
+
 ;; ibuffer settings
+(declare-function ibuffer-switch-to-saved-filter-groups "ibuf-ext.el" (name))
 (setq ibuffer-saved-filter-groups '(("default"
                                      ("magit" (name . "magit")))))
 (add-hook 'ibuffer-mode-hook
@@ -102,7 +110,6 @@
           #'(lambda ()
               (dev-common)
               (setq indent-tabs-mode nil)))
-
 
 ;; for python
 (add-hook 'python-mode-hook
@@ -150,7 +157,6 @@
 ; (add-hook 'cuda-mode-hook 'dev-common)
 
 ;; for xml
-
 (add-hook 'nxml-mode-hook
           #'(lambda ()
               (dev-common)
@@ -194,16 +200,6 @@
                                  ;; "C:\\Program Files\\Git\\usr\\bin\\",
                                  eshell-path-env)
                                ";"))))
-
-(add-hook 'eshell-load-hook
-          #'(lambda ()
-              ;; Only needs to set once.
-              (setenv "PATH"
-                      (mapconcat 'identity
-                                 `(
-                                   ;; "C:\\Program Files\\Git\\usr\\bin\\",
-                                   (getenv "PATH"))
-                                 ";"))))
 
 ;; for TypeScript
 ;; (add-hook 'typescript-mode-hook
