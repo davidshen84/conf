@@ -249,6 +249,7 @@
 
 ;; local-variable settings
 (setq safe-local-variable-values '((make-backup-files)))
+(setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
 
 (provide '.emacs)
 
