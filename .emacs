@@ -87,12 +87,16 @@
               (tool-bar-mode -1)))
 
 ;; for Windows environment
-(setenv "PATH"
-        (mapconcat 'identity
-                   `(
-                     ;; //windows/path
-                     (getenv "PATH"))
-                   ";"))
+;; update Emacs' execution path to be the same as Windows'.
+(if (string-equal system-type "windows-nt")
+    (progn (setenv "PATH"
+                   (mapconcat 'identity
+                              `("c:\\windows",
+                                (getenv "PATH"))
+                              ";"))
+           (setq exec-path (split-string
+                            (replace-regexp-in-string "\\\\" "/" (getenv "PATH"))
+                            ";"))))
 
 ;; ibuffer settings
 (declare-function ibuffer-switch-to-saved-filter-groups "ibuf-ext.el" (name))
@@ -208,7 +212,12 @@
 ;;               (tide-setup)
 ;;               (eldoc-mode t)))
 
- ;; package settings
+;; for projectile
+(require 'projectile)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(grep-apply-setting 'grep-use-null-device nil)
+
+;; package settings
 (setq package-selected-packages
       '(;; sorted alphabetically
         clang-format
