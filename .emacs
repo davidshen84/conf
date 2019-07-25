@@ -5,25 +5,29 @@
 ;;; Code:
 
 ;; load custom scripts
-(add-to-list 'load-path "~/.emacs.d/lisp")
+(eval-when-compile
+  (add-to-list 'load-path "~/.emacs.d/lisp")
+  ;; setup elpa package source
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+  (require 'use-package))
 
-;; setup elpa package source
-(require 'package)
-(package-initialize)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(use-package use-package-ensure-system-package
+  :ensure t)
 
-;; load theme
-(if (display-graphic-p)
-    ;; (load-theme 'deeper-blue)
-    (progn (require 'flatui-dark-theme)
-           (set-face-attribute 'default nil
-                               :family "Source Code Pro"
-                               :foundry 'outline
-                               :height 180
-                               :inherit nil
-                               :weight 'normal))
-  (load-theme 'manoj-dark))
+(use-package dracula-theme
+;; (use-package flatui-dark-theme
+  :if (display-graphic-p)
+  :ensure t
+  :config
+  (set-face-attribute 'default nil
+                      :family "Source Code Pro"
+                      :foundry 'outline
+                      :height 180
+                      :inherit nil
+                      :weight 'normal))
 
 (defun new-scratch-buffer ()
   "Create a new scratch buffer with a random name."
@@ -63,28 +67,8 @@
 (global-set-key (kbd "C-c M-/") 'uncomment-region)
 (global-set-key (kbd "C-c n") 'new-scratch-buffer)
 (global-set-key (kbd "C-c d") 'duplicate-line)
-(global-set-key (kbd "C-c c") 'org-capture)
-
-(add-hook 'after-init-hook
-          #'(lambda ()
-              (require 'dirtree)
-              (require 'iedit)
-
-              (ido-mode t)
-              (show-paren-mode t)
-              (delete-selection-mode t)
-
-              ;; start emacs server
-              (server-start)
-
-              ;; bind list buffer to ibuffer
-              (defalias 'list-buffers 'ibuffer)
-
-               ;; maximize emacs
-              (setq initial-frame-alist '((fullscreen . maximized)))
-              (menu-bar-mode -1)
-              (scroll-bar-mode -1)
-              (tool-bar-mode -1)))
+(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 
 ;; for Windows environment
 ;; update Emacs' execution path to be the same as Windows'.
@@ -98,10 +82,15 @@
                             (replace-regexp-in-string "\\\\" "/" (getenv "PATH"))
                             ";"))))
 
+;; magit settings
+(use-package magit
+  :ensure t
+  :custom
+  (ibuffer-saved-filter-groups '(("default"
+                                  ("magit" (name . "magit"))))))
+
 ;; ibuffer settings
 (declare-function ibuffer-switch-to-saved-filter-groups "ibuf-ext.el" (name))
-(setq ibuffer-saved-filter-groups '(("default"
-                                     ("magit" (name . "magit")))))
 (add-hook 'ibuffer-mode-hook
           #'(lambda ()
               (ibuffer-switch-to-saved-filter-groups "default")))
@@ -116,46 +105,62 @@
               (setq indent-tabs-mode nil)))
 
 ;; for python
-(add-hook 'python-mode-hook
-          #'(lambda ()
-              (dev-common)
-              (add-to-list 'company-backends 'company-jedi)))
+(use-package python-mode
+  :ensure t
+  :hook dev-common)
 
-;; for js
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js3-mode))
-(mapc #'(lambda (hook)
-          (add-hook hook 'dev-common))
-      '(js3-mode-hook json-mode-hook))
+;; for js/json
+;; (use-package js3-mode
+;;   :ensure t
+;;   :mode "\\.js\\'"
+;;   :interpreter "js3"
+;;   :hook (js3-mode . dev-common))
+(use-package js2-mode
+  :ensure t
+  :mode "\\.js\\'"
+  :interpreter "js2"
+  :hook (js2-mode . dev-common))
+
+(use-package json-mode
+  :ensure t
+  :mode "\\.json\\'"
+  :interpreter "json"
+  :hook (json-mode .dev-common))
 
 ;; for css
 (add-hook 'css-mode-hook 'dev-common)
 
 ;; for org-mod
-(require 'org)
-;; (require 'org-notify)
-(setq org-capture-templates
- '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
-        "* TODO %?\n  %i\n  %a")
-   ("j" "Journal" entry (file+datetree "~/org/journal.org" "Journal")
-    "* %?\nEntered on %U\n  %i\n  %a")))
-(setq org-agenda-files (list "~/org/todo.org"))
-(setq org-log-done 'time)
-(setq org-src-fontify-natively t)
-(add-hook 'org-mode-hook
-          #'(lambda ()
-              (auto-fill-mode t)
-              (org-babel-do-load-languages 'org-babel-load-languages
-                                           '((python . t)
-                                             (shell . t)
-                                             (sql . t)
-                                             ;; add more languages
-                                             ))))
+(use-package org
+  :ensure org-plus-contrib
+  :init
+  ;; (require 'org-notify)
+  :bind (("C-c c" . org-capture))
+  :custom
+  (org-capture-templates
+   '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+      "* TODO %?\n  %i\n  %a")
+     ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
+      "* %?\n")))
+  (org-agenda-files (list "~/org/todo.org"))
+  (org-log-done 'time)
+  (org-src-fontify-natively t)
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((python . t)
+                                 (shell . t)
+                                 (sql . t)
+                                 ;; add more languages
+                                 ))
+  :hook (org-mode . (lambda ()
+                      (auto-fill-mode t))))
 
 ;; for LaTeX
-; (add-hook 'LaTeX-mode-hook 'company-mode)
+;; (add-hook 'LaTeX-mode-hook 'company-mode)
 
 ;; for html
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(use-package web-mode
+  :mode "\\.html\\'"
+  :interpreter "web-mode")
 
 ;; for cuda
 ; (add-hook 'cuda-mode-hook 'dev-common)
@@ -175,6 +180,8 @@
                nil))
 
 ;; for c/c++
+;; (use-package clang-format)
+;; (use-package cmake-mode)
 ;; (mapc #'(lambda (hook)
 ;;           (add-hook hook
 ;;                     #'(lambda ()
@@ -186,72 +193,88 @@
 ;;       '(c-mode-hook c++-mode-hook))
 
 ;; editorconfig settings
-(setq editorconfig-exclude-modes (quote (emacs-lisp-mode lisp-mode json-mode)))
-(setq editorconfig-get-properties-function 'editorconfig-core-get-properties-hash)
+(use-package editorconfig
+  :ensure t
+  :custom
+  (editorconfig-exclude-modes '(emacs-lisp-mode lisp-mode json-mode))
+  (editorconfig-get-properties-function 'editorconfig-core-get-properties-hash))
 
 ;; erc settings
-(setq erc-nick "davidshen84")
-
-;; eshell settings
-(require 'esh-autosuggest)
-(add-hook 'eshell-mode-hook
-          #'(lambda ()
-              (esh-autosuggest-mode t)
-              ;; Needs to set everytime entering the mode.
-              (setq eshell-path-env
-                    (mapconcat 'identity
-                               `(
-                                 ;; "C:\\Program Files\\Git\\usr\\bin\\",
-                                 eshell-path-env)
-                               ";"))))
+(use-package erc
+  :ensure t
+  :custom
+  (erc-nick "davidshen84"))
 
 ;; for TypeScript
-;; (add-hook 'typescript-mode-hook
-;;           #'(lambda ()
-;;               (dev-common)
-;;               (tide-setup)
-;;               (eldoc-mode t)))
+(use-package tide
+  :ensure t)
+(use-package typescript-mode
+  :ensure t
+  :hook (typescript-mode . (lambda ()
+                             (dev-common)
+                             (tide-setup)
+                             (eldoc-mode t))))
+
+(use-package company
+  :ensure t)
+(use-package company-jedi
+  :ensure t
+  :init
+  (add-to-list 'company-backends 'company-jedi))
+(use-package iedit
+  :ensure t)
+(use-package esh-autosuggest
+  :functions esh-autosuggest-mode
+  :ensure t
+  :hook (eshell-mode . (lambda ()
+                         (esh-autosuggest-mode t))))
 
 ;; for projectile
-(require 'projectile)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-(grep-apply-setting 'grep-use-null-device nil)
+(use-package projectile
+  :ensure t
+  :bind-keymap ("C-c p" . projectile-command-map))
 
-;; package settings
-(setq package-selected-packages
-      '(;; sorted alphabetically
-        clang-format
-        cmake-mode
-        company
-        company-jedi
-        dirtree
-        docker
-        dockerfile-mode
-        dracula-theme
-        editorconfig
-        esh-autosuggest
-        flatui-dark-theme
-        flycheck-pyflakes
-        groovy-mode
-        highlight-indentation
-        iedit
-        js3-mode
-        json-mode
-        magit
-        markdown-mode
-        markdown-preview-mode
-        org-plus-contrib
-        tide
-        typescript-mode
-        web-mode
-        yaml-mode
-        ))
+(use-package dirtree)
+(use-package docker)
+(use-package dockerfile-mode)
+(use-package flycheck-pyflakes)
+(use-package highlight-indentation)
+(use-package markdown-mode)
+(use-package markdown-preview-mode)
+(use-package yaml-mode)
+
+;; init.
+(add-hook 'after-init-hook
+          #'(lambda ()
+              (require 'dirtree)
+
+              (ido-mode t)
+              (show-paren-mode t)
+              (delete-selection-mode t)
+
+              ;; start emacs server
+              (server-start)
+
+              ;; bind list buffer to ibuffer
+              (defalias 'list-buffers 'ibuffer)
+
+               ;; maximize emacs
+              (setq initial-frame-alist '((fullscreen . maximized)))
+              (menu-bar-mode -1)
+              (scroll-bar-mode -1)
+              (tool-bar-mode -1)))
+
+;; modern grep setting
+(require 'grep)
+(grep-apply-setting 'grep-use-null-device nil)
+(setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
 
 ;; local-variable settings
 (setq safe-local-variable-values '((make-backup-files)))
-(setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
 
 (provide '.emacs)
+
+
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars)
