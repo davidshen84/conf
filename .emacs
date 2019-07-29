@@ -360,7 +360,7 @@
 
 
 ;; Local Variables:
-;; byte-compile-warnings: (not free-vars)
+;; byte-compile-warnings: (not free-vars noruntime)
 ;; End:
 
 ;;; .emacs ends here
