@@ -63,8 +63,8 @@
 (global-set-key (kbd "C-c g") 'goto-line)
 (global-set-key (kbd "C-c l") 'linum-mode)
 (global-set-key (kbd "C-c b") 'whitespace-mode)
-(global-set-key (kbd "C-c /") 'comment-region)
-(global-set-key (kbd "C-c M-/") 'uncomment-region)
+;; (global-set-key (kbd "C-c /") 'comment-region)
+;; (global-set-key (kbd "C-c M-/") 'uncomment-region)
 (global-set-key (kbd "C-c n") 'new-scratch-buffer)
 (global-set-key (kbd "C-c d") 'duplicate-line)
 (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
@@ -113,24 +113,6 @@
 (use-package python-mode
   :ensure t
   :hook dev-common)
-
-;; for js/json
-;; (use-package js3-mode
-;;   :ensure t
-;;   :mode "\\.js\\'"
-;;   :interpreter "js3"
-;;   :hook (js3-mode . dev-common))
-(use-package js2-mode
-  :ensure t
-  :mode "\\.js\\'"
-  :interpreter "js2"
-  :hook (js2-mode . dev-common))
-
-(use-package json-mode
-  :ensure t
-  :mode "\\.json\\'"
-  :interpreter "json"
-  :hook (json-mode .dev-common))
 
 ;; for css
 (add-hook 'css-mode-hook 'dev-common)
@@ -218,7 +200,28 @@
   :hook (typescript-mode . (lambda ()
                              (dev-common)
                              (tide-setup)
+                             (tide-hl-identifier-mode t)
                              (eldoc-mode t))))
+
+;; for js/json
+;; (use-package js3-mode
+;;   :ensure t
+;;   :mode "\\.js\\'"
+;;   :interpreter "js3"
+;;   :hook (js3-mode . dev-common))
+(use-package js2-mode
+  :ensure t
+  :mode "\\.js\\'"
+  :interpreter "js2"
+  :hook ((js2-mode . dev-common)
+         (js2-mode . tide-setup)
+         (js2-mode . tide-hl-identifier-mode)))
+
+(use-package json-mode
+  :ensure t
+  :mode "\\.json\\'"
+  :interpreter "json"
+  :hook (json-mode .dev-common))
 
 (use-package company
   :ensure t)
