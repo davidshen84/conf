@@ -301,6 +301,7 @@
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode t)
+    (projectile-mode t)
     (pcase (cons (not (null (executable-find "git")))
                  (not (null (treemacs--find-python3))))
       (`(t . t)
@@ -330,6 +331,7 @@
   :ensure t)
 
 ;; init.
+(setq default-terminal-coding-system 'utf-8)
 (add-hook 'after-init-hook
           #'(lambda ()
               (require 'dirtree)
