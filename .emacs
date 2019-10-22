@@ -221,7 +221,7 @@
   :ensure t
   :mode "\\.json\\'"
   :interpreter "json"
-  :hook (json-mode .dev-common))
+  :hook (json-mode . dev-common))
 
 (use-package company
   :ensure t)
