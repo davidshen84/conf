@@ -118,8 +118,8 @@
 (add-hook 'css-mode-hook 'dev-common)
 
 ;; for org-mod
-(use-package org
-  :ensure org-plus-contrib
+(use-package org-plus-contrib
+  :ensure t
   :init
   ;; (require 'org-notify)
   :bind (("C-c c" . org-capture))
@@ -361,7 +361,6 @@
 (setq safe-local-variable-values '((make-backup-files)))
 
 (provide '.emacs)
-
 
 
 ;; Local Variables:
