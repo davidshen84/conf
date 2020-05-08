@@ -24,7 +24,6 @@
   :config
   (set-face-attribute 'default nil
                       :family "Source Code Pro"
-                      :foundry 'outline
                       :height 180
                       :inherit nil
                       :weight 'normal))
@@ -223,25 +222,31 @@
   :interpreter "json"
   :hook (json-mode . dev-common))
 
-(use-package company
-  :ensure t)
+(use-package helm-company
+  :ensure t
+  :bind
+  (:map global-map
+        ("M-x" . helm-M-x)))
+
 (use-package company-jedi
   :ensure t
-  :init
+  :config
   (add-to-list 'company-backends 'company-jedi))
+
 (use-package iedit
   :ensure t)
 
 (use-package esh-autosuggest
   :ensure t
-
-  :init
+  :config
   (add-to-list 'company-backends 'esh-autosuggest))
 
 ;; for projectile
 (use-package projectile
   :ensure t
-  :bind-keymap ("C-c p" . projectile-command-map))
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :config (setq projectile-indexing-method 'alien))
+
 
 (use-package dirtree
   :ensure t)
@@ -249,8 +254,13 @@
   :ensure t)
 (use-package dockerfile-mode
   :ensure t)
-(use-package flycheck-pyflakes
-  :ensure t)
+(use-package flycheck
+  :ensure t
+  :config (global-flycheck-mode))
+
+;; (use-package flycheck-pyflakes
+;;   :ensure t)
+
 (use-package highlight-indentation
   :ensure t)
 (use-package markdown-mode
