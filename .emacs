@@ -243,14 +243,22 @@
   :ensure t
   :bind-keymap ("C-c p" . projectile-command-map))
 
-(use-package dirtree)
-(use-package docker)
-(use-package dockerfile-mode)
-(use-package flycheck-pyflakes)
-(use-package highlight-indentation)
-(use-package markdown-mode)
-(use-package markdown-preview-mode)
-(use-package yaml-mode)
+(use-package dirtree
+  :ensure t)
+(use-package docker
+  :ensure t)
+(use-package dockerfile-mode
+  :ensure t)
+(use-package flycheck-pyflakes
+  :ensure t)
+(use-package highlight-indentation
+  :ensure t)
+(use-package markdown-mode
+  :ensure t)
+(use-package markdown-preview-mode
+  :ensure t)
+(use-package yaml-mode
+  :ensure t)
 
 (use-package treemacs
   :ensure t
