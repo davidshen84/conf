@@ -224,9 +224,12 @@
 
 (use-package helm-company
   :ensure t
-  :bind
-  (:map global-map
-        ("M-x" . helm-M-x)))
+  :bind (:map global-map
+        ("M-x" . helm-M-x))
+  :bind (:map company-mode-map
+              ("C-:" . helm-company))
+  :bind (:map company-active-map
+              ("C-:" . helm-company)))
 
 (use-package company-jedi
   :ensure t
