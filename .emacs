@@ -24,7 +24,7 @@
   :config
   (set-face-attribute 'default nil
                       :family "Source Code Pro"
-                      :height 180
+                      :height 140
                       :inherit nil
                       :weight 'normal))
 
@@ -336,7 +336,8 @@
         ("C-x t t"   . treemacs)
         ("C-x t B"   . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file)
-        ("C-x t M-t" . treemacs-find-tag)))
+        ("C-x t M-t" . treemacs-find-tag)
+        ("C-x g"     . magit-status)))
 
 (use-package treemacs-projectile
   :after treemacs projectile
