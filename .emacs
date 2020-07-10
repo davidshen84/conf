@@ -145,8 +145,11 @@
 
 ;; for html
 (use-package web-mode
-  :mode "\\.html\\'"
-  :interpreter "web-mode")
+  :ensure t
+  :mode (("\\.html\\'" . web-mode))
+  :hook (web-mode . (lambda ()
+                      (dev-common)
+                      )))
 
 ;; for cuda
 ; (add-hook 'cuda-mode-hook 'dev-common)
@@ -248,7 +251,7 @@
 (use-package projectile
   :ensure t
   :bind-keymap ("C-c p" . projectile-command-map)
-  :config (setq projectile-indexing-method 'alien))
+  )
 
 
 (use-package dirtree
@@ -259,7 +262,14 @@
   :ensure t)
 (use-package flycheck
   :ensure t
-  :config (global-flycheck-mode))
+  :config (progn
+          (global-flycheck-mode)
+          (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers
+                                                          '(typescript-tslint typescript-tide)))
+          (setq-default flycheck-javascript-eslint-executable "/usr/local/bin/eslint")
+          (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+          )
+  )
 
 ;; (use-package flycheck-pyflakes
 ;;   :ensure t)
