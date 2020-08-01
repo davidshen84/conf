@@ -131,7 +131,7 @@
   (org-agenda-files (list "~/org/todo.org"))
   (org-log-done 'time)
   (org-src-fontify-natively t)
-  (org-babel-do-load-languages 'org-babel-load-languages
+  (org-babel-load-languages
                                '((python . t)
                                  (shell . t)
                                  (sql . t)
@@ -185,7 +185,7 @@
 (use-package editorconfig
   :ensure t
   :custom
-  (editorconfig-exclude-modes '(emacs-lisp-mode lisp-mode json-mode))
+  (editorconfig-exclude-modes '(emacs-lisp-mode lisp-mode))
   (editorconfig-get-properties-function 'editorconfig-core-get-properties-hash))
 
 ;; erc settings
@@ -266,10 +266,9 @@
           (global-flycheck-mode)
           (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers
                                                           '(typescript-tslint typescript-tide)))
-          (setq-default flycheck-javascript-eslint-executable "/usr/local/bin/eslint")
+          (setq-default flycheck-javascript-eslint-executable "/usr/bin/eslint")
           (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-          )
-  )
+          ))
 
 ;; (use-package flycheck-pyflakes
 ;;   :ensure t)
