@@ -121,6 +121,7 @@
   :ensure t
   :init
   ;; (require 'org-notify)
+  (require 'org-tempo)
   :bind (("C-c c" . org-capture))
   :custom
   (org-capture-templates
