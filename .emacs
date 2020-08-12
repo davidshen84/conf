@@ -51,7 +51,6 @@
 
   ;; make it `interactive' so it can be invoked anywhere
   (interactive)
-  (company-mode t)
   (editorconfig-mode t)
   (highlight-indentation-mode t)
   (hs-minor-mode t)
@@ -84,7 +83,7 @@
 ;; eshell settins
 (add-hook 'eshell-mode-hook
           #'(lambda ()
-              (company-mode t)))
+              ))
 
 ;; magit settings
 (use-package magit
@@ -136,6 +135,7 @@
                                '((python . t)
                                  (shell . t)
                                  (sql . t)
+                                 (lisp . t)
                                  ;; add more languages
                                  ))
   :hook (org-mode . (lambda ()
@@ -196,15 +196,40 @@
   (erc-nick "davidshen84"))
 
 ;; for TypeScript
-(use-package tide
-  :ensure t)
 (use-package typescript-mode
   :ensure t
+  :mode (("\\.tsx\\'" . typescript-mode))
+  :custom (typescript-indent-level 2)
   :hook (typescript-mode . (lambda ()
                              (dev-common)
-                             (tide-setup)
-                             (tide-hl-identifier-mode t)
-                             (eldoc-mode t))))
+                             (lsp)
+                             (eldoc-mode t)
+                             (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
+                             )))
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  )
+
+(use-package lsp-mode
+  :bind-keymap ("C-c C-l" . lsp-command-map)
+  :hook (lsp-mode . lsp-enable-which-key-integration)
+  :commands lsp)
+
+(use-package which-key
+  :ensure t
+  :config (which-key-mode))
+
+(use-package lsp-treemacs
+  :ensure t
+  :commands lsp-treemacs-errors-list)
+
+(use-package helm-lsp
+  :ensure t
+  :bind ([remap xref-find-apropos] . helm-lsp-workspace-symbol)
+  :commands (helm-lsp-workspace-symbol)
+  )
 
 ;; for js/json
 ;; (use-package js3-mode
@@ -216,9 +241,10 @@
   :ensure t
   :mode "\\.js\\'"
   :interpreter "js2"
-  :hook ((js2-mode . dev-common)
-         (js2-mode . tide-setup)
-         (js2-mode . tide-hl-identifier-mode)))
+  :hook (js2-mode . (lambda ()
+                      (dev-common)
+                      (lsp)
+                      )))
 
 (use-package json-mode
   :ensure t
@@ -228,17 +254,16 @@
 
 (use-package helm-company
   :ensure t
-  :bind (:map global-map
-        ("M-x" . helm-M-x))
-  :bind (:map company-mode-map
-              ("C-:" . helm-company))
-  :bind (:map company-active-map
-              ("C-:" . helm-company)))
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-f" . helm-find-files)
+         :map company-mode-map
+         ("C-:" . helm-company)
+         :map company-active-map
+         ("C-:" . helm-company))
+  )
 
-(use-package company-jedi
-  :ensure t
-  :config
-  (add-to-list 'company-backends 'company-jedi))
+(use-package company
+  :config (global-company-mode))
 
 (use-package iedit
   :ensure t)
@@ -251,8 +276,7 @@
 ;; for projectile
 (use-package projectile
   :ensure t
-  :bind-keymap ("C-c p" . projectile-command-map)
-  )
+  :bind-keymap ("C-c p" . projectile-command-map))
 
 
 (use-package dirtree
@@ -261,18 +285,16 @@
   :ensure t)
 (use-package dockerfile-mode
   :ensure t)
+(use-package eslint-fix
+  :ensure t)
 (use-package flycheck
   :ensure t
   :config (progn
-          (global-flycheck-mode)
-          (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers
-                                                          '(typescript-tslint typescript-tide)))
-          (setq-default flycheck-javascript-eslint-executable "/usr/bin/eslint")
-          (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-          ))
-
-;; (use-package flycheck-pyflakes
-;;   :ensure t)
+            ;; (global-flycheck-mode)
+            (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers
+                                                             '(typescript-tslint typescript-tide)))
+            (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+            ))
 
 (use-package highlight-indentation
   :ensure t)

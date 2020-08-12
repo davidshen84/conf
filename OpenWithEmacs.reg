@@ -3,4 +3,4 @@ Windows Registry Editor Version 5.00
 [HKEY_CLASSES_ROOT\*\shell\Open with GNU Emacs]
 
 [HKEY_CLASSES_ROOT\*\shell\Open with GNU Emacs\command]
-@="C:\\emacs\\bin\\emacsclient.exe -na runemacs.exe \"%1\""
+@="wsl -- emacsclient -n \"$(wslpath -a \"%1\")\""
