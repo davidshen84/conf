@@ -53,9 +53,9 @@
   (interactive)
   (editorconfig-mode t)
   (highlight-indentation-mode t)
-  (hs-minor-mode t)
+  ;; (hs-minor-mode t)
   (linum-mode t)
-  (flycheck-mode t))
+  )
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -201,10 +201,11 @@
   :mode (("\\.tsx\\'" . typescript-mode))
   :custom (typescript-indent-level 2)
   :hook (typescript-mode . (lambda ()
-                             (dev-common)
                              (lsp)
                              (eldoc-mode t)
-                             (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
+                             ;; (setq flycheck-disabled-checkers (append flycheck-disabled-checkers
+                             ;;                                          '(lsp typescript-tslint typescript-tide)))
+                             ;; (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
                              )))
 
 (use-package lsp-ui
@@ -214,8 +215,18 @@
 
 (use-package lsp-mode
   :bind-keymap ("C-c C-l" . lsp-command-map)
-  :hook (lsp-mode . lsp-enable-which-key-integration)
+  :hook (lsp-mode . (lambda ()
+                      (dev-common)
+                      (lsp-enable-which-key-integration)))
+  ;; :custom (lsp-diagnostics-provider :none)
+  :custom (lsp-eslint-server-command
+           '("node"
+             "/.../vscode-eslint-release-2.0.15/server/out/eslintServer.js"
+             "--stdio"))
   :commands lsp)
+
+(use-package lsp-origami
+  :ensure t)
 
 (use-package which-key
   :ensure t
@@ -291,8 +302,6 @@
   :ensure t
   :config (progn
             ;; (global-flycheck-mode)
-            (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers
-                                                             '(typescript-tslint typescript-tide)))
             (flycheck-add-mode 'javascript-eslint 'typescript-mode)
             ))
 
