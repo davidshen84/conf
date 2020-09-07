@@ -293,6 +293,8 @@
   :ensure t
   :bind-keymap ("C-c p" . projectile-command-map))
 
+(use-package ag
+  :ensure t)
 
 (use-package dirtree
   :ensure t)
