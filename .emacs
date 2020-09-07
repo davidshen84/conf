@@ -199,14 +199,12 @@
 (use-package typescript-mode
   :ensure t
   :mode (("\\.tsx\\'" . typescript-mode))
-  :custom (typescript-indent-level 2)
+  :custom ((typescript-indent-level 2))
   :hook (typescript-mode . (lambda ()
-                             (lsp)
                              (eldoc-mode t)
-                             ;; (setq flycheck-disabled-checkers (append flycheck-disabled-checkers
-                             ;;                                          '(lsp typescript-tslint typescript-tide)))
-                             ;; (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
-                             )))
+                             (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
+                             (lsp)))
+  )
 
 (use-package lsp-ui
   :ensure t
@@ -217,16 +215,22 @@
   :bind-keymap ("C-c C-l" . lsp-command-map)
   :hook (lsp-mode . (lambda ()
                       (dev-common)
-                      (lsp-enable-which-key-integration)))
-  ;; :custom (lsp-diagnostics-provider :none)
+                      (lsp-enable-which-key-integration)
+                      (origami-mode)))
   :custom (lsp-eslint-server-command
            '("node"
              "/.../vscode-eslint-release-2.0.15/server/out/eslintServer.js"
              "--stdio"))
-  :commands lsp)
+  :config (progn (setq-default lsp-enable-snippet nil)
+                 )
+  :commands lsp
+  )
 
 (use-package lsp-origami
-  :ensure t)
+  :ensure t
+  :bind (:map origami-mode-map
+              ("C--" . origami-close-node)
+              ("C-M--" . origami-open-node)))
 
 (use-package which-key
   :ensure t
