@@ -14,6 +14,8 @@
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
   (require 'use-package))
 
+(require 'dirtree)
+
 (use-package use-package-ensure-system-package
   :ensure t)
 
@@ -403,8 +405,6 @@
 (setq default-terminal-coding-system 'utf-8)
 (add-hook 'after-init-hook
           #'(lambda ()
-              (require 'dirtree)
-
               (ido-mode t)
               (show-paren-mode t)
               (delete-selection-mode t)
@@ -419,7 +419,10 @@
               (setq initial-frame-alist '((fullscreen . maximized)))
               (menu-bar-mode -1)
               (scroll-bar-mode -1)
-              (tool-bar-mode -1)))
+              (tool-bar-mode -1)
+              (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+              (setq ediff-split-window-function 'split-window-horizontally)
+              ))
 
 ;; modern grep setting
 (require 'grep)
