@@ -218,11 +218,7 @@
   :hook (lsp-mode . (lambda ()
                       (dev-common)
                       (lsp-enable-which-key-integration)
-                      (origami-mode)))
-  :custom (lsp-eslint-server-command
-           '("node"
-             "/.../vscode-eslint-release-2.0.15/server/out/eslintServer.js"
-             "--stdio"))
+                      (lsp-origami-mode)))
   :config (progn (setq-default lsp-enable-snippet nil)
                  )
   :commands lsp
