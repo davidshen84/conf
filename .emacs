@@ -69,6 +69,9 @@
 (global-set-key (kbd "C-c d") 'duplicate-line)
 (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-x O") (lambda ()
+                                (interactive)
+                                (other-window -1)))
 
 ;; for Windows environment
 ;; update Emacs' execution path to be the same as Windows'.
