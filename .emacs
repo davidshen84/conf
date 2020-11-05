@@ -14,7 +14,8 @@
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
   (require 'use-package))
 
-(require 'dirtree)
+(use-package dirtree
+  :ensure t)
 
 (use-package use-package-ensure-system-package
   :ensure t)
