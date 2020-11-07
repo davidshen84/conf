@@ -1,0 +1,63 @@
+version: "3.8"
+
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - 53:53/udp
+      - 53:53/tcp
+      - 67:67/udp
+      - 80:80/tcp
+      # - "443:443/tcp"
+    environment:
+      TZ: "Australia/Sydney"
+      # WEBPASSWORD: 'set a secure password here or it will be random'
+    # pihole and dnsmasq must in different volumes
+    volumes:
+      - "pihole:/etc/pihole/"
+      - "dnsmasq:/etc/dnsmasq.d/"
+    environment:
+      ServerIP: '127.0.0.1'
+      VIRTUAL_HOST: 'pi.hole'
+      PROXY_LOCATION: 'pi.hole'
+      DNSSEC: 'true'
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+    restart: unless-stopped
+
+  trojan:
+    container_name: trojan
+    image: trojangfw/trojan:latest
+    ports:
+      - "1080:1080"
+    volumes:
+      - "./trojan-config/config.json:/config/config.json"
+    restart: unless-stopped
+
+  transmission:
+    container_name: transmission
+    image: ghcr.io/linuxserver/transmission:latest
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: "Australia/Sydney"
+      TRANSMISSION_WEB_HOME: "/combustion-release/" #optional
+      USER: user #optional
+      PASS: pass #optional
+    volumes:
+      - "transmission:/config"
+      - "/mnt/e/transmission/downloads:/downloads"
+      - "/mnt/e/transmission/watch:/watch"
+    ports:
+      - 9091:9091
+      - 51413:51413/tcp
+      - 51413:51413/udp
+    restart: unless-stopped
+
+volumes:
+  pihole:
+  dnsmasq:
+  transmission:
