@@ -422,6 +422,8 @@
               (tool-bar-mode -1)
               (setq ediff-window-setup-function 'ediff-setup-windows-plain)
               (setq ediff-split-window-function 'split-window-horizontally)
+              (setq indent-tabs-mode nil)
+              (setq select-active-regions nil)
               ))
 
 ;; modern grep setting
