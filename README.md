@@ -1,29 +1,10 @@
 # README #
 
-my personal gist :)
-
-## Cygwin Environment Setup
-
-To get a nice `zsh` environment on Windows, create a shortcut and set the `Target` as:
-
-    x:\path\to\cygwin\bin\mintty.exe -i /Cygwin-Terminal.ico -e /bin/zsh -li
-    
-- `-l` for login so you have the user environment
-- `-i` for interactive session
-
-And set the `Start in` property to the path of your Cygwin user home directory.
-
-To launch `Emacs` without a command window, create a shortcut and set the `Target` as:
-
-    x:\path\to\cygwin\bin\run.exe zsh -lic emacs
-
-And set the `Start in` property as well.
+my personal gist 😊
 
 ## Emacs Setup
 
-### Cygwin system dependencies
-
-  - emacs-clang-format
+All the required packages will be automatically pulled by the `use-package` package
 
 ### ELPA package dependencies
 
@@ -34,14 +15,15 @@ And set the `Start in` property as well.
   - auto-complete
   - auto-complete-exuberant-ctags
 
-  In your project root directory, execute this command to create tags file.
+## Create ctags file
+At your project root directory, execute this command to create tags file.
 
-  `ctags -e --verbose -R --fields="+afikKlmnsSzt"`
+    `ctags -e --verbose -R --fields="+afikKlmnsSzt"`
 
-  - markdown-mode
-  - editorconfig
 
 ### Windows context menu integration
+
+**Require WSL**
 
 If you want to create a `Open with GNU Emacs` shortcut for all types
 of files. Update the path in the `OpenWithEmacs.reg` file, make sure
@@ -63,3 +45,20 @@ If you want to remove the integration, double click on the
     Local Variables:
     eval: (face-remap-add-relative 'default :family "AR PL KaitiM GB" :foundry "ARPH")
     End:
+
+## Cygwin Environment Setup
+
+To get a nice `zsh` environment on Windows, create a shortcut and set the `Target` as:
+
+    x:\path\to\cygwin\bin\mintty.exe -i /Cygwin-Terminal.ico -e /bin/zsh -li
+    
+- `-l` for login so you have the user environment
+- `-i` for interactive session
+
+And set the `Start in` property to the path of your Cygwin user home directory.
+
+To launch `Emacs` without a command window, create a shortcut and set the `Target` as:
+
+    x:\path\to\cygwin\bin\run.exe zsh -lic emacs
+
+And set the `Start in` property as well.
