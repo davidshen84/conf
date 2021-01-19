@@ -14,10 +14,10 @@
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
   (require 'use-package))
 
-(use-package dirtree
+(use-package use-package-ensure-system-package
   :ensure t)
 
-(use-package use-package-ensure-system-package
+(use-package dirtree
   :ensure t)
 
 (use-package dracula-theme
@@ -127,6 +127,8 @@
   :init
   ;; (require 'org-notify)
   (require 'org-tempo)
+  (with-eval-after-load 'org
+    (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
   :bind (("C-c c" . org-capture))
   :custom
   (org-capture-templates
@@ -199,7 +201,9 @@
 (use-package erc
   :ensure t
   :custom
-  (erc-nick "davidshen84"))
+  (erc-nick "davidshen84")
+  (erc-prompt-for-password nil))
+
 
 ;; for TypeScript
 (use-package typescript-mode
@@ -401,6 +405,13 @@
   :after treemacs magit
   :ensure t)
 
+(use-package verb
+  :after org-plus-contrib
+  :ensure t)
+
+(use-package pinentry
+  :ensure t)
+
 ;; init.
 (setq default-terminal-coding-system 'utf-8)
 (add-hook 'after-init-hook
@@ -409,21 +420,25 @@
               (show-paren-mode t)
               (delete-selection-mode t)
 
-              ;; start emacs server
-              (server-start)
 
               ;; bind list buffer to ibuffer
               (defalias 'list-buffers 'ibuffer)
 
                ;; maximize emacs
-              (setq initial-frame-alist '((fullscreen . maximized)))
+
               (menu-bar-mode -1)
               (scroll-bar-mode -1)
               (tool-bar-mode -1)
-              (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-              (setq ediff-split-window-function 'split-window-horizontally)
-              (setq indent-tabs-mode nil)
-              (setq select-active-regions nil)
+              (setq-default initial-frame-alist '((fullscreen . maximized))
+                            ediff-split-window-function 'split-window-horizontally
+                            ediff-window-setup-function 'ediff-setup-windows-plain
+                            epa-pinentry-mode 'loopback
+                            indent-tabs-mode nil
+                            select-active-regions nil)
+
+              ;; start emacs server
+              (server-start)
+              (pinentry-start)
               ))
 
 ;; modern grep setting
