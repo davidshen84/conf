@@ -139,13 +139,11 @@
   (org-agenda-files (list "~/org/todo.org"))
   (org-log-done 'time)
   (org-src-fontify-natively t)
-  (org-babel-load-languages
-                               '((python . t)
-                                 (shell . t)
-                                 (sql . t)
-                                 (lisp . t)
-                                 ;; add more languages
-                                 ))
+  (org-babel-load-languages '((python . t)
+                              (shell . t)
+                              (sql . t)
+                              ;; add more languages
+                              ))
   :hook (org-mode . (lambda ()
                       (auto-fill-mode t))))
 
@@ -406,8 +404,7 @@
   :ensure t)
 
 (use-package verb
-  :after org-plus-contrib
-  :ensure t)
+  :enusre t)
 
 (use-package pinentry
   :ensure t)
@@ -434,7 +431,8 @@
                             ediff-window-setup-function 'ediff-setup-windows-plain
                             epa-pinentry-mode 'loopback
                             indent-tabs-mode nil
-                            select-active-regions nil)
+                            select-active-regions nil
+                            org-confirm-babel-evaluate nil)
 
               ;; start emacs server
               (server-start)
