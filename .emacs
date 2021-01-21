@@ -401,9 +401,6 @@
   :after treemacs magit
   :ensure t)
 
-(use-package verb
-  :ensure t)
-
 (use-package pinentry
   :ensure t)
 
