@@ -123,6 +123,9 @@
 ;; for css
 (add-hook 'css-mode-hook 'dev-common)
 
+(use-package ob-http
+  :ensure t)
+
 ;; for org-mod
 (use-package org-plus-contrib
   :ensure t
@@ -139,11 +142,15 @@
   (org-agenda-files (list "~/org/todo.org"))
   (org-log-done 'time)
   (org-src-fontify-natively t)
-  (org-babel-load-languages '((python . t)
-                              (shell . t)
-                              (sql . t)
-                              ;; add more languages
-                              ))
+  (org-babel-load-languages
+                               '((python . t)
+                                 (shell . t)
+                                 (sql . t)
+                                 (lisp . t)
+                                 (emacs-lisp . t)
+                                 (http . t)
+                                 ;; add more languages
+                                 ))
   :hook (org-mode . (lambda ()
                       (auto-fill-mode t))))
 
