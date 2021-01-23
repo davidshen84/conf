@@ -214,11 +214,11 @@
 (use-package typescript-mode
   :ensure t
   :mode (("\\.tsx\\'" . typescript-mode))
-  :custom ((typescript-indent-level 2))
+  :config (typescript-indent-level 2)
   :hook (typescript-mode . (lambda ()
                              (eldoc-mode t)
                              (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
-                             (lsp)))
+                             (lsp-deferred)))
   )
 
 (use-package lsp-ui
@@ -230,11 +230,11 @@
   :bind-keymap ("C-c C-l" . lsp-command-map)
   :hook (lsp-mode . (lambda ()
                       (dev-common)
-                      (lsp-enable-which-key-integration)
                       (lsp-origami-mode)))
-  :config (progn (setq-default lsp-enable-snippet nil)
-                 )
-  :commands lsp
+  :config
+  (lsp-enable-snippet nil)
+  (lsp-enable-which-key-integration t)
+  :commands (lsp lsp-deferred)
   )
 
 (use-package lsp-origami
