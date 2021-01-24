@@ -1,6 +1,6 @@
-# README #
+# README
 
-my personal gist 😊
+My *nix configuration repository. 😊
 
 ## Emacs Setup
 
