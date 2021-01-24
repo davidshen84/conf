@@ -13,7 +13,7 @@
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
   (require 'use-package)
-  (load-library "my.el"))
+  (require 'my))
 
 (use-package use-package-ensure-system-package
   :ensure t)
@@ -181,9 +181,9 @@
   :commands (lsp lsp-deferred)
 
   :config
-  (lsp-enable-which-key-integration t)
-  (origami-mode t)
   (my/dev-common)
+  (lsp-enable-which-key-integration t)
+  (lsp-origami-mode t)
 
   :custom
   (lsp-enable-snippet nil)
@@ -194,6 +194,7 @@
 
 (use-package lsp-origami
   :ensure t
+  :config (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable)
   :bind (:map origami-mode-map
               ("C--" . origami-close-node)
               ("C-M--" . origami-open-node)))
