@@ -20,16 +20,8 @@
 (use-package dirtree
   :ensure t)
 
-(use-package dracula-theme
-;; (use-package flatui-dark-theme
-  :if (display-graphic-p)
-  :ensure t
-  :config
-  (set-face-attribute 'default nil
-                      :family "Source Code Pro"
-                      :height 140
-                      :inherit nil
-                      :weight 'normal))
+(use-package dracula-theme)
+(use-package flatui-dark-theme)
 
 (defun new-scratch-buffer ()
   "Create a new scratch buffer with a random name."
@@ -37,11 +29,11 @@
   (switch-to-buffer (get-buffer-create (format "*scratch %X*" (random)))))
 
 (defun duplicate-line ()
- "Duplicate current line."
+  "Duplicate current line."
+
   (interactive)
   (let ((begin (line-beginning-position))
         (end (line-end-position)))
-
     (forward-line)
     (if (= end (point)) (newline))
     (insert-buffer-substring (current-buffer) begin end))
@@ -142,17 +134,17 @@
   (org-agenda-files (list "~/org/todo.org"))
   (org-log-done 'time)
   (org-src-fontify-natively t)
+  (org-confirm-babel-evaluate nil)
   (org-babel-load-languages
-                               '((python . t)
-                                 (shell . t)
-                                 (sql . t)
-                                 (lisp . t)
-                                 (emacs-lisp . t)
-                                 (http . t)
-                                 ;; add more languages
-                                 ))
-  :hook (org-mode . (lambda ()
-                      (auto-fill-mode t))))
+   '((python . t)
+     (shell . t)
+     (sql . t)
+     (lisp . t)
+     (emacs-lisp . t)
+     (http . t)
+     ;; add more languages
+     ))
+  (auto-fill-mode t))
 
 ;; for LaTeX
 ;; (add-hook 'LaTeX-mode-hook 'company-mode)
@@ -164,9 +156,6 @@
   :hook (web-mode . (lambda ()
                       (dev-common)
                       )))
-
-;; for cuda
-; (add-hook 'cuda-mode-hook 'dev-common)
 
 ;; for xml
 (add-hook 'nxml-mode-hook
@@ -409,7 +398,14 @@
   :ensure t)
 
 (use-package pinentry
-  :ensure t)
+  :ensure t
+  :custom
+  (epa-pinentry-mode 'loopback))
+
+(use-package ediff
+  :custom
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 ;; init.
 (setq default-terminal-coding-system 'utf-8)
@@ -423,18 +419,28 @@
               ;; bind list buffer to ibuffer
               (defalias 'list-buffers 'ibuffer)
 
-               ;; maximize emacs
-
+              ;; set window style
               (menu-bar-mode -1)
               (scroll-bar-mode -1)
               (tool-bar-mode -1)
-              (setq-default initial-frame-alist '((fullscreen . maximized))
-                            ediff-split-window-function 'split-window-horizontally
-                            ediff-window-setup-function 'ediff-setup-windows-plain
-                            epa-pinentry-mode 'loopback
-                            indent-tabs-mode nil
-                            select-active-regions nil
-                            org-confirm-babel-evaluate nil)
+
+              ;; set font face
+              (set-face-attribute 'default nil
+                                  :family "Source Code Pro"
+                                  :height 180
+                                  :inherit nil
+                                  :weight 'normal)
+
+              (setq-default
+               initial-frame-alist '((fullscreen . maximized))
+               indent-tabs-mode nil
+               select-active-regions nil)
+
+              ;; load theme
+              (if (display-graphic-p)
+                   (load-theme 'flatui-dark nil)
+              ;; (load-theme 'dracula nil)
+                )
 
               ;; start emacs server
               (server-start)
