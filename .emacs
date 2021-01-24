@@ -50,7 +50,7 @@
   (highlight-indentation-mode t)
   ;; (hs-minor-mode t)
   (linum-mode t)
-  )
+  (eldoc-mode t))
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -203,28 +203,31 @@
 (use-package typescript-mode
   :ensure t
   :mode (("\\.tsx\\'" . typescript-mode))
-  :config (typescript-indent-level 2)
+  :config
   :hook (typescript-mode . (lambda ()
-                             (eldoc-mode t)
                              (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
-                             (lsp-deferred)))
-  )
+                             (lsp-deferred)
+                             (dev-common))))
 
 (use-package lsp-ui
   :ensure t
-  :commands lsp-ui-mode
-  )
+  :commands lsp-ui-mode)
 
 (use-package lsp-mode
   :bind-keymap ("C-c C-l" . lsp-command-map)
-  :hook (lsp-mode . (lambda ()
-                      (dev-common)
-                      (lsp-origami-mode)))
-  :config
-  (lsp-enable-snippet nil)
-  (lsp-enable-which-key-integration t)
   :commands (lsp lsp-deferred)
-  )
+
+  :config
+  (lsp-enable-which-key-integration t)
+  (origami-mode t)
+  (dev-common)
+
+  :custom
+  (lsp-enable-snippet nil)
+  (lsp-eslint-server-command
+           '("node"
+             "/path/to/local/eslintServer.js"
+             "--stdio")))
 
 (use-package lsp-origami
   :ensure t
