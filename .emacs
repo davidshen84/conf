@@ -6,13 +6,14 @@
 
 ;; load custom scripts
 (eval-when-compile
-  (add-to-list 'load-path "~/.emacs.d/lisp")
+  (add-to-list 'load-path "~/github/conf/lisp")
   ;; setup elpa package source
   (require 'package)
   (package-initialize)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-  (require 'use-package))
+  (require 'use-package)
+  (load-library "my.el"))
 
 (use-package use-package-ensure-system-package
   :ensure t)
@@ -23,43 +24,14 @@
 (use-package dracula-theme)
 (use-package flatui-dark-theme)
 
-(defun new-scratch-buffer ()
-  "Create a new scratch buffer with a random name."
-  (interactive)
-  (switch-to-buffer (get-buffer-create (format "*scratch %X*" (random)))))
-
-(defun duplicate-line ()
-  "Duplicate current line."
-
-  (interactive)
-  (let ((begin (line-beginning-position))
-        (end (line-end-position)))
-    (forward-line)
-    (if (= end (point)) (newline))
-    (insert-buffer-substring (current-buffer) begin end))
-  (newline)
-  (forward-line -1)
-  (beginning-of-line))
-
-(defun dev-common ()
-  "Common development settings."
-
-  ;; make it `interactive' so it can be invoked anywhere
-  (interactive)
-  (editorconfig-mode t)
-  (highlight-indentation-mode t)
-  ;; (hs-minor-mode t)
-  (linum-mode t)
-  (eldoc-mode t))
-
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
 (global-set-key (kbd "C-c l") 'linum-mode)
 (global-set-key (kbd "C-c b") 'whitespace-mode)
 ;; (global-set-key (kbd "C-c /") 'comment-region)
 ;; (global-set-key (kbd "C-c M-/") 'uncomment-region)
-(global-set-key (kbd "C-c n") 'new-scratch-buffer)
-(global-set-key (kbd "C-c d") 'duplicate-line)
+(global-set-key (kbd "C-c n") 'my/new-scratch-buffer)
+(global-set-key (kbd "C-c d") 'my/duplicate-line)
 (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "C-x O") (lambda ()
@@ -78,11 +50,6 @@
                             (replace-regexp-in-string "\\\\" "/" (getenv "PATH"))
                             ";"))))
 
-;; eshell settins
-(add-hook 'eshell-mode-hook
-          #'(lambda ()
-              ))
-
 ;; magit settings
 (use-package magit
   :ensure t
@@ -99,21 +66,18 @@
               (ibuffer-switch-to-saved-filter-groups "default")))
 
 ;; for shell script
-(add-hook 'sh-mode-hook 'dev-common)
+(add-hook 'sh-mode-hook 'my/dev-common)
 
 ;; for lisp
 (add-hook 'emacs-lisp-mode-hook
           #'(lambda ()
-              (dev-common)
+              (my/dev-common)
               (setq indent-tabs-mode nil)))
 
 ;; for python
 (use-package python-mode
   :ensure t
-  :hook dev-common)
-
-;; for css
-(add-hook 'css-mode-hook 'dev-common)
+  :hook my/dev-common)
 
 (use-package ob-http
   :ensure t)
@@ -154,13 +118,13 @@
   :ensure t
   :mode (("\\.html\\'" . web-mode))
   :hook (web-mode . (lambda ()
-                      (dev-common)
+                      (my/dev-common)
                       )))
 
 ;; for xml
 (add-hook 'nxml-mode-hook
           #'(lambda ()
-              (dev-common)
+              (my/dev-common)
               (require 'sgml-mode)))
 (add-to-list 'hs-special-modes-alist
              '(nxml-mode
@@ -177,7 +141,7 @@
 ;; (mapc #'(lambda (hook)
 ;;           (add-hook hook
 ;;                     #'(lambda ()
-;;                         (dev-common)
+;;                         (my/dev-common)
 ;;                         (require 'clang-format)
 ;;                         (setq clang-format-style "Google")
 ;;                         ;; flycheck
@@ -198,7 +162,6 @@
   (erc-nick "davidshen84")
   (erc-prompt-for-password nil))
 
-
 ;; for TypeScript
 (use-package typescript-mode
   :ensure t
@@ -207,7 +170,7 @@
   :hook (typescript-mode . (lambda ()
                              (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
                              (lsp-deferred)
-                             (dev-common))))
+                             (my/dev-common))))
 
 (use-package lsp-ui
   :ensure t
@@ -220,7 +183,7 @@
   :config
   (lsp-enable-which-key-integration t)
   (origami-mode t)
-  (dev-common)
+  (my/dev-common)
 
   :custom
   (lsp-enable-snippet nil)
@@ -246,21 +209,20 @@
 (use-package helm-lsp
   :ensure t
   :bind ([remap xref-find-apropos] . helm-lsp-workspace-symbol)
-  :commands (helm-lsp-workspace-symbol)
-  )
+  :commands (helm-lsp-workspace-symbol))
 
 ;; for js/json
 ;; (use-package js3-mode
 ;;   :ensure t
 ;;   :mode "\\.js\\'"
 ;;   :interpreter "js3"
-;;   :hook (js3-mode . dev-common))
+;;   :hook (js3-mode . my/dev-common))
 (use-package js2-mode
   :ensure t
   :mode "\\.js\\'"
   :interpreter "js2"
   :hook (js2-mode . (lambda ()
-                      (dev-common)
+                      (my/dev-common)
                       (lsp)
                       )))
 
@@ -268,7 +230,7 @@
   :ensure t
   :mode "\\.json\\'"
   :interpreter "json"
-  :hook (json-mode . dev-common))
+  :hook (json-mode . my/dev-common))
 
 (use-package helm-company
   :ensure t
@@ -277,8 +239,7 @@
          :map company-mode-map
          ("C-:" . helm-company)
          :map company-active-map
-         ("C-:" . helm-company))
-  )
+         ("C-:" . helm-company)))
 
 (use-package company
   :config (global-company-mode))
@@ -310,10 +271,9 @@
   :ensure t)
 (use-package flycheck
   :ensure t
-  :config (progn
-            ;; (global-flycheck-mode)
-            (flycheck-add-mode 'javascript-eslint 'typescript-mode)
-            ))
+  :config
+  ;; (global-flycheck-mode)
+  (flycheck-add-mode 'javascript-eslint 'typescript-mode))
 
 (use-package highlight-indentation
   :ensure t)
@@ -411,7 +371,6 @@
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 ;; init.
-(setq default-terminal-coding-system 'utf-8)
 (add-hook 'after-init-hook
           #'(lambda ()
               (ido-mode t)
@@ -437,6 +396,7 @@
               (setq-default
                initial-frame-alist '((fullscreen . maximized))
                indent-tabs-mode nil
+               default-terminal-coding-system 'utf-8
                select-active-regions nil)
 
               ;; load theme
