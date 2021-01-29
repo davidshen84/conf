@@ -17,8 +17,10 @@
 
 (defun my/new-scratch-buffer ()
   "Create a new scratch buffer with a random name."
+
   (interactive)
-  (switch-to-buffer (get-buffer-create (format "*scratch %X*" (random)))))
+  (switch-to-buffer (get-buffer-create (format "*scratch %X*" (random))))
+  (org-mode))
 
 (defun my/duplicate-line ()
   "Duplicate current line."
@@ -32,6 +34,33 @@
   (newline)
   (forward-line -1)
   (beginning-of-line))
+
+(defun my/password (user host)
+  "Get the password using the `auth-source-search' function and
+set the it in the clipboard. The clipboard is set to an empty
+string in 10 sec."
+
+  (interactive "suser: \nshost: ")
+  (let ((search-args (unless (string= "" user)
+                       (plist-put
+                        (unless (string= "" host)
+                          (plist-put '() :host host))
+                        :user user))))
+    (kill-new
+     (let ((search-result (car
+                           (apply #'auth-source-search
+                                  search-args))))
+       (cond (search-result (message "ok")
+                            (funcall
+                             (plist-get
+                              search-result
+                              :secret)))
+             (t (message "%s@%s was not found" user host)
+                "")))
+     t))
+  (run-at-time "10 sec" nil
+               (lambda ()
+                 (kill-new "" t))))
 
 (provide 'my)
 
