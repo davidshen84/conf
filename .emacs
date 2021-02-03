@@ -166,7 +166,9 @@
 (use-package typescript-mode
   :ensure t
   :mode (("\\.tsx\\'" . typescript-mode))
-  :config
+  :custom
+  (typescript-indent-level 2)
+  (css-indent-offset 2)
   :hook (typescript-mode . (lambda ()
                              (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
                              (lsp-deferred)
@@ -194,7 +196,9 @@
 
 (use-package lsp-origami
   :ensure t
-  :config (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable)
+  :config (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable))
+
+(use-package origami
   :bind (:map origami-mode-map
               ("C--" . origami-close-node)
               ("C-M--" . origami-open-node)))
@@ -231,6 +235,8 @@
   :ensure t
   :mode "\\.json\\'"
   :interpreter "json"
+  :custom
+  (js-indent-level 2)
   :hook (json-mode . my/dev-common))
 
 (use-package helm-company
@@ -418,6 +424,15 @@
 
 ;; local-variable settings
 (setq safe-local-variable-values '((make-backup-files)))
+
+(use-package pyim
+  :ensure t
+  :config
+  (use-package pyim-basedict
+    :config
+    (pyim-basedict-enable))
+  (setq default-input-method "pyim")
+  (setq pyim-default-scheme "quanpin"))
 
 (provide '.emacs)
 
