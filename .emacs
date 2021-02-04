@@ -40,15 +40,15 @@
 
 ;; for Windows environment
 ;; update Emacs' execution path to be the same as Windows'.
-(if (string-equal system-type "windows-nt")
-    (progn (setenv "PATH"
-                   (mapconcat 'identity
-                              `("c:\\windows",
-                                (getenv "PATH"))
-                              ";"))
-           (setq exec-path (split-string
-                            (replace-regexp-in-string "\\\\" "/" (getenv "PATH"))
-                            ";"))))
+;; (if (string-equal system-type "windows-nt")
+;;     (progn (setenv "PATH"
+;;                    (mapconcat 'identity
+;;                               `("c:\\windows",
+;;                                 (getenv "PATH"))
+;;                               ";"))
+;;            (setq exec-path (split-string
+;;                             (replace-regexp-in-string "\\\\" "/" (getenv "PATH"))
+;;                             ";"))))
 
 ;; magit settings
 (use-package magit
@@ -57,16 +57,15 @@
   (ibuffer-saved-filter-groups '(("default"
                                   ("magit" (name . "magit")))))
   :bind (:map global-map
-              ("C-x g"     . magit-status)))
+              ("C-x g" . magit-status)))
 
 ;; ibuffer settings
-(declare-function ibuffer-switch-to-saved-filter-groups "ibuf-ext.el" (name))
 (add-hook 'ibuffer-mode-hook
           #'(lambda ()
               (ibuffer-switch-to-saved-filter-groups "default")))
 
 ;; for shell script
-(add-hook 'sh-mode-hook 'my/dev-common)
+;; (add-hook 'sh-mode-hook 'my/dev-common)
 
 ;; for lisp
 (add-hook 'emacs-lisp-mode-hook
@@ -85,9 +84,6 @@
 ;; for org-mod
 (use-package org-plus-contrib
   :ensure t
-  :init
-  ;; (require 'org-notify)
-  (require 'org-tempo)
   :bind (("C-c c" . org-capture))
   :custom
   (org-capture-templates
@@ -112,6 +108,7 @@
   ;; set this value to a real gpg key to use asymmetric encryption
   (org-crypt-key nil)
   :config
+  (require 'org-tempo)
   (org-crypt-use-before-save-magic))
 
 
@@ -122,9 +119,7 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.html\\'" . web-mode))
-  :hook (web-mode . (lambda ()
-                      (my/dev-common)
-                      )))
+  :hook my/dev-common)
 
 ;; for xml
 (add-hook 'nxml-mode-hook
@@ -174,20 +169,33 @@
   :custom
   (typescript-indent-level 2)
   (css-indent-offset 2)
-  :hook (typescript-mode . (lambda ()
-                             (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
-                             (lsp-deferred)
-                             (my/dev-common))))
-
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
+  :hook (((lambda ()
+            (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
+            (lsp-deferred)
+            (my/dev-common)))))
 
 (use-package lsp-mode
   :bind-keymap ("C-c C-l" . lsp-command-map)
   :commands (lsp lsp-deferred)
 
   :config
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+
+  (use-package lsp-origami
+  :ensure t
+  :hook (lsp-after-open . #'lsp-origami-try-enable))
+
+  (use-package lsp-treemacs
+  :ensure t
+  :commands lsp-treemacs-errors-list)
+
+(use-package helm-lsp
+  :ensure t
+  :bind ([remap xref-find-apropos] . helm-lsp-workspace-symbol)
+  :commands (helm-lsp-workspace-symbol))
+
   (my/dev-common)
   (lsp-enable-which-key-integration t)
   (lsp-origami-mode t)
@@ -199,10 +207,6 @@
              "/path/to/local/eslintServer.js"
              "--stdio")))
 
-(use-package lsp-origami
-  :ensure t
-  :config (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable))
-
 (use-package origami
   :bind (:map origami-mode-map
               ("C--" . origami-close-node)
@@ -212,29 +216,20 @@
   :ensure t
   :config (which-key-mode))
 
-(use-package lsp-treemacs
-  :ensure t
-  :commands lsp-treemacs-errors-list)
-
-(use-package helm-lsp
-  :ensure t
-  :bind ([remap xref-find-apropos] . helm-lsp-workspace-symbol)
-  :commands (helm-lsp-workspace-symbol))
-
 ;; for js/json
 ;; (use-package js3-mode
 ;;   :ensure t
 ;;   :mode "\\.js\\'"
 ;;   :interpreter "js3"
 ;;   :hook (js3-mode . my/dev-common))
-(use-package js2-mode
-  :ensure t
-  :mode "\\.js\\'"
-  :interpreter "js2"
-  :hook (js2-mode . (lambda ()
-                      (my/dev-common)
-                      (lsp)
-                      )))
+;; (use-package js2-mode
+;;   :ensure t
+;;   :mode "\\.js\\'"
+;;   :interpreter "js2"
+;;   :hook (js2-mode . (lambda ()
+;;                       (my/dev-common)
+;;                       (lsp)
+;;                       )))
 
 (use-package json-mode
   :ensure t
@@ -242,19 +237,19 @@
   :interpreter "json"
   :custom
   (js-indent-level 2)
-  :hook (json-mode . my/dev-common))
-
-(use-package helm-company
-  :ensure t
-  :bind (("M-x" . helm-M-x)
-         ("C-x C-f" . helm-find-files)
-         :map company-mode-map
-         ("C-:" . helm-company)
-         :map company-active-map
-         ("C-:" . helm-company)))
+  :hook my/dev-common)
 
 (use-package company
-  :config (global-company-mode))
+  :config
+  (use-package helm-company
+    :ensure t
+    :bind (("M-x" . helm-M-x)
+           ("C-x C-f" . helm-find-files)
+           :map company-mode-map
+           ("C-:" . helm-company)
+           :map company-active-map
+           ("C-:" . helm-company)))
+  (global-company-mode))
 
 (use-package iedit
   :ensure t)
@@ -276,9 +271,11 @@
 (use-package dirtree
   :ensure t)
 (use-package docker
-  :ensure t)
-(use-package dockerfile-mode
-  :ensure t)
+  :ensure t
+  :config
+  (use-package dockerfile-mode
+    :ensure t))
+
 (use-package eslint-fix
   :ensure t)
 (use-package flycheck
@@ -290,9 +287,11 @@
 (use-package highlight-indentation
   :ensure t)
 (use-package markdown-mode
-  :ensure t)
-(use-package markdown-preview-mode
-  :ensure t)
+  :ensure t
+  :config
+  (use-package markdown-preview-mode
+    :ensure t))
+
 (use-package yaml-mode
   :ensure t)
 
@@ -341,36 +340,38 @@
   ;; using a Hi-DPI display, uncomment this to double the icon size.
   ;;(treemacs-resize-icons 44)
 
-  (treemacs-follow-mode t)
-  (treemacs-filewatch-mode t)
-  (treemacs-fringe-indicator-mode t)
-  (projectile-mode t)
   (pcase (cons (not (null (executable-find "git")))
                (not (null (treemacs--find-python3))))
     (`(t . t)
      (treemacs-git-mode 'deferred))
     (`(t . _)
      (treemacs-git-mode 'simple)))
+
+  (use-package treemacs-projectile
+    :after treemacs projectile
+    :ensure t)
+
+  (use-package treemacs-icons-dired
+    :after treemacs dired
+    :ensure t
+    :config (treemacs-icons-dired-mode))
+
+  (use-package treemacs-magit
+    :after treemacs magit
+    :ensure t)
+
   :bind (:map global-map
               ("M-0"       . treemacs-select-window)
               ("C-x t 1"   . treemacs-delete-other-windows)
               ("C-x t t"   . treemacs)
               ("C-x t B"   . treemacs-bookmark)
               ("C-x t C-t" . treemacs-find-file)
-              ("C-x t M-t" . treemacs-find-tag)))
+              ("C-x t M-t" . treemacs-find-tag))
 
-(use-package treemacs-projectile
-  :after treemacs projectile
-  :ensure t)
-
-(use-package treemacs-icons-dired
-  :after treemacs dired
-  :ensure t
-  :config (treemacs-icons-dired-mode))
-
-(use-package treemacs-magit
-  :after treemacs magit
-  :ensure t)
+  :hook (projectile-mode
+         treemacs-follow-mode
+         treemacs-filewatch-mode
+         treemacs-fringe-indicator-mode))
 
 (use-package pinentry
   :ensure t
@@ -426,9 +427,6 @@
 (require 'grep)
 (grep-apply-setting 'grep-use-null-device nil)
 (setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
-
-;; local-variable settings
-(setq safe-local-variable-values '((make-backup-files)))
 
 (use-package pyim
   :ensure t
