@@ -108,7 +108,12 @@
      (http . t)
      ;; add more languages
      ))
-  (auto-fill-mode t))
+  (auto-fill-mode t)
+  ;; set this value to a real gpg key to use asymmetric encryption
+  (org-crypt-key nil)
+  :config
+  (org-crypt-use-before-save-magic))
+
 
 ;; for LaTeX
 ;; (add-hook 'LaTeX-mode-hook 'company-mode)
