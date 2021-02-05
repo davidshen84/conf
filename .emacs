@@ -85,6 +85,10 @@
 (use-package org-plus-contrib
   :ensure t
   :bind (("C-c c" . org-capture))
+  :init
+  (require 'org-tempo)
+  :config
+  (org-crypt-use-before-save-magic)
   :custom
   (org-capture-templates
    '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
@@ -106,11 +110,7 @@
      ))
   (auto-fill-mode t)
   ;; set this value to a real gpg key to use asymmetric encryption
-  (org-crypt-key nil)
-  :config
-  (require 'org-tempo)
-  (org-crypt-use-before-save-magic))
-
+  (org-crypt-key nil))
 
 ;; for LaTeX
 ;; (add-hook 'LaTeX-mode-hook 'company-mode)
