@@ -368,10 +368,7 @@
               ("C-x t C-t" . treemacs-find-file)
               ("C-x t M-t" . treemacs-find-tag))
 
-  :hook (projectile-mode
-         treemacs-follow-mode
-         treemacs-filewatch-mode
-         treemacs-fringe-indicator-mode))
+  :hook (projectile-mode))
 
 (use-package pinentry
   :ensure t
