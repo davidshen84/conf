@@ -21,8 +21,12 @@
 (use-package dirtree
   :ensure t)
 
-(use-package dracula-theme)
-(use-package flatui-dark-theme)
+(use-package dracula-theme
+  :if 'display-graphic-p)
+(use-package flatui-dark-theme
+  :if 'display-graphic-p
+  :hook (after-init . (lambda ()
+                        (load-theme 'flatui-dark nil))))
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -53,9 +57,6 @@
 ;; magit settings
 (use-package magit
   :ensure t
-  :custom
-  (ibuffer-saved-filter-groups '(("default"
-                                  ("magit" (name . "magit")))))
   :bind (:map global-map
               ("C-x g" . magit-status)))
 
@@ -63,6 +64,9 @@
 (add-hook 'ibuffer-mode-hook
           #'(lambda ()
               (ibuffer-switch-to-saved-filter-groups "default")))
+(setq ibuffer-saved-filter-groups '(("default"
+                                     ("magit" (name . "magit"))
+                                     ("erc" (mode . erc-mode)))))
 
 ;; for shell script
 ;; (add-hook 'sh-mode-hook 'my/dev-common)
@@ -387,7 +391,6 @@
               (show-paren-mode t)
               (delete-selection-mode t)
 
-
               ;; bind list buffer to ibuffer
               (defalias 'list-buffers 'ibuffer)
 
@@ -409,16 +412,9 @@
                default-terminal-coding-system 'utf-8
                select-active-regions nil)
 
-              ;; load theme
-              (if (display-graphic-p)
-                   (load-theme 'flatui-dark nil)
-              ;; (load-theme 'dracula nil)
-                )
-
               ;; start emacs server
               (server-start)
-              (pinentry-start)
-              ))
+              (pinentry-start)))
 
 ;; modern grep setting
 (require 'grep)
