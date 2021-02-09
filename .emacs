@@ -6,14 +6,15 @@
 
 ;; load custom scripts
 (eval-when-compile
-  (add-to-list 'load-path "~/github/conf/lisp")
-  ;; setup elpa package source
-  (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-  (require 'use-package)
-  (require 'my))
+  (require 'use-package))
+
+(add-to-list 'load-path "~/github/conf/lisp")
+;; setup elpa package source
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(require 'my)
 
 (use-package use-package-ensure-system-package
   :ensure t)
@@ -68,19 +69,14 @@
                                      ("magit" (name . "magit"))
                                      ("erc" (mode . erc-mode)))))
 
-;; for shell script
-;; (add-hook 'sh-mode-hook 'my/dev-common)
-
 ;; for lisp
 (add-hook 'emacs-lisp-mode-hook
           #'(lambda ()
-              (my/dev-common)
               (setq indent-tabs-mode nil)))
 
 ;; for python
 (use-package python-mode
-  :ensure t
-  :hook my/dev-common)
+  :ensure t)
 
 (use-package ob-http
   :ensure t)
@@ -122,13 +118,11 @@
 ;; for html
 (use-package web-mode
   :ensure t
-  :mode (("\\.html\\'" . web-mode))
-  :hook my/dev-common)
+  :mode (("\\.html\\'" . web-mode)))
 
 ;; for xml
 (add-hook 'nxml-mode-hook
           #'(lambda ()
-              (my/dev-common)
               (require 'sgml-mode)))
 (add-to-list 'hs-special-modes-alist
              '(nxml-mode
@@ -145,7 +139,6 @@
 ;; (mapc #'(lambda (hook)
 ;;           (add-hook hook
 ;;                     #'(lambda ()
-;;                         (my/dev-common)
 ;;                         (require 'clang-format)
 ;;                         (setq clang-format-style "Google")
 ;;                         ;; flycheck
@@ -173,10 +166,12 @@
   :custom
   (typescript-indent-level 2)
   (css-indent-offset 2)
+  :config
+  (use-package eslint-fix
+    :ensure t)
   :hook (((lambda ()
             (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
-            (lsp-deferred)
-            (my/dev-common)))))
+            (lsp-deferred)))))
 
 (use-package lsp-mode
   :bind-keymap ("C-c C-l" . lsp-command-map)
@@ -200,7 +195,6 @@
   :bind ([remap xref-find-apropos] . helm-lsp-workspace-symbol)
   :commands (helm-lsp-workspace-symbol))
 
-  (my/dev-common)
   (lsp-enable-which-key-integration t)
   (lsp-origami-mode t)
 
@@ -224,14 +218,12 @@
 ;; (use-package js3-mode
 ;;   :ensure t
 ;;   :mode "\\.js\\'"
-;;   :interpreter "js3"
-;;   :hook (js3-mode . my/dev-common))
+;;   :interpreter "js3")
 ;; (use-package js2-mode
 ;;   :ensure t
 ;;   :mode "\\.js\\'"
 ;;   :interpreter "js2"
 ;;   :hook (js2-mode . (lambda ()
-;;                       (my/dev-common)
 ;;                       (lsp)
 ;;                       )))
 
@@ -240,8 +232,7 @@
   :mode "\\.json\\'"
   :interpreter "json"
   :custom
-  (js-indent-level 2)
-  :hook my/dev-common)
+  (js-indent-level 2))
 
 (use-package company
   :config
@@ -264,24 +255,19 @@
   (add-to-list 'company-backends 'esh-autosuggest))
 
 ;; for projectile
-(use-package projectile
-  :ensure t
-  :bind-keymap ("C-c p" . projectile-command-map)
-  :custom (projectile-switch-project-action #'projectile-dired))
 
 (use-package ag
   :ensure t)
 
 (use-package dirtree
   :ensure t)
+
 (use-package docker
   :ensure t
   :config
   (use-package dockerfile-mode
     :ensure t))
 
-(use-package eslint-fix
-  :ensure t)
 (use-package flycheck
   :ensure t
   :config
@@ -351,9 +337,13 @@
     (`(t . _)
      (treemacs-git-mode 'simple)))
 
-  (use-package treemacs-projectile
-    :after treemacs projectile
-    :ensure t)
+  (use-package projectile
+    :ensure t
+    :bind-keymap ("C-c p" . projectile-command-map)
+    :custom (projectile-switch-project-action #'projectile-dired)
+    :config
+    (use-package treemacs-projectile
+      :ensure t))
 
   (use-package treemacs-icons-dired
     :after treemacs dired

@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-(defun my/dev-common ()
+(defun my/prog ()
   "Common development settings."
 
   ;; make it `interactive' so it can be invoked anywhere
@@ -14,6 +14,8 @@
   ;; (hs-minor-mode t)
   (linum-mode t)
   (eldoc-mode t))
+
+(add-hook 'prog-mode-hook 'my/prog)
 
 (defun my/new-scratch-buffer ()
   "Create a new scratch buffer with a random name."
