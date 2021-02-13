@@ -6,16 +6,11 @@ My *nix configuration repository. 😊
 
 All the required packages will be automatically pulled by the `use-package` package
 
-### ELPA package dependencies
+### fix zsh with tramp
 
-  - highlight-indentation
-  - js2-mode
-  - json-mode
-  - org *aka org-mode*, or org-plus-contrib which includes contrib packages
-  - auto-complete
-  - auto-complete-exuberant-ctags
+    [[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
 
-## Create ctags file
+### Create ctags file
 At your project root directory, execute this command to create tags file.
 
     `ctags -e --verbose -R --fields="+afikKlmnsSzt"`
@@ -47,6 +42,7 @@ If you want to remove the integration, double click on the
     End:
 
 ## Cygwin Environment Setup
+*not updated*
 
 To get a nice `zsh` environment on Windows, create a shortcut and set the `Target` as:
 
