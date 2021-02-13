@@ -78,24 +78,24 @@
 (use-package python-mode
   :ensure t)
 
-(use-package ob-http
-  :ensure t)
-
 ;; for org-mod
 (use-package org-plus-contrib
   :ensure t
-  :bind (("C-c c" . org-capture))
+  :bind (("C-c c" . org-capture)
+         ("C-c a" . org-agenda))
   :init
   (require 'org-tempo)
   :config
   (org-crypt-use-before-save-magic)
+  (use-package ob-http
+    :ensure t)
   :custom
   (org-capture-templates
-   '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
-      "* TODO %?\n  %i\n  %a")
+   '(("a" "Agenda" entry (file+headline "~/org/agenda.org" "Agenda")
+      "* Agenda %?\n  %i\n  %a")
      ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
       "* %?\n")))
-  (org-agenda-files (list "~/org/todo.org"))
+  (org-agenda-files (list "~/org/agenda.org"))
   (org-log-done 'time)
   (org-src-fontify-natively t)
   (org-confirm-babel-evaluate nil)
