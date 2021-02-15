@@ -37,6 +37,12 @@
   (forward-line -1)
   (beginning-of-line))
 
+(defun my/previous-window ()
+  "Move cursour to the previous window."
+
+  (interactive)
+  (other-window -1))
+
 (defun my/password (user host)
   "Get the password using the `auth-source-search' function and
 set the it in the clipboard. The clipboard is set to an empty

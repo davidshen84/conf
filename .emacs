@@ -14,10 +14,15 @@
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-(require 'my)
 
 (use-package use-package-ensure-system-package
   :ensure t)
+
+(use-package my
+  :bind (:map global-map
+              ("C-c n" . #'my/new-scratch-buffer)
+              ("C-c d" . #'my/duplicate-line)
+              ("C-x O" . #'my/previous-window)))
 
 (use-package dirtree
   :ensure t)
@@ -35,13 +40,8 @@
 (global-set-key (kbd "C-c b") 'whitespace-mode)
 ;; (global-set-key (kbd "C-c /") 'comment-region)
 ;; (global-set-key (kbd "C-c M-/") 'uncomment-region)
-(global-set-key (kbd "C-c n") 'my/new-scratch-buffer)
-(global-set-key (kbd "C-c d") 'my/duplicate-line)
 (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
-(global-set-key (kbd "C-x O") (lambda ()
-                                (interactive)
-                                (other-window -1)))
 
 ;; for Windows environment
 ;; update Emacs' execution path to be the same as Windows'.
