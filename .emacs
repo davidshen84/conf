@@ -81,10 +81,10 @@
 ;; for org-mod
 (use-package org-plus-contrib
   :ensure t
-  :bind (("C-c c" . org-capture)
-         ("C-c a" . org-agenda))
   :init
   (require 'org-tempo)
+  :bind (("C-c c" . org-capture)
+         ("C-c a" . org-agenda))
   :config
   (org-crypt-use-before-save-magic)
   (use-package ob-http
@@ -236,16 +236,31 @@
   (js-indent-level 2))
 
 (use-package company
+  :ensure t
+  :config
+  (use-package company-prescient
+    :ensure t
+    :config
+    (company-prescient-mode))
+  (global-company-mode))
+
+(use-package helm
+  :ensure t
   :config
   (use-package helm-company
+    :after (company)
     :ensure t
-    :bind (("M-x" . helm-M-x)
-           ("C-x C-f" . helm-find-files)
+    :bind (
            :map company-mode-map
-           ("C-:" . helm-company)
+           ("C-." . helm-company)
            :map company-active-map
-           ("C-:" . helm-company)))
-  (global-company-mode))
+           ("C-." . helm-company)))
+  :bind (:map global-map
+              ("M-x" . helm-M-x)
+              ("C-x C-f" . helm-multi-files)
+              ("C-x b" . helm-buffers-list)
+              ("C-s" . helm-occur)
+              ("M-y" . helm-show-kill-ring)))
 
 (use-package iedit
   :ensure t)
@@ -253,7 +268,8 @@
 (use-package esh-autosuggest
   :ensure t
   :config
-  (add-to-list 'company-backends 'esh-autosuggest))
+  (add-to-list 'company-backends 'esh-autosuggest)
+  )
 
 ;; for projectile
 
@@ -431,9 +447,8 @@
 
 (provide '.emacs)
 
+;;; .emacs ends here
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars noruntime)
 ;; End:
-
-;;; .emacs ends here
