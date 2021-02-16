@@ -265,7 +265,7 @@
            ("C-." . helm-company)))
   :bind (:map global-map
               ("M-x" . helm-M-x)
-              ("C-x C-f" . helm-multi-files)
+              ("C-x C-f" . helm-find-files)
               ("C-x b" . helm-buffers-list)
               ("C-s" . helm-occur)
               ("M-y" . helm-show-kill-ring)))
