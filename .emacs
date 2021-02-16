@@ -169,13 +169,23 @@
   :config
   (use-package eslint-fix
     :ensure t)
-  :hook (((lambda ()
-            (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
-            (lsp-deferred)))))
+  (use-package prettier-js
+    :ensure t)
+  :hook (typescript-mode . (lambda ()
+                             (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
+                             (setq prettier-js-command (string-trim (shell-command-to-string "npx which prettier")))
+                             (lsp-deferred))))
 
 (use-package lsp-mode
   :bind-keymap ("C-c C-l" . lsp-command-map)
   :commands (lsp lsp-deferred)
+
+  :init
+  (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable)
+
+  :custom
+  (lsp-enable-links nil)
+  (lsp-enable-snippet nil)
 
   :config
   (use-package lsp-ui
@@ -183,19 +193,17 @@
     :commands lsp-ui-mode)
 
   (use-package lsp-origami
-    :ensure t
-    :hook (lsp-after-open . #'lsp-origami-try-enable))
+    :ensure t)
 
   (use-package lsp-treemacs
-    :after (lsp treemacs)
     :ensure t
-    :commands lsp-treemacs-errors-list)
+    :commands lsp-treemacs-errors-list))
 
-  (use-package helm-lsp
-    :ensure t
-    :bind ([remap xref-find-apropos] . helm-lsp-workspace-symbol)
-    :commands (helm-lsp-workspace-symbol))
-
+(use-package helm-lsp
+  :ensure t
+  :bind (:map lsp-mode-map
+              ([remap xref-find-apropos] . helm-lsp-workspace-symbol))
+  :config
   (lsp-enable-which-key-integration t)
   (lsp-origami-mode t)
 
@@ -270,8 +278,6 @@
   :config
   (add-to-list 'company-backends 'esh-autosuggest)
   )
-
-;; for projectile
 
 (use-package ag
   :ensure t)
@@ -387,7 +393,7 @@
               ("C-x t C-t" . treemacs-find-file)
               ("C-x t M-t" . treemacs-find-tag))
 
-  :hook projectile-mode)
+  :hook (projectile-mode . treemacs-mode))
 
 (use-package pinentry
   :ensure t
