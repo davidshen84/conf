@@ -28,11 +28,10 @@
   :ensure t)
 
 (use-package dracula-theme
+  :disabled
   :if 'display-graphic-p)
 (use-package flatui-dark-theme
-  :if 'display-graphic-p
-  :hook (after-init . (lambda ()
-                        (load-theme 'flatui-dark nil))))
+  :if 'display-graphic-p)
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -391,9 +390,7 @@
               ("C-x t t"   . treemacs)
               ("C-x t B"   . treemacs-bookmark)
               ("C-x t C-t" . treemacs-find-file)
-              ("C-x t M-t" . treemacs-find-tag))
-
-  :hook (projectile-mode . treemacs-mode))
+              ("C-x t M-t" . treemacs-find-tag)))
 
 (use-package pinentry
   :ensure t
