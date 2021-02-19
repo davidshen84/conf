@@ -28,9 +28,9 @@
   :ensure t)
 
 (use-package dracula-theme
-  :disabled
   :if 'display-graphic-p)
 (use-package flatui-dark-theme
+  :disabled
   :if 'display-graphic-p)
 
 ;; my key binding
@@ -80,6 +80,7 @@
 ;; for org-mod
 (use-package org-plus-contrib
   :ensure t
+  :defer t
   :init
   (require 'org-tempo)
   :bind (("C-c c" . org-capture)

@@ -10,19 +10,18 @@ services:
       - 53:53/tcp
       - 67:67/udp
       - 80:80/tcp
-      # - "443:443/tcp"
+      # - 443:443/tcp
     environment:
       TZ: "Australia/Sydney"
+      ServerIP: "127.0.0.1"
+      VIRTUAL_HOST: "pi.hole"
+      PROXY_LOCATION: "pi.hole"
+      DNSSEC: "true"
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # pihole and dnsmasq must in different volumes
     volumes:
       - "pihole:/etc/pihole/"
       - "dnsmasq:/etc/dnsmasq.d/"
-    environment:
-      ServerIP: '127.0.0.1'
-      VIRTUAL_HOST: 'pi.hole'
-      PROXY_LOCATION: 'pi.hole'
-      DNSSEC: 'true'
     dns:
       - 127.0.0.1
       - 1.1.1.1
