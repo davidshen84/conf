@@ -13,9 +13,9 @@ services:
       # - 443:443/tcp
     environment:
       TZ: "Australia/Sydney"
-      ServerIP: "127.0.0.1"
+      ServerIP: ""
+      ServerIPv6: ""
       VIRTUAL_HOST: "pi.hole"
-      PROXY_LOCATION: "pi.hole"
       DNSSEC: "true"
       # WEBPASSWORD: 'set a secure password here or it will be random'
     # pihole and dnsmasq must in different volumes
