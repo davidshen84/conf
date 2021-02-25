@@ -370,11 +370,14 @@
 
   (use-package projectile
     :ensure t
+    :defer t
     :bind-keymap ("C-c p" . projectile-command-map)
-    :custom (projectile-switch-project-action #'projectile-dired)
-    :config
-    (use-package treemacs-projectile
-      :ensure t))
+    :custom
+    (projectile-switch-project-action #'projectile-dired)
+    (projectile-tags-command "uctags -Re -f \"%s\" %s \"%s\""))
+
+  (use-package treemacs-projectile
+    :ensure t)
 
   (use-package treemacs-icons-dired
     :after treemacs dired
@@ -391,7 +394,9 @@
               ("C-x t t"   . treemacs)
               ("C-x t B"   . treemacs-bookmark)
               ("C-x t C-t" . treemacs-find-file)
-              ("C-x t M-t" . treemacs-find-tag)))
+              ("C-x t M-t" . treemacs-find-tag))
+
+  :hook (treemacs-mode . projectile-mode))
 
 (use-package pinentry
   :ensure t
