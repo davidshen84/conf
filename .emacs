@@ -22,7 +22,8 @@
   :bind (:map global-map
               ("C-c n" . #'my/new-scratch-buffer)
               ("C-c d" . #'my/duplicate-line)
-              ("C-x O" . #'my/previous-window)))
+              ("C-x O" . #'my/previous-window)
+              ("C-x M-o" . ace-select-window)))
 
 (use-package dirtree
   :ensure t)
