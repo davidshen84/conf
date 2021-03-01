@@ -8,7 +8,6 @@
 (eval-when-compile
   (require 'use-package))
 
-(add-to-list 'load-path "~/github/conf/lisp")
 ;; setup elpa package source
 (require 'package)
 (package-initialize)
@@ -19,6 +18,8 @@
   :ensure t)
 
 (use-package my
+  :load-path "~/github/conf/lisp"
+  :init (require 'my)
   :bind (:map global-map
               ("C-c n" . #'my/new-scratch-buffer)
               ("C-c d" . #'my/duplicate-line)
