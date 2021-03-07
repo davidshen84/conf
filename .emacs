@@ -19,7 +19,7 @@
 
 (use-package my
   :load-path "~/github/conf/lisp"
-  :init (require 'my)
+  :demand t
   :bind (:map global-map
               ("C-c n" . #'my/new-scratch-buffer)
               ("C-c d" . #'my/duplicate-line)
