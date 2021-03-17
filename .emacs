@@ -182,12 +182,15 @@
   :bind-keymap ("C-c C-l" . lsp-command-map)
   :commands (lsp lsp-deferred)
 
-  :init
-  (add-hook 'lsp-after-open-hook #'lsp-origami-try-enable)
-
   :custom
+  (lsp-enable-file-watchers nil)
   (lsp-enable-links nil)
-  (lsp-enable-snippet nil)
+  (lsp-enable-which-key-integration t)
+  (lsp-origami-mode t)
+  (lsp-eslint-server-command
+   '("node"
+     "/path/to/local/eslintServer.js"
+     "--stdio"))
 
   :config
   (use-package lsp-ui
@@ -199,22 +202,13 @@
 
   (use-package lsp-treemacs
     :ensure t
-    :commands lsp-treemacs-errors-list))
+    :commands lsp-treemacs-errors-list)
 
-(use-package helm-lsp
-  :ensure t
-  :bind (:map lsp-mode-map
-              ([remap xref-find-apropos] . helm-lsp-workspace-symbol))
-  :config
-  (lsp-enable-which-key-integration t)
-  (lsp-origami-mode t)
+  (use-package yasnippet
+    :ensure t)
 
-  :custom
-  (lsp-enable-snippet nil)
-  (lsp-eslint-server-command
-   '("node"
-     "/path/to/local/eslintServer.js"
-     "--stdio")))
+  :hook
+  (lsp-after-open . lsp-origami-try-enable))
 
 (use-package origami
   :bind (:map origami-mode-map
@@ -265,6 +259,11 @@
            ("C-." . helm-company)
            :map company-active-map
            ("C-." . helm-company)))
+  (use-package helm-lsp
+  :ensure t
+  :bind (:map lsp-mode-map
+              ([remap xref-find-apropos] . helm-lsp-workspace-symbol)))
+
   :bind (:map global-map
               ("M-x" . helm-M-x)
               ("C-x C-f" . helm-find-files)
