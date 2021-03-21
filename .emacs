@@ -207,7 +207,8 @@
     :ensure t)
 
   :hook
-  (lsp-after-open . lsp-origami-try-enable))
+  (lsp-after-open . lsp-origami-try-enable)
+  (lsp-mode . yas-minor-mode))
 
 (use-package origami
   :bind (:map origami-mode-map
