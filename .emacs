@@ -409,6 +409,11 @@
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(use-package company-terraform
+  :ensure t
+  :config
+  (company-terraform-init))
+
 ;; init.
 (add-hook 'after-init-hook
           #'(lambda ()
