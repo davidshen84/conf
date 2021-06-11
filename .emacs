@@ -29,11 +29,9 @@
 (use-package dirtree
   :ensure t)
 
-(use-package dracula-theme
-  :if 'display-graphic-p)
-(use-package flatui-dark-theme
-  :disabled
-  :if 'display-graphic-p)
+(use-package material-theme
+  :config
+  (enable-theme 'material))
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -158,6 +156,7 @@
 (use-package erc
   :ensure t
   :custom
+  (erc-default-server "irc.libera.chat:6697")
   (erc-nick "davidshen84")
   (erc-prompt-for-password nil))
 
@@ -300,6 +299,7 @@
 
 (use-package highlight-indentation
   :ensure t)
+
 (use-package markdown-mode
   :ensure t
   :config

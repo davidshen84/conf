@@ -13,12 +13,12 @@
 -A INPUT -p udp -m multiport --sports 67,68 -m multiport --dports 67,68 -m comment --comment DHCP -j ACCEPT
 -A INPUT -p udp -m udp --sport 1900 -m comment --comment "UPnP source" -j ACCEPT
 -A INPUT -p udp -m udp --dport 1900 -m comment --comment "UPnP destination" -j ACCEPT
--A INPUT -s 192.168.86.0/24 -p udp -m udp --sport 9999 --dport 9999 -m comment --comment "Google Home" -j ACCEPT
--A INPUT -s 192.168.86.0/24 -p udp -m comment --comment "Google TV" -j ACCEPT
--A INPUT -s 192.168.86.0/24 -p udp -m multiport --dports 5353,5355 -j ACCEPT
--A INPUT -s 192.168.86.0/24 -p tcp -m tcp --dport 22 -m comment --comment SSH -j ACCEPT
--A INPUT -s 192.168.86.0/24 -p udp -m multiport --sports 137,138 -m comment --comment "samba service udp ports" -j ACCEPT
--A INPUT -s 192.168.86.0/24 -p tcp -m multiport --sports 139,445 -m comment --comment "samba service tcp ports" -j ACCEPT
+-A INPUT -s 192.168.1.0/24 -p udp -m udp --sport 9999 --dport 9999 -m comment --comment "Google Home" -j ACCEPT
+-A INPUT -s 192.168.1.0/24 -p udp -m comment --comment "Google TV" -j ACCEPT
+-A INPUT -s 192.168.1.0/24 -p udp -m multiport --dports 5353,5355 -j ACCEPT
+-A INPUT -s 192.168.1.0/24 -p tcp -m tcp --dport 22 -m comment --comment SSH -j ACCEPT
+-A INPUT -s 192.168.1.0/24 -p udp -m multiport --sports 137,138 -m comment --comment "samba service udp ports" -j ACCEPT
+-A INPUT -s 192.168.1.0/24 -p tcp -m multiport --sports 139,445 -m comment --comment "samba service tcp ports" -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 113 --tcp-flags FIN,SYN,RST,ACK SYN -m comment --comment "Reject IDENTITY request probing" -j REJECT --reject-with tcp-reset
 -A INPUT -m comment --comment "Log dropped packets" -j LOG --log-prefix "iptables: INPUT: DROP: "
 COMMIT
