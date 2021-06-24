@@ -10,8 +10,8 @@
   ;; make it `interactive' so it can be invoked anywhere
   (interactive)
   (editorconfig-mode t)
-  (highlight-indentation-mode t)
-  ;; (hs-minor-mode t)
+  (highlight-indentation-current-column-mode t)
+  (hs-minor-mode t)
   (linum-mode t)
   (eldoc-mode t))
 
