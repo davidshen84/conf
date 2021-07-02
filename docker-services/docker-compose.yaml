@@ -2,39 +2,39 @@ version: "3.8"
 
 # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
-  pihole:
-    container_name: pihole
-    image: pihole/pihole:latest
-    ports:
-      - 53:53/udp
-      - 53:53/tcp
-      - 67:67/udp
-      - 80:80/tcp
-      # - 443:443/tcp
-    environment:
-      TZ: "Australia/Sydney"
-      ServerIP: ""
-      ServerIPv6: ""
-      VIRTUAL_HOST: "pi.hole"
-      DNSSEC: "true"
-      # WEBPASSWORD: 'set a secure password here or it will be random'
-    # pihole and dnsmasq must in different volumes
-    volumes:
-      - "pihole:/etc/pihole/"
-      - "dnsmasq:/etc/dnsmasq.d/"
-    dns:
-      - 127.0.0.1
-      - 1.1.1.1
-    restart: unless-stopped
+  # pihole:
+  #   container_name: pihole
+  #   image: pihole/pihole:latest
+  #   ports:
+  #   - 53:53/udp
+  #   - 53:53/tcp
+  #   - 67:67/udp
+  #   - 8008:80/tcp
+  #   # - 443:443/tcp
+  #   environment:
+  #     TZ: "Australia/Sydney"
+  #     ServerIP: "192.168.86.103"
+  #     ServerIPv6: "2001:8003:267c:8700:b46b:2a68:47f0:e2f1"
+  #     VIRTUAL_HOST: "pi.hole"
+  #     DNSSEC: "true"
+  #     # WEBPASSWORD: 'set a secure password here or it will be random'
+  #   # pihole and dnsmasq must in different volumes
+  #   volumes:
+  #   - "pihole:/etc/pihole/"
+  #   - "dnsmasq:/etc/dnsmasq.d/"
+  #   dns:
+  #   - 127.0.0.1
+  #   - 1.1.1.1
+  #   restart: unless-stopped
 
-  trojan:
-    container_name: trojan
-    image: trojangfw/trojan:latest
-    ports:
-      - "1080:1080"
-    volumes:
-      - "./trojan-config/config.json:/config/config.json"
-    restart: unless-stopped
+  # trojan:
+  #   container_name: trojan
+  #   image: trojangfw/trojan:latest
+  #   ports:
+  #   - "1080:1080"
+  #   volumes:
+  #   - "./trojan-config/jp1-1.config.json:/config/config.json"
+  #   restart: unless-stopped
 
   transmission:
     container_name: transmission
@@ -47,15 +47,31 @@ services:
       USER: user #optional
       PASS: pass #optional
     volumes:
-      - "transmission:/config"
-      - "/mnt/e/transmission/downloads:/downloads"
+    - "transmission:/config"
+    - "/mnt/d/transmission/downloads:/downloads"
     ports:
-      - 9091:9091
-      - 51413:51413/tcp
-      - 51413:51413/udp
+    - 9091:9091
+    - 51413:51413/tcp
+    - 51413:51413/udp
     restart: unless-stopped
+
+  # chia:
+  #   container_name: chia
+  #   image: ghcr.io/chia-network/chia:latest
+  #   restart: unless-stopped
+  #   environment:
+  #     keys: /var/pass
+  #   volumes:
+  #   - /mnt/e/chia:/plots:ro
+  #   - /mnt/d/chia:/plotsD
+  #   - /mnt/c/chia_temp:/var/chia/temp
+  #   - chia:/root/.chia
+  #   - ~/chia_mnemonic_pass:/var/pass
+  #   ports:
+  #   - 8447:8447
 
 volumes:
   pihole:
   dnsmasq:
   transmission:
+  chia:
