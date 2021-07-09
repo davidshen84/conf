@@ -156,7 +156,7 @@
 (use-package erc
   :ensure t
   :custom
-  (erc-default-server "irc.libera.chat:6697")
+  (erc-default-server "irc.libera.chat")
   (erc-nick "davidshen84")
   (erc-prompt-for-password nil))
 
