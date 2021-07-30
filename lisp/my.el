@@ -13,7 +13,8 @@
   (highlight-indentation-current-column-mode t)
   (hs-minor-mode t)
   (linum-mode t)
-  (eldoc-mode t))
+  (eldoc-mode t)
+  (setq truncate-lines t))
 
 (add-hook 'prog-mode-hook 'my/prog)
 
