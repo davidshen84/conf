@@ -156,9 +156,11 @@
 (use-package erc
   :ensure t
   :custom
-  (erc-default-server "irc.libera.chat")
+  ;; (erc-default-server "irc.libera.chat")
   (erc-nick "davidshen84")
-  (erc-prompt-for-password nil))
+  (erc-prompt-for-password nil)
+  :config
+  (setq erc-default-server "irc.libera.chat"))
 
 ;; for TypeScript
 (use-package typescript-mode
