@@ -312,6 +312,9 @@
 (use-package yaml-mode
   :ensure t)
 
+(use-package k8s-mode
+  :ensure t)
+
 (use-package treemacs
   :ensure t
   :defer t
