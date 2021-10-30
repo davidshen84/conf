@@ -221,19 +221,6 @@
   :ensure t
   :config (which-key-mode))
 
-;; for js/json
-;; (use-package js3-mode
-;;   :ensure t
-;;   :mode "\\.js\\'"
-;;   :interpreter "js3")
-;; (use-package js2-mode
-;;   :ensure t
-;;   :mode "\\.js\\'"
-;;   :interpreter "js2"
-;;   :hook (js2-mode . (lambda ()
-;;                       (lsp)
-;;                       )))
-
 (use-package json-mode
   :ensure t
   :mode "\\.json\\'"
