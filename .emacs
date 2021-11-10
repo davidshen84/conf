@@ -214,8 +214,8 @@
 
 (use-package origami
   :bind (:map origami-mode-map
-              ("C-c @ C-c" . origami-close-node)
-              ("C-c @ C-M-c" . origami-open-node)))
+              ("C-c @ C-c" . origami-toggle-node)
+              ("C-c @ C-M-c" . origami-recursively-toggle-node)))
 
 (use-package which-key
   :ensure t
