@@ -11,8 +11,8 @@
 ;; setup elpa package source
 (require 'package)
 (package-initialize)
+(add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 
 (use-package use-package-ensure-system-package
   :ensure t)
@@ -78,15 +78,13 @@
   :ensure t)
 
 ;; for org-mod
-(use-package org-plus-contrib
+(use-package org
   :ensure t
   :defer t
   :init
-  (require 'org-tempo)
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda))
   :config
-  (org-crypt-use-before-save-magic)
   (use-package ob-http
     :ensure t)
   :custom
@@ -95,6 +93,7 @@
       "* Agenda %?\n  %i\n  %a")
      ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
       "* %?\n")))
+  (org-crypt-use-before-save-magic)
   (org-agenda-files (list "~/org/agenda.org"))
   (org-log-done 'time)
   (org-src-fontify-natively t)
@@ -215,7 +214,7 @@
 (use-package origami
   :bind (:map origami-mode-map
               ("C-c @ C-c" . origami-toggle-node)
-              ("C-c @ C-M-c" . origami-recursively-toggle-node)))
+              ("C-c @ C-l" . origami-recursively-toggle-node)))
 
 (use-package which-key
   :ensure t
