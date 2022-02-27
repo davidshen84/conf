@@ -77,7 +77,15 @@
 (use-package python-mode
   :ensure t)
 
+;; EasyPG
+(require 'epa-file)
+(epa-file-enable)
+;; use mode-line to select the gpg key
+;; e.g. -*- epa-file-encrypt-to: ("e@mail.com") -*-
+
 ;; for org-mod
+;; use mode-line to select gpg key
+;; e.g. -*- org-crypt-key: "e@mail.com" -*-
 (use-package org
   :ensure t
   :defer t
@@ -107,9 +115,7 @@
      (http . t)
      ;; add more languages
      ))
-  (auto-fill-mode t)
-  ;; set this value to a real gpg key to use asymmetric encryption
-  (org-crypt-key nil))
+  (auto-fill-mode t))
 
 ;; for LaTeX
 ;; (add-hook 'LaTeX-mode-hook 'company-mode)
