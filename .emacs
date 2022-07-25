@@ -165,7 +165,8 @@
   (erc-nick "davidshen84")
   (erc-prompt-for-password nil)
   :config
-  (setq erc-default-server "irc.libera.chat"))
+  (setq erc-default-server "irc.au.libera.chat")
+  (setq erc-default-port-tls 6697))
 
 ;; for TypeScript
 (use-package typescript-mode
@@ -448,15 +449,6 @@
 (require 'grep)
 (grep-apply-setting 'grep-use-null-device nil)
 (setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
-
-(use-package pyim
-  :ensure t
-  :config
-  (use-package pyim-basedict
-    :config
-    (pyim-basedict-enable))
-  (setq default-input-method "pyim")
-  (setq pyim-default-scheme "quanpin"))
 
 (provide '.emacs)
 
