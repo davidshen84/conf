@@ -30,6 +30,7 @@
   :ensure t)
 
 (use-package material-theme
+  :ensure t
   :config
   (enable-theme 'material))
 
