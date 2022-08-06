@@ -48,30 +48,15 @@ services:
       PASS: pass #optional
     volumes:
     - "transmission:/config"
-    - "/mnt/d/transmission/downloads:/downloads"
+    - "/mnt/g/transmission/downloads:/downloads"
     ports:
     - 9091:9091
-    - 51413:51413/tcp
-    - 51413:51413/udp
+    # - 51413:51413/tcp
+    # - 51413:51413/udp
     restart: unless-stopped
 
-  # chia:
-  #   container_name: chia
-  #   image: ghcr.io/chia-network/chia:latest
-  #   restart: unless-stopped
-  #   environment:
-  #     keys: /var/pass
-  #   volumes:
-  #   - /mnt/e/chia:/plots:ro
-  #   - /mnt/d/chia:/plotsD
-  #   - /mnt/c/chia_temp:/var/chia/temp
-  #   - chia:/root/.chia
-  #   - ~/chia_mnemonic_pass:/var/pass
-  #   ports:
-  #   - 8447:8447
-
 volumes:
-  pihole:
-  dnsmasq:
+  # pihole:
+  # dnsmasq:
   transmission:
-  chia:
+
