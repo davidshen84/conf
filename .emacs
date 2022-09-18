@@ -29,10 +29,16 @@
 (use-package dirtree
   :ensure t)
 
-(use-package material-theme
+;; (use-package material-theme
+;;   :config
+;;   (enable-theme 'material))
+
+(use-package solarized-theme
   :ensure t
+  :init
+  (setq solarized-use-variable-pitch nil)
   :config
-  (enable-theme 'material))
+  (load-theme 'solarized-dark t))
 
 ;; my key binding
 (global-set-key (kbd "C-c g") 'goto-line)
@@ -54,6 +60,9 @@
 ;;            (setq exec-path (split-string
 ;;                             (replace-regexp-in-string "\\\\" "/" (getenv "PATH"))
 ;;                             ";"))))
+
+;; customize emacs path
+(setq exec-path (append exec-path '("~/.local/bin")))
 
 ;; magit settings
 (use-package magit
@@ -195,10 +204,10 @@
   (lsp-enable-links nil)
   (lsp-enable-which-key-integration t)
   (lsp-origami-mode t)
-  (lsp-eslint-server-command
-   '("node"
-     "/path/to/local/eslintServer.js"
-     "--stdio"))
+  ;; (lsp-eslint-server-command
+  ;;  '("node"
+  ;;    "/path/to/local/eslintServer.js"
+  ;;    "--stdio"))
 
   :config
   (use-package lsp-ui
