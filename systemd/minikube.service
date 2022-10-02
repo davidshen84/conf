@@ -1,0 +1,10 @@
+[Unit]
+Description=minikube
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=minikube start --apiserver-ips 192.168.86.71
+ExecStop=minikube stop
