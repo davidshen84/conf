@@ -98,11 +98,11 @@
 ;; e.g. -*- org-crypt-key: "e@mail.com" -*-
 (use-package org
   :ensure t
-  :defer t
   :init
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda))
   :config
+  (require 'org-tempo)
   (use-package ob-http
     :ensure t)
   :custom
