@@ -4,9 +4,37 @@
 
 ;;; Code:
 
-;; load custom scripts
-(eval-when-compile
-  (require 'use-package))
+(add-hook 'after-init-hook
+          #'(lambda ()
+              (ido-mode t)
+              (show-paren-mode t)
+              (delete-selection-mode t)
+
+              ;; bind list buffer to ibuffer
+              (defalias 'list-buffers 'ibuffer)
+
+              ;; set window style
+              (menu-bar-mode -1)
+              (scroll-bar-mode -1)
+              (tool-bar-mode -1)
+
+              ;; set font face
+              (set-face-attribute 'default nil
+                                  :font "Cascadia Code"
+                                  :height 160
+                                  :inherit nil
+                                  :weight 'normal)
+
+              (setq-default
+               initial-frame-alist '((fullscreen . maximized))
+               indent-tabs-mode nil
+               default-terminal-coding-system 'utf-8
+               select-active-regions nil)
+
+              ;; start emacs server
+              (server-start)
+              (pinentry-start)))
+
 
 ;; setup elpa package source
 (require 'package)
@@ -14,6 +42,7 @@
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
+(require 'use-package)
 (use-package use-package-ensure-system-package
   :ensure t)
 
@@ -35,8 +64,8 @@
 
 (use-package solarized-theme
   :ensure t
-  :init
-  (setq solarized-use-variable-pitch nil)
+  :custom
+  (solarized-use-variable-pitch nil)
   :config
   (load-theme 'solarized-dark t))
 
@@ -98,7 +127,6 @@
 ;; e.g. -*- org-crypt-key: "e@mail.com" -*-
 (use-package org
   :ensure t
-  :init
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda))
   :config
@@ -449,38 +477,6 @@
   ;; Enables ligature checks globally in all buffers. You can also do it
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
-
-;; init.
-(add-hook 'after-init-hook
-          #'(lambda ()
-              (ido-mode t)
-              (show-paren-mode t)
-              (delete-selection-mode t)
-
-              ;; bind list buffer to ibuffer
-              (defalias 'list-buffers 'ibuffer)
-
-              ;; set window style
-              (menu-bar-mode -1)
-              (scroll-bar-mode -1)
-              (tool-bar-mode -1)
-
-              ;; set font face
-              (set-face-attribute 'default nil
-                                  :font "Cascadia Code"
-                                  :height 160
-                                  :inherit nil
-                                  :weight 'normal)
-
-              (setq-default
-               initial-frame-alist '((fullscreen . maximized))
-               indent-tabs-mode nil
-               default-terminal-coding-system 'utf-8
-               select-active-regions nil)
-
-              ;; start emacs server
-              (server-start)
-              (pinentry-start)))
 
 ;; modern grep setting
 (require 'grep)
