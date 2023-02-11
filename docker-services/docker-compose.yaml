@@ -1,7 +1,5 @@
-version: "3.8"
-
-# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
+  # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
   # pihole:
   #   container_name: pihole
   #   image: pihole/pihole:latest
@@ -13,8 +11,8 @@ services:
   #   # - 443:443/tcp
   #   environment:
   #     TZ: "Australia/Sydney"
-  #     ServerIP: "192.168.86.103"
-  #     ServerIPv6: "2001:8003:267c:8700:b46b:2a68:47f0:e2f1"
+  #     ServerIP: {}
+  #     ServerIPv6: {}
   #     VIRTUAL_HOST: "pi.hole"
   #     DNSSEC: "true"
   #     # WEBPASSWORD: 'set a secure password here or it will be random'
@@ -27,36 +25,36 @@ services:
   #   - 1.1.1.1
   #   restart: unless-stopped
 
-  # trojan:
-  #   container_name: trojan
-  #   image: trojangfw/trojan:latest
-  #   ports:
-  #   - "1080:1080"
+  # transmission:
+  #   container_name: transmission
+  #   image: ghcr.io/linuxserver/transmission:latest
+  #   environment:
+  #     PUID: 1000
+  #     PGID: 1000
+  #     TZ: "Australia/Sydney"
+  #     TRANSMISSION_WEB_HOME: "/combustion-release/" #optional
+  #     USER: user #optional
+  #     PASS: pass #optional
   #   volumes:
-  #   - "./trojan-config/jp1-1.config.json:/config/config.json"
+  #     - "transmission:/config"
+  #   ports:
+  #     - 9091:9091
   #   restart: unless-stopped
 
-  transmission:
-    container_name: transmission
-    image: ghcr.io/linuxserver/transmission:latest
+  portainer:
+    image: portainer/portainer-ce:latest
+    command:
+      - --http-enabled
     environment:
-      PUID: 1000
-      PGID: 1000
       TZ: "Australia/Sydney"
-      TRANSMISSION_WEB_HOME: "/combustion-release/" #optional
-      USER: user #optional
-      PASS: pass #optional
     volumes:
-    - "transmission:/config"
-    - "/mnt/g/transmission/downloads:/downloads"
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
     ports:
-    - 9091:9091
-    # - 51413:51413/tcp
-    # - 51413:51413/udp
-    restart: unless-stopped
+      - 9000:9000
+    restart: always
 
 volumes:
   # pihole:
-  # dnsmasq:
-  transmission:
-
+  # transmission:
+  portainer:
