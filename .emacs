@@ -323,7 +323,10 @@
   :ensure t
   :config
   (use-package dockerfile-mode
-    :ensure t))
+    :ensure t)
+  :custom
+  (docker-compose-command "docker compose")
+  )
 
 (use-package flycheck
   :ensure t
