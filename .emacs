@@ -42,6 +42,9 @@
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
+(unless (fboundp 'use-package)
+  (package-install 'use-package))
+
 (require 'use-package)
 (use-package use-package-ensure-system-package
   :ensure t)
@@ -125,14 +128,15 @@
 ;; for org-mod
 ;; use mode-line to select gpg key
 ;; e.g. -*- org-crypt-key: "e@mail.com" -*-
+(use-package ob-http
+  :ensure t)
+
 (use-package org
   :ensure t
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda))
   :config
   (require 'org-tempo)
-  (use-package ob-http
-    :ensure t)
   :custom
   (org-capture-templates
    '(("a" "Agenda" entry (file+headline "~/org/agenda.org" "Agenda")
