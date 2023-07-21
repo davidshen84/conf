@@ -228,7 +228,8 @@
                              (lsp-deferred))))
 
 (use-package lsp-mode
-  :bind-keymap ("C-c C-l" . lsp-command-map)
+  :defer t
+  :bind-keymap ("C-c s" . lsp-command-map)
   :commands (lsp lsp-deferred)
 
   :custom
@@ -252,9 +253,6 @@
   (use-package lsp-treemacs
     :ensure t
     :commands lsp-treemacs-errors-list)
-
-  (use-package yasnippet
-    :ensure t)
 
   :hook
   (lsp-after-open . lsp-origami-try-enable)
