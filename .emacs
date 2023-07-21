@@ -289,13 +289,15 @@
               ([remap xref-find-apropos] . helm-lsp-workspace-symbol)))
   (use-package helm-ag
     :ensure t)
+  (use-package helm-xref
+    :ensure t)
 
   :bind (:map global-map
-              ("M-x" . helm-M-x)
-              ("C-x C-f" . helm-find-files)
-              ("C-x b" . helm-buffers-list)
-              ("C-s" . helm-occur)
-              ("M-y" . helm-show-kill-ring))
+              ("C-x C-f" . #'helm-find-files)
+              ("M-x" . #'helm-M-x)
+              ("C-x b" . #'helm-mini)
+              ("C-s" . #'helm-occur)
+              ("M-y" . #'helm-show-kill-ring))
   )
 
 (use-package iedit
