@@ -81,18 +81,6 @@
 (global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 
-;; for Windows environment
-;; update Emacs' execution path to be the same as Windows'.
-;; (if (string-equal system-type "windows-nt")
-;;     (progn (setenv "PATH"
-;;                    (mapconcat 'identity
-;;                               `("c:\\windows",
-;;                                 (getenv "PATH"))
-;;                               ";"))
-;;            (setq exec-path (split-string
-;;                             (replace-regexp-in-string "\\\\" "/" (getenv "PATH"))
-;;                             ";"))))
-
 ;; customize emacs path
 (setq exec-path (append exec-path '("~/.local/bin")))
 
@@ -120,23 +108,22 @@
   :ensure t)
 
 ;; EasyPG
-(require 'epa-file)
-(epa-file-enable)
 ;; use mode-line to select the gpg key
 ;; e.g. -*- epa-file-encrypt-to: ("e@mail.com") -*-
+(require 'epa-file)
+(epa-file-enable)
 
 ;; for org-mod
 ;; use mode-line to select gpg key
 ;; e.g. -*- org-crypt-key: "e@mail.com" -*-
-(use-package ob-http
-  :ensure t)
-
 (use-package org
   :ensure t
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda))
+
   :config
   (require 'org-tempo)
+
   :custom
   (org-capture-templates
    '(("a" "Agenda" entry (file+headline "~/org/agenda.org" "Agenda")
