@@ -111,7 +111,6 @@
 ;; use mode-line to select the gpg key
 ;; e.g. -*- epa-file-encrypt-to: ("e@mail.com") -*-
 (require 'epa-file)
-(epa-file-enable)
 
 ;; for org-mod
 ;; use mode-line to select gpg key
