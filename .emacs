@@ -56,7 +56,15 @@
               ("C-c n" . #'my/new-scratch-buffer)
               ("C-c d" . #'my/duplicate-line)
               ("C-x O" . #'my/previous-window)
-              ("C-x M-o" . ace-select-window)))
+              ("C-x M-o" . #'ace-select-window)
+              ("C-c g" . #'goto-line)
+              ("C-c l" . #'display-line-numbers-mode)
+              ("C-c b" . #'whitespace-mode)
+              ("S-C-<left>" . #'shrink-window-horizontally)
+              ("S-C-<right>" . #'enlarge-window-horizontally)
+              ;; ("C-c /" . #'comment-region)
+              ;; ("C-c M-/" . #'uncomment-region)
+              ))
 
 (use-package dirtree
   :ensure t)
@@ -71,15 +79,6 @@
   (solarized-use-variable-pitch nil)
   :config
   (load-theme 'solarized-dark t))
-
-;; my key binding
-(global-set-key (kbd "C-c g") 'goto-line)
-(global-set-key (kbd "C-c l") 'linum-mode)
-(global-set-key (kbd "C-c b") 'whitespace-mode)
-;; (global-set-key (kbd "C-c /") 'comment-region)
-;; (global-set-key (kbd "C-c M-/") 'uncomment-region)
-(global-set-key (kbd "S-C-<left>") 'shrink-window-horizontally)
-(global-set-key (kbd "S-C-<right>") 'enlarge-window-horizontally)
 
 ;; customize emacs path
 (setq exec-path (append exec-path '("~/.local/bin")))
@@ -243,6 +242,9 @@
   :hook
   (lsp-after-open . lsp-origami-try-enable)
   (lsp-mode . yas-minor-mode))
+
+(add-hook 'csharp-mode (lambda()
+                         (lsp-deferred)))
 
 (use-package origami
   :bind (:map origami-mode-map

@@ -12,7 +12,8 @@
   (editorconfig-mode t)
   (highlight-indentation-current-column-mode t)
   (hs-minor-mode t)
-  (linum-mode t)
+  (display-line-numbers-mode t)
+  (column-number-mode t)
   (eldoc-mode t)
   (setq truncate-lines t))
 
