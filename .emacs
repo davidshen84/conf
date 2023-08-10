@@ -240,8 +240,7 @@
     :commands lsp-treemacs-errors-list)
 
   :hook
-  (lsp-after-open . lsp-origami-try-enable)
-  (lsp-mode . yas-minor-mode))
+  (lsp-after-open . lsp-origami-try-enable))
 
 (add-hook 'csharp-mode (lambda()
                          (lsp-deferred)))
