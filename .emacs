@@ -121,6 +121,8 @@
 
   :config
   (require 'org-tempo)
+  (require 'org-crypt)
+  (org-crypt-use-before-save-magic)
 
   :custom
   (org-capture-templates
@@ -128,7 +130,8 @@
       "* Agenda %?\n  %i\n  %a")
      ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
       "* %?\n")))
-  (org-crypt-use-before-save-magic)
+
+  (org-tags-exclude-from-inheritance '("crypt"))
   (org-agenda-files (list "~/org/agenda.org"))
   (org-log-done 'time)
   (org-src-fontify-natively t)
@@ -438,7 +441,9 @@
 (use-package pinentry
   :ensure t
   :custom
-  (epa-pinentry-mode 'loopback))
+  (epa-pinentry-mode 'loopback)
+  :config
+  (pinentry-start))
 
 (use-package ediff
   :custom
