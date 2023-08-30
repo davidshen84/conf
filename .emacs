@@ -86,8 +86,8 @@
 ;; magit settings
 (use-package magit
   :ensure t
-  :bind (:map global-map
-              ("C-x g" . magit-status)))
+  :custom
+  (magit-define-global-key-bindings 'recommended))
 
 ;; ibuffer settings
 (add-hook 'ibuffer-mode-hook
