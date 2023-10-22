@@ -495,10 +495,17 @@
   (indent-bars-no-descend-string t)
   (indent-bars-treesit-ignore-blank-lines-types '("module"))
   (indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
-				      list list_comprehension
-				      dictionary dictionary_comprehension
-				      parenthesized_expression subscript)))
-  :hook ((python-base-mode yaml-mode) . indent-bars-mode))
+                                      list list_comprehension
+                                      dictionary dictionary_comprehension
+                                      parenthesized_expression subscript))))
+
+(use-package vterm
+  ;; needs cmake and libtool-bin
+  :ensure t)
+
+(use-package kubel
+  :after (vterm)
+  :config (kubel-vterm-setup))
 
 (provide '.emacs)
 
