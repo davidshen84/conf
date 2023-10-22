@@ -487,6 +487,19 @@
 (grep-apply-setting 'grep-use-null-device nil)
 (setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
 
+(use-package indent-bars
+  ;; https://github.com/jdtsmith/indent-bars
+  :load-path "~/github/indent-bars/"
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-no-descend-string t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  (indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
+				      list list_comprehension
+				      dictionary dictionary_comprehension
+				      parenthesized_expression subscript)))
+  :hook ((python-base-mode yaml-mode) . indent-bars-mode))
+
 (provide '.emacs)
 
 ;;; .emacs ends here

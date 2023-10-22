@@ -9,12 +9,12 @@
 
   ;; make it `interactive' so it can be invoked anywhere
   (interactive)
-  (editorconfig-mode t)
-  (highlight-indentation-current-column-mode t)
-  (hs-minor-mode t)
-  (display-line-numbers-mode t)
   (column-number-mode t)
+  (display-line-numbers-mode t)
+  (editorconfig-mode t)
   (eldoc-mode t)
+  (hs-minor-mode t)
+  (indent-bars-mode t)
   (setq truncate-lines t))
 
 (add-hook 'prog-mode-hook 'my/prog)
