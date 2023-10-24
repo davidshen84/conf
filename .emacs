@@ -504,8 +504,13 @@
   :ensure t)
 
 (use-package kubel
+  :ensure true
   :after (vterm)
   :config (kubel-vterm-setup))
+
+(use-package eat
+  :ensure true
+  :hook (eshell-mode . eat-eshell-mode))
 
 (provide '.emacs)
 
