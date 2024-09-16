@@ -490,6 +490,8 @@
 (use-package indent-bars
   ;; https://github.com/jdtsmith/indent-bars
   :load-path "~/github/indent-bars/"
+  :config
+  (require 'indent-bars-ts)
   :custom
   (indent-bars-treesit-support t)
   (indent-bars-no-descend-string t)
