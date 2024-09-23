@@ -13,7 +13,7 @@
   (display-line-numbers-mode t)
   (editorconfig-mode t)
   (eldoc-mode t)
-  (hs-minor-mode t)
+  ;; (hs-minor-mode t)
   (indent-bars-mode t)
   (setq truncate-lines t))
 
