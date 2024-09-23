@@ -83,6 +83,24 @@
 ;; customize emacs path
 (setq exec-path (append exec-path '("~/.local/bin")))
 
+(use-package tree-sitter
+  :ensure t
+  :config
+  (global-tree-sitter-mode))
+
+(use-package tree-sitter-langs
+  :ensure t)
+
+(use-package ts-fold
+  ;; git@github.com:emacs-tree-sitter/ts-fold.git
+  :load-path "~/github/ts-fold"
+  :init
+  (use-package fringe-helper
+    :ensure t)
+  :config
+  (require 'ts-fold-indicators)
+  (global-ts-fold-mode))
+
 ;; magit settings
 (use-package magit
   :ensure t
@@ -213,40 +231,7 @@
   :hook (typescript-mode . (lambda ()
                              (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
                              (setq prettier-js-command (string-trim (shell-command-to-string "npx which prettier")))
-                             (lsp-deferred))))
-
-(use-package lsp-mode
-  :defer t
-  :bind-keymap ("C-c s" . lsp-command-map)
-  :commands (lsp lsp-deferred)
-
-  :custom
-  (lsp-enable-file-watchers nil)
-  (lsp-enable-links nil)
-  (lsp-enable-which-key-integration t)
-  (lsp-origami-mode t)
-  ;; (lsp-eslint-server-command
-  ;;  '("node"
-  ;;    "/path/to/local/eslintServer.js"
-  ;;    "--stdio"))
-
-  :config
-  (use-package lsp-ui
-    :ensure t
-    :commands lsp-ui-mode)
-
-  (use-package lsp-origami
-    :ensure t)
-
-  (use-package lsp-treemacs
-    :ensure t
-    :commands lsp-treemacs-errors-list)
-
-  :hook
-  (lsp-after-open . lsp-origami-try-enable))
-
-(add-hook 'csharp-mode (lambda()
-                         (lsp-deferred)))
+                             )))
 
 (use-package origami
   :bind (:map origami-mode-map
@@ -286,10 +271,6 @@
            ("C-." . helm-company)
            :map company-active-map
            ("C-." . helm-company)))
-  (use-package helm-lsp
-  :ensure t
-  :bind (:map lsp-mode-map
-              ([remap xref-find-apropos] . helm-lsp-workspace-symbol)))
   (use-package helm-ag
     :ensure t)
   (use-package helm-xref
@@ -300,8 +281,7 @@
               ("M-x" . #'helm-M-x)
               ("C-x b" . #'helm-mini)
               ("C-s" . #'helm-occur)
-              ("M-y" . #'helm-show-kill-ring))
-  )
+              ("M-y" . #'helm-show-kill-ring)))
 
 (use-package iedit
   :ensure t)
@@ -309,8 +289,7 @@
 (use-package esh-autosuggest
   :ensure t
   :config
-  (add-to-list 'company-backends 'esh-autosuggest)
-  )
+  (add-to-list 'company-backends 'esh-autosuggest))
 
 (use-package ag
   :ensure t)
@@ -324,8 +303,7 @@
   (use-package dockerfile-mode
     :ensure t)
   :custom
-  (docker-compose-command "docker compose")
-  )
+  (docker-compose-command "docker compose"))
 
 (use-package flycheck
   :ensure t
