@@ -99,7 +99,8 @@
     :ensure t)
   :config
   (require 'ts-fold-indicators)
-  (global-ts-fold-mode))
+  (global-ts-fold-mode)
+  (global-ts-fold-indicators-mode))
 
 ;; magit settings
 (use-package magit
