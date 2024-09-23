@@ -4,6 +4,7 @@
 
 ;;; Code:
 
+(setq-default warning-minimum-level :error)
 (add-hook 'after-init-hook
           #'(lambda ()
               (ido-mode t)
@@ -26,15 +27,12 @@
                                   :weight 'normal)
 
               (setq-default
-               initial-frame-alist '((fullscreen . maximized))
+               ;; initial-frame-alist '((fullscreen . maximized))
                indent-tabs-mode nil
                default-terminal-coding-system 'utf-8
-               select-active-regions nil)
-
-              ;; start emacs server
-              (server-start)
-              (pinentry-start)))
-
+               select-active-regions nil
+               frame-title-format "%b@WSL")
+              ))
 
 ;; setup elpa package source
 (require 'package)
@@ -57,7 +55,7 @@
               ("C-c d" . #'my/duplicate-line)
               ("C-x O" . #'my/previous-window)
               ("C-x M-o" . #'ace-select-window)
-              ("C-c g" . #'goto-line)
+              ("C-c C-g" . #'goto-line)
               ("C-c l" . #'display-line-numbers-mode)
               ("C-c b" . #'whitespace-mode)
               ("S-C-<left>" . #'shrink-window-horizontally)
@@ -69,16 +67,18 @@
 (use-package dirtree
   :ensure t)
 
-;; (use-package material-theme
-;;   :config
-;;   (enable-theme 'material))
+(cond
+ ((window-system) (use-package solarized-theme
+                    :ensure t
+                    :custom
+                    (solarized-use-variable-pitch nil)
+                    :config
+                    (load-theme 'solarized-dark t)))
 
-(use-package solarized-theme
-  :ensure t
-  :custom
-  (solarized-use-variable-pitch nil)
-  :config
-  (load-theme 'solarized-dark t))
+ ((not (window-system)) (use-package material-theme
+                          :ensure t
+                          :config
+                          (enable-theme 'material))))
 
 ;; customize emacs path
 (setq exec-path (append exec-path '("~/.local/bin")))
@@ -489,6 +489,22 @@
 
 ;;; .emacs ends here
 
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(eat kubel vterm which-key web-mode use-package-ensure-system-package typescript-mode treemacs-projectile treemacs-magit treemacs-icons-dired solarized-theme python-mode prettier-js pinentry password-store ob-http material-theme markdown-preview-mode lsp-ui lsp-treemacs lsp-origami ligature kubernetes k8s-mode json-mode iedit highlight-indentation helm-xref helm-lsp helm-company helm-ag flycheck eslint-fix esh-autosuggest editorconfig dockerfile-mode docker dirtree company-terraform company-prescient all-the-icons ag ack)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars noruntime)
 ;; End:
+(put 'upcase-region 'disabled nil)
