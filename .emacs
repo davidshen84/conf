@@ -62,8 +62,8 @@
               ("C-c b" . #'whitespace-mode)
               ("S-C-<left>" . #'shrink-window-horizontally)
               ("S-C-<right>" . #'enlarge-window-horizontally)
-              ;; ("C-c /" . #'comment-region)
-              ;; ("C-c M-/" . #'uncomment-region)
+              ("<backtab>" . #'ts-fold-toggle)
+              ("C-c <backtab>" . #'ts-fold-open-recursively)
               ))
 
 (use-package dirtree
