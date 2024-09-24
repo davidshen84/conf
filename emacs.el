@@ -22,7 +22,7 @@
               ;; set font face
               (set-face-attribute 'default nil
                                   :font "Cascadia Code"
-                                  :height 160
+                                  :height 180
                                   :inherit nil
                                   :weight 'normal)
 
@@ -39,6 +39,7 @@
 (package-initialize)
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-refresh-contents)
 
 (unless (fboundp 'use-package)
   (package-install 'use-package))
@@ -94,6 +95,7 @@
 (use-package ts-fold
   ;; git@github.com:emacs-tree-sitter/ts-fold.git
   :load-path "~/github/ts-fold"
+  :requires (s)
   :init
   (use-package fringe-helper
     :ensure t)
@@ -218,26 +220,26 @@
   (setq erc-default-port-tls 6697))
 
 ;; for TypeScript
-(use-package typescript-mode
-  :ensure t
-  :mode (("\\.tsx\\'" . typescript-mode))
-  :custom
-  (typescript-indent-level 2)
-  (css-indent-offset 2)
-  :config
-  (use-package eslint-fix
-    :ensure t)
-  (use-package prettier-js
-    :ensure t)
-  :hook (typescript-mode . (lambda ()
-                             (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
-                             (setq prettier-js-command (string-trim (shell-command-to-string "npx which prettier")))
-                             )))
+;; (use-package typescript-mode
+;;   :ensure t
+;;   :mode (("\\.tsx\\'" . typescript-mode))
+;;   :custom
+;;   (typescript-indent-level 2)
+;;   (css-indent-offset 2)
+;;   :config
+;;   (use-package eslint-fix
+;;     :ensure t)
+;;   (use-package prettier-js
+;;     :ensure t)
+;;   :hook (typescript-mode . (lambda ()
+;;                              (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
+;;                              (setq prettier-js-command (string-trim (shell-command-to-string "npx which prettier")))
+;;                              )))
 
-(use-package origami
-  :bind (:map origami-mode-map
-              ("C-c @ C-c" . origami-toggle-node)
-              ("C-c @ C-l" . origami-recursively-toggle-node)))
+;; (use-package origami
+;;   :bind (:map origami-mode-map
+;;               ("C-c @ C-c" . origami-toggle-node)
+;;               ("C-c @ C-l" . origami-recursively-toggle-node)))
 
 (use-package which-key
   :ensure t
@@ -428,11 +430,6 @@
   :custom
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain))
-
-(use-package company-terraform
-  :ensure t
-  :config
-  (company-terraform-init))
 
 (use-package ligature
   :ensure t
