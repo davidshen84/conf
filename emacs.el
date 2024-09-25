@@ -278,9 +278,6 @@
 (use-package ag
   :ensure t)
 
-(use-package dirtree
-  :ensure t)
-
 (use-package highlight-indentation
   :ensure t)
 
