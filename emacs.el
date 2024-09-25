@@ -426,6 +426,11 @@
   :ensure t
   :hook (eshell-mode . eat-eshell-mode))
 
+(use-package emojify
+  :ensure t
+  :config
+  (global-emojify-mode))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
