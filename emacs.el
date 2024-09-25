@@ -65,8 +65,7 @@
               ))
 
 (use-package indent-bars
-  ;; https://github.com/jdtsmith/indent-bars
-  :load-path "~/github/indent-bars/"
+  :ensure t
   :after (s)
   :config
   (require 'indent-bars-ts)
@@ -378,6 +377,13 @@
               ("C-x t M-t" . treemacs-find-tag))
 
   :hook (treemacs-mode . projectile-mode))
+
+(use-package pinentry
+  :ensure t
+  :custom
+  (epa-pinentry-mode 'loopback)
+  :config
+  (pinentry-start))
 
 (use-package ediff
   :custom
