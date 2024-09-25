@@ -36,10 +36,9 @@
 
 ;; setup elpa package source
 (require 'package)
-(package-initialize)
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-refresh-contents)
+(package-initialize)
 
 (unless (fboundp 'use-package)
   (package-install 'use-package))
@@ -65,8 +64,21 @@
               ("C-c <backtab>" . #'ts-fold-open-recursively)
               ))
 
-(use-package dirtree
-  :ensure t)
+(use-package indent-bars
+  ;; https://github.com/jdtsmith/indent-bars
+  :load-path "~/github/indent-bars/"
+  :after (s)
+  :config
+  (require 'indent-bars-ts)
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-no-descend-string t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  (indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
+				      list list_comprehension
+				      dictionary dictionary_comprehension
+				      parenthesized_expression subscript)))
+  :hook ((python-base-mode yaml-mode) . indent-bars-mode))
 
 (cond
  ((window-system) (use-package solarized-theme
@@ -84,6 +96,9 @@
 ;; customize emacs path
 (setq exec-path (append exec-path '("~/.local/bin")))
 
+(use-package dirtree
+  :ensure t)
+
 (use-package tree-sitter
   :ensure t
   :config
@@ -95,7 +110,7 @@
 (use-package ts-fold
   ;; git@github.com:emacs-tree-sitter/ts-fold.git
   :load-path "~/github/ts-fold"
-  :requires (s)
+  :after (s)
   :init
   (use-package fringe-helper
     :ensure t)
@@ -171,11 +186,6 @@
 ;; for LaTeX
 ;; (add-hook 'LaTeX-mode-hook 'company-mode)
 
-;; for html
-(use-package web-mode
-  :ensure t
-  :mode (("\\.html\\'" . web-mode)))
-
 ;; for xml
 (add-hook 'nxml-mode-hook
           #'(lambda ()
@@ -188,18 +198,6 @@
                "<!--"
                sgml-skip-tag-forward
                nil))
-
-;; for c/c++
-;; (use-package clang-format)
-;; (use-package cmake-mode)
-;; (mapc #'(lambda (hook)
-;;           (add-hook hook
-;;                     #'(lambda ()
-;;                         (require 'clang-format)
-;;                         (setq clang-format-style "Google")
-;;                         ;; flycheck
-;;                         (setq flycheck-clang-language-standard "c++11"))))
-;;       '(c-mode-hook c++-mode-hook))
 
 ;; editorconfig settings
 (use-package editorconfig
@@ -218,23 +216,6 @@
   :config
   (setq erc-default-server "irc.au.libera.chat")
   (setq erc-default-port-tls 6697))
-
-;; for TypeScript
-;; (use-package typescript-mode
-;;   :ensure t
-;;   :mode (("\\.tsx\\'" . typescript-mode))
-;;   :custom
-;;   (typescript-indent-level 2)
-;;   (css-indent-offset 2)
-;;   :config
-;;   (use-package eslint-fix
-;;     :ensure t)
-;;   (use-package prettier-js
-;;     :ensure t)
-;;   :hook (typescript-mode . (lambda ()
-;;                              (setq flycheck-javascript-eslint-executable (string-trim (shell-command-to-string "npx which eslint")))
-;;                              (setq prettier-js-command (string-trim (shell-command-to-string "npx which prettier")))
-;;                              )))
 
 ;; (use-package origami
 ;;   :bind (:map origami-mode-map
@@ -300,20 +281,6 @@
 (use-package dirtree
   :ensure t)
 
-(use-package docker
-  :ensure t
-  :config
-  (use-package dockerfile-mode
-    :ensure t)
-  :custom
-  (docker-compose-command "docker compose"))
-
-(use-package flycheck
-  :ensure t
-  :config
-  ;; (global-flycheck-mode)
-  (flycheck-add-mode 'javascript-eslint 'typescript-mode))
-
 (use-package highlight-indentation
   :ensure t)
 
@@ -324,9 +291,6 @@
     :ensure t))
 
 (use-package yaml-mode
-  :ensure t)
-
-(use-package k8s-mode
   :ensure t)
 
 (use-package treemacs
@@ -419,13 +383,6 @@
 
   :hook (treemacs-mode . projectile-mode))
 
-(use-package pinentry
-  :ensure t
-  :custom
-  (epa-pinentry-mode 'loopback)
-  :config
-  (pinentry-start))
-
 (use-package ediff
   :custom
   (ediff-split-window-function 'split-window-horizontally)
@@ -463,21 +420,6 @@
 (grep-apply-setting 'grep-use-null-device nil)
 (setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
 
-(use-package indent-bars
-  ;; https://github.com/jdtsmith/indent-bars
-  :load-path "~/github/indent-bars/"
-  :config
-  (require 'indent-bars-ts)
-  :custom
-  (indent-bars-treesit-support t)
-  (indent-bars-no-descend-string t)
-  (indent-bars-treesit-ignore-blank-lines-types '("module"))
-  (indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
-				      list list_comprehension
-				      dictionary dictionary_comprehension
-				      parenthesized_expression subscript)))
-  :hook ((python-base-mode yaml-mode) . indent-bars-mode))
-
 (use-package eat
   :ensure t
   :hook (eshell-mode . eat-eshell-mode))
@@ -485,21 +427,6 @@
 (provide '.emacs)
 
 ;;; .emacs ends here
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(eat kubel vterm which-key web-mode use-package-ensure-system-package typescript-mode treemacs-projectile treemacs-magit treemacs-icons-dired solarized-theme python-mode prettier-js pinentry password-store ob-http material-theme markdown-preview-mode lsp-ui lsp-treemacs lsp-origami ligature kubernetes k8s-mode json-mode iedit highlight-indentation helm-xref helm-lsp helm-company helm-ag flycheck eslint-fix esh-autosuggest editorconfig dockerfile-mode docker dirtree company-terraform company-prescient all-the-icons ag ack)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars noruntime)
