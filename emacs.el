@@ -148,9 +148,12 @@
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda))
 
+  :init
+  (use-package ob-http)
   :config
   (require 'org-tempo)
   (require 'org-crypt)
+
   (org-crypt-use-before-save-magic)
 
   :custom
