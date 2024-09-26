@@ -47,6 +47,8 @@
 (use-package use-package-ensure-system-package)
 
 (use-package ace-window)
+(use-package xclip)
+
 (use-package my
   :load-path "~/github/conf/lisp"
   :demand t
