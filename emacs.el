@@ -44,9 +44,9 @@
   (package-install 'use-package))
 
 (require 'use-package)
-(use-package use-package-ensure-system-package
-  :ensure t)
+(use-package use-package-ensure-system-package)
 
+(use-package ace-window)
 (use-package my
   :load-path "~/github/conf/lisp"
   :demand t
@@ -54,7 +54,7 @@
               ("C-c n" . #'my/new-scratch-buffer)
               ("C-c d" . #'my/duplicate-line)
               ("C-x O" . #'my/previous-window)
-              ("C-x M-o" . #'ace-select-window)
+              ("M-o" . #'ace-window)
               ("C-c C-g" . #'goto-line)
               ("C-c l" . #'display-line-numbers-mode)
               ("C-c b" . #'whitespace-mode)
@@ -65,7 +65,6 @@
               ))
 
 (use-package indent-bars
-  :ensure t
   :after (s)
   :config
   (require 'indent-bars-ts)
@@ -73,22 +72,20 @@
   (indent-bars-treesit-support t)
   (indent-bars-no-descend-string t)
   (indent-bars-treesit-ignore-blank-lines-types '("module"))
-  (indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
-				      list list_comprehension
-				      dictionary dictionary_comprehension
-				      parenthesized_expression subscript)))
+  ;; (indent-bars-treesit-wrap '((python argument_list parameters ;; for python, as an example
+  ;;                                     list list_comprehension
+  ;;                                     dictionary dictionary_comprehension
+  ;;                                     parenthesized_expression subscript)))
   :hook ((python-base-mode yaml-mode) . indent-bars-mode))
 
 (cond
  ((window-system) (use-package solarized-theme
-                    :ensure t
-                    :custom
-                    (solarized-use-variable-pitch nil)
                     :config
-                    (load-theme 'solarized-dark t)))
+                    (load-theme 'solarized-dark t)
+                    :custom
+                    (solarized-use-variable-pitch nil)))
 
  ((not (window-system)) (use-package material-theme
-                          :ensure t
                           :config
                           (enable-theme 'material))))
 
@@ -96,15 +93,13 @@
 (setq exec-path (append exec-path '("~/.local/bin")))
 
 (use-package dirtree
-  :ensure t)
+  )
 
 (use-package tree-sitter
-  :ensure t
   :config
   (global-tree-sitter-mode))
 
-(use-package tree-sitter-langs
-  :ensure t)
+(use-package tree-sitter-langs)
 
 (use-package ts-fold
   ;; git@github.com:emacs-tree-sitter/ts-fold.git
@@ -112,7 +107,7 @@
   :after (s)
   :init
   (use-package fringe-helper
-    :ensure t)
+    )
   :config
   (require 'ts-fold-indicators)
   (global-ts-fold-mode)
@@ -120,7 +115,6 @@
 
 ;; magit settings
 (use-package magit
-  :ensure t
   :custom
   (magit-define-global-key-bindings 'recommended))
 
@@ -138,8 +132,7 @@
               (setq indent-tabs-mode nil)))
 
 ;; for python
-(use-package python-mode
-  :ensure t)
+(use-package python-mode)
 
 ;; EasyPG
 ;; use mode-line to select the gpg key
@@ -150,7 +143,6 @@
 ;; use mode-line to select gpg key
 ;; e.g. -*- org-crypt-key: "e@mail.com" -*-
 (use-package org
-  :ensure t
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda))
 
@@ -200,7 +192,6 @@
 
 ;; editorconfig settings
 (use-package editorconfig
-  :ensure t
   :custom
   (editorconfig-exclude-modes '(emacs-lisp-mode lisp-mode))
   (editorconfig-get-properties-function 'editorconfig-core-get-properties-hash))
@@ -222,42 +213,36 @@
 ;;               ("C-c @ C-l" . origami-recursively-toggle-node)))
 
 (use-package which-key
-  :ensure t
   :config (which-key-mode))
 
 (use-package json-mode
-  :ensure t
   :mode "\\.json\\'"
   :interpreter "json"
   :custom
   (js-indent-level 2))
 
 (use-package company
-  :ensure t
   :config
   (use-package company-prescient
-    :ensure t
     :config
     (company-prescient-mode))
   (global-company-mode))
 
 (use-package helm
-  :ensure t
   :config
   (use-package all-the-icons
-    :ensure t)
+    )
   (use-package helm-company
     :after (company)
-    :ensure t
     :bind (
            :map company-mode-map
            ("C-." . helm-company)
            :map company-active-map
            ("C-." . helm-company)))
   (use-package helm-ag
-    :ensure t)
+    )
   (use-package helm-xref
-    :ensure t)
+    )
 
   :bind (:map global-map
               ("C-x C-f" . #'helm-find-files)
@@ -267,30 +252,27 @@
               ("M-y" . #'helm-show-kill-ring)))
 
 (use-package iedit
-  :ensure t)
+  )
 
 (use-package esh-autosuggest
-  :ensure t
   :config
   (add-to-list 'company-backends 'esh-autosuggest))
 
 (use-package ag
-  :ensure t)
+  )
 
 (use-package highlight-indentation
-  :ensure t)
+  )
 
 (use-package markdown-mode
-  :ensure t
   :config
   (use-package markdown-preview-mode
-    :ensure t))
+    ))
 
 (use-package yaml-mode
-  :ensure t)
+  )
 
 (use-package treemacs
-  :ensure t
   :defer t
   :init
   (with-eval-after-load 'winum
@@ -350,7 +332,6 @@
      (treemacs-git-mode 'simple)))
 
   (use-package projectile
-    :ensure t
     :defer t
     :bind-keymap ("C-c p" . projectile-command-map)
     :custom
@@ -358,16 +339,14 @@
     (projectile-tags-command "uctags -Re -f \"%s\" %s \"%s\""))
 
   (use-package treemacs-projectile
-    :ensure t)
+    )
 
   (use-package treemacs-icons-dired
-    :after treemacs dired
-    :ensure t
+    :after (treemacs dired)
     :config (treemacs-icons-dired-mode))
 
   (use-package treemacs-magit
-    :after treemacs magit
-    :ensure t)
+    :after (treemacs magit))
 
   :bind (:map global-map
               ("C-x t 1"   . treemacs-delete-other-windows)
@@ -379,7 +358,6 @@
   :hook (treemacs-mode . projectile-mode))
 
 (use-package pinentry
-  :ensure t
   :custom
   (epa-pinentry-mode 'loopback)
   :config
@@ -391,8 +369,6 @@
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package ligature
-  :ensure t
-  ;; :load-path "path-to-ligature-repo"
   :config
   ;; Enable the "www" ligature in every possible major mode
   (ligature-set-ligatures 't '("www"))
@@ -423,11 +399,9 @@
 (setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
 
 (use-package eat
-  :ensure t
   :hook (eshell-mode . eat-eshell-mode))
 
 (use-package emojify
-  :ensure t
   :config
   (global-emojify-mode))
 
