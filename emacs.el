@@ -410,6 +410,11 @@
   :config
   (global-emojify-mode))
 
+(use-package docker
+  :ensure t
+  :config
+  (setq docker-compose-command "docker compose"))
+
 (provide '.emacs)
 
 ;;; .emacs ends here
