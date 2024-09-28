@@ -4,10 +4,9 @@
 
 ;;; Code:
 
-(setq-default warning-minimum-level :error)
 (add-hook 'after-init-hook
           #'(lambda ()
-              (ido-mode t)
+              (fido-vertical-mode t)
               (show-paren-mode t)
               (delete-selection-mode t)
 
@@ -57,7 +56,7 @@
 (require 'package)
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
+;; (package-initialize)
 
 (unless (fboundp 'use-package)
   (package-install 'use-package))
@@ -67,23 +66,32 @@
 
 (use-package ace-window)
 (use-package xclip)
+(use-package dirtree)
+(use-package iedit)
+(use-package ag)
+(use-package highlight-indentation)
+(use-package yaml-mode)
 
 (use-package my
   :load-path "~/github/conf/lisp"
   :demand t
-  :bind (:map global-map
-              ("C-c n" . #'my/new-scratch-buffer)
-              ("C-c d" . #'my/duplicate-line)
-              ("C-x O" . #'my/previous-window)
-              ("M-o" . #'ace-window)
-              ("C-c C-g" . #'goto-line)
-              ("C-c l" . #'display-line-numbers-mode)
-              ("C-c b" . #'whitespace-mode)
-              ("S-C-<left>" . #'shrink-window-horizontally)
-              ("S-C-<right>" . #'enlarge-window-horizontally)
-              ("<backtab>" . #'ts-fold-toggle)
-              ("C-c <backtab>" . #'ts-fold-open-recursively)
-              ))
+  :bind (
+         ("C-c n" . #'my/new-scratch-buffer)
+         ("C-c d" . #'my/duplicate-line)
+         ("C-x O" . #'my/previous-window)
+         ("M-o" . #'ace-window)
+         ("C-c C-g" . #'goto-line)
+         ("C-c l" . #'display-line-numbers-mode)
+         ("C-c b" . #'whitespace-mode)
+         ("S-C-<left>" . #'shrink-window-horizontally)
+         ("S-C-<right>" . #'enlarge-window-horizontally)
+         ("<backtab>" . #'ts-fold-toggle)
+         ("C-c <backtab>" . #'ts-fold-open-recursively)
+
+         :map hs-minor-mode-map
+         ( "<backtab>" . #'hs-toggle-hiding))
+  )
+
 
 (use-package indent-bars
   :after (s)
@@ -99,22 +107,21 @@
   ;;                                     parenthesized_expression subscript)))
   :hook ((python-base-mode yaml-mode) . indent-bars-mode))
 
-(cond
- ((window-system) (use-package solarized-theme
-                    :config
-                    (load-theme 'solarized-dark t)
-                    :custom
-                    (solarized-use-variable-pitch nil)))
+(use-package solarized-theme
+  :if (window-system)
+  :config
+  (load-theme 'solarized-dark t)
+  :custom
+  (solarized-use-variable-pitch nil))
 
- ((not (window-system)) (use-package material-theme
-                          :config
-                          (enable-theme 'material))))
+(use-package material-theme
+  :if (not window-system)
+  :config
+  (enable-theme 'material))
 
 ;; customize emacs path
 (setq exec-path (append exec-path '("~/.local/bin")))
 
-(use-package dirtree
-  )
 
 (use-package tree-sitter
   :config
@@ -127,8 +134,7 @@
   :load-path "~/github/ts-fold"
   :after (s)
   :init
-  (use-package fringe-helper
-    )
+  (use-package fringe-helper)
   :config
   (require 'ts-fold-indicators)
   (global-ts-fold-mode)
@@ -231,11 +237,6 @@
   (setq erc-default-server "irc.au.libera.chat")
   (setq erc-default-port-tls 6697))
 
-;; (use-package origami
-;;   :bind (:map origami-mode-map
-;;               ("C-c @ C-c" . origami-toggle-node)
-;;               ("C-c @ C-l" . origami-recursively-toggle-node)))
-
 (use-package which-key
   :config (which-key-mode))
 
@@ -252,49 +253,29 @@
     (company-prescient-mode))
   (global-company-mode))
 
-(use-package helm
+(use-package marginalia
   :config
-  (use-package all-the-icons
-    )
-  (use-package helm-company
-    :after (company)
-    :bind (
-           :map company-mode-map
-           ("C-." . helm-company)
-           :map company-active-map
-           ("C-." . helm-company)))
-  (use-package helm-ag
-    )
-  (use-package helm-xref
-    )
+  (marginalia-mode t))
 
+(use-package consult
+  :config
+  (recentf-mode t)
   :bind (:map global-map
-              ("C-x C-f" . #'helm-find-files)
-              ("M-x" . #'helm-M-x)
-              ("C-x b" . #'helm-mini)
-              ("C-s" . #'helm-occur)
-              ("M-y" . #'helm-show-kill-ring)))
-
-(use-package iedit
-  )
+              ("C-x c f" . #'consult-find)
+              ("C-x c r" . #'consult-recent-file)
+              ("C-x c g" . #'consult-ripgrep)
+              ("C-x c b" . #'consult-bookmark)
+              ("C-x b" . #'consult-buffer)
+              ("C-x c s" . #'consult-line)))
 
 (use-package esh-autosuggest
   :config
   (add-to-list 'company-backends 'esh-autosuggest))
 
-(use-package ag
-  )
-
-(use-package highlight-indentation
-  )
 
 (use-package markdown-mode
   :config
-  (use-package markdown-preview-mode
-    ))
-
-(use-package yaml-mode
-  )
+  (use-package markdown-preview-mode))
 
 (use-package treemacs
   :defer t
@@ -418,9 +399,9 @@
   (global-ligature-mode t))
 
 ;; modern grep setting
-(require 'grep)
-(grep-apply-setting 'grep-use-null-device nil)
-(setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
+;; (require 'grep)
+;; (grep-apply-setting 'grep-use-null-device nil)
+;; (setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
 
 (use-package eat
   :hook (eshell-mode . eat-eshell-mode))
@@ -438,7 +419,8 @@
 
 ;;; .emacs ends here
 
+
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars noruntime)
 ;; End:
-(put 'upcase-region 'disabled nil)
+
