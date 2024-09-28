@@ -71,6 +71,7 @@
 (use-package ag)
 (use-package highlight-indentation)
 (use-package yaml-mode)
+(use-package python-mode)
 
 (use-package my
   :load-path "~/github/conf/lisp"
@@ -86,12 +87,12 @@
          ("S-C-<left>" . #'shrink-window-horizontally)
          ("S-C-<right>" . #'enlarge-window-horizontally)
          ("<backtab>" . #'ts-fold-toggle)
-         ("C-c <backtab>" . #'ts-fold-open-recursively)
+         ("C-c <backtab>" . #'ts-fold-open-recursively)))
 
-         :map hs-minor-mode-map
-         ( "<backtab>" . #'hs-toggle-hiding))
-  )
-
+;; `hs-minor-mode'
+(add-hook 'hs-minor-mode-hook
+          #'(lambda ()
+              (define-key hs-minor-mode-map (kbd "<backtab>") #'hs-toggle-hiding)))
 
 (use-package indent-bars
   :after (s)
@@ -101,10 +102,6 @@
   (indent-bars-treesit-support t)
   (indent-bars-no-descend-string t)
   (indent-bars-treesit-ignore-blank-lines-types '("module"))
-  ;; (indent-bars-treesit-wrap '((python argument_list parameters ;; for python, as an example
-  ;;                                     list list_comprehension
-  ;;                                     dictionary dictionary_comprehension
-  ;;                                     parenthesized_expression subscript)))
   :hook ((python-base-mode yaml-mode) . indent-bars-mode))
 
 (use-package solarized-theme
@@ -122,12 +119,11 @@
 ;; customize emacs path
 (setq exec-path (append exec-path '("~/.local/bin")))
 
-
+;; `tree-sitter'
 (use-package tree-sitter
   :config
+  (use-package tree-sitter-langs)
   (global-tree-sitter-mode))
-
-(use-package tree-sitter-langs)
 
 (use-package ts-fold
   ;; git@github.com:emacs-tree-sitter/ts-fold.git
@@ -140,12 +136,11 @@
   (global-ts-fold-mode)
   (global-ts-fold-indicators-mode))
 
-;; magit settings
 (use-package magit
   :custom
   (magit-define-global-key-bindings 'recommended))
 
-;; ibuffer settings
+;; `ibuffer'
 (add-hook 'ibuffer-mode-hook
           #'(lambda ()
               (ibuffer-switch-to-saved-filter-groups "default")))
@@ -153,13 +148,10 @@
                                      ("magit" (name . "magit"))
                                      ("erc" (mode . erc-mode)))))
 
-;; for lisp
+;; `lisp'
 (add-hook 'emacs-lisp-mode-hook
           #'(lambda ()
               (setq indent-tabs-mode nil)))
-
-;; for python
-(use-package python-mode)
 
 ;; EasyPG
 ;; use mode-line to select the gpg key
@@ -207,7 +199,7 @@
 ;; for LaTeX
 ;; (add-hook 'LaTeX-mode-hook 'company-mode)
 
-;; for xml
+;; `xml'
 (add-hook 'nxml-mode-hook
           #'(lambda ()
               (require 'sgml-mode)))
@@ -220,13 +212,11 @@
                sgml-skip-tag-forward
                nil))
 
-;; editorconfig settings
 (use-package editorconfig
   :custom
   (editorconfig-exclude-modes '(emacs-lisp-mode lisp-mode))
   (editorconfig-get-properties-function 'editorconfig-core-get-properties-hash))
 
-;; erc settings
 (use-package erc
   :ensure t
   :custom
