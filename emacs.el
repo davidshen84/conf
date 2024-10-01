@@ -251,7 +251,7 @@
   :config
   (recentf-mode t)
   :bind (:map global-map
-              ("C-x c f" . #'consult-find)
+              ;; ("C-x c f" . #'consult-find)
               ("C-x c r" . #'consult-recent-file)
               ("C-x c g" . #'consult-ripgrep)
               ("C-x c b" . #'consult-bookmark)
