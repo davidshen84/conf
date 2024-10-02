@@ -19,13 +19,6 @@
               (scroll-bar-mode -1)
               (tool-bar-mode -1)
 
-              ;; set font face
-              (set-face-attribute 'default nil
-                                  :font "Cascadia Code"
-                                  :height 180
-                                  :inherit nil
-                                  :weight 'normal)
-
               (setq-default
                ;; initial-frame-alist '((fullscreen . maximized))
                indent-tabs-mode nil
@@ -41,11 +34,12 @@
           #'(lambda (frame)
               (select-frame frame)
               (if (window-system)
-                  (set-face-attribute 'default nil
-                                      :font "Cascadia Code"
-                                      :height 160
-                                      :inherit nil
-                                      :weight 'normal))
+                  (set-face-attribute
+                   'default nil
+                   :font "Cascadia Code"
+                   :height 160
+                   :inherit nil
+                   :weight 'normal))
 
               (use-package solarized-theme
                 :if (window-system)
