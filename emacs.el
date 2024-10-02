@@ -30,9 +30,34 @@
                ;; initial-frame-alist '((fullscreen . maximized))
                indent-tabs-mode nil
                default-terminal-coding-system 'utf-8
-               select-active-regions nil
-               frame-title-format "%b@WSL")
+               select-active-regions nil)
+
+              ;; start emacs server
+              (server-start)
+              ;; (pinentry-start)
               ))
+
+(add-hook 'after-make-frame-functions
+          #'(lambda (frame)
+              (select-frame frame)
+              (if (window-system)
+                  (set-face-attribute 'default nil
+                                      :font "Cascadia Code"
+                                      :height 160
+                                      :inherit nil
+                                      :weight 'normal))
+
+              (use-package solarized-theme
+                :if (window-system)
+                :custom
+                (solarized-use-variable-pitch t)
+                :config
+                (load-theme 'solarized-dark t))
+
+              (use-package material-theme
+                :if (not window-system)
+                :config
+                (load-theme 'material t))))
 
 ;; setup elpa package source
 (require 'package)
