@@ -6,6 +6,7 @@
 
 (add-hook 'after-init-hook
           #'(lambda ()
+              (ido-mode t)
               (fido-vertical-mode t)
               (show-paren-mode t)
               (delete-selection-mode t)
@@ -76,18 +77,18 @@
 (use-package my
   :load-path "~/github/conf/lisp"
   :demand t
-  :bind (
-         ("C-c n" . #'my/new-scratch-buffer)
-         ("C-c d" . #'my/duplicate-line)
-         ("C-x O" . #'my/previous-window)
-         ("M-o" . #'ace-window)
-         ("C-c C-g" . #'goto-line)
-         ("C-c l" . #'display-line-numbers-mode)
-         ("C-c b" . #'whitespace-mode)
-         ("S-C-<left>" . #'shrink-window-horizontally)
-         ("S-C-<right>" . #'enlarge-window-horizontally)
-         ("<backtab>" . #'ts-fold-toggle)
-         ("C-c <backtab>" . #'ts-fold-open-recursively)))
+  :bind (:map global-map
+              ("C-c n" . #'my/new-scratch-buffer)
+              ("C-c d" . #'my/duplicate-line)
+              ("C-x O" . #'my/previous-window)
+              ("M-o" . #'ace-window)
+              ("C-c C-g" . #'goto-line)
+              ("C-c l" . #'display-line-numbers-mode)
+              ("C-c b" . #'whitespace-mode)
+              ("S-C-<left>" . #'shrink-window-horizontally)
+              ("S-C-<right>" . #'enlarge-window-horizontally)
+              ("<backtab>" . #'ts-fold-toggle)
+              ("C-c <backtab>" . #'ts-fold-open-recursively)))
 
 ;; `hs-minor-mode'
 (add-hook 'hs-minor-mode-hook
@@ -146,7 +147,8 @@
               (ibuffer-switch-to-saved-filter-groups "default")))
 (setq ibuffer-saved-filter-groups '(("default"
                                      ("magit" (name . "magit"))
-                                     ("erc" (mode . erc-mode)))))
+                                     ;; ("erc" (mode . erc-mode))
+                                     )))
 
 ;; `lisp'
 (add-hook 'emacs-lisp-mode-hook
@@ -333,8 +335,7 @@
     (projectile-switch-project-action #'projectile-dired)
     (projectile-tags-command "uctags -Re -f \"%s\" %s \"%s\""))
 
-  (use-package treemacs-projectile
-    )
+  (use-package treemacs-projectile)
 
   (use-package treemacs-icons-dired
     :after (treemacs dired)
@@ -344,11 +345,13 @@
     :after (treemacs magit))
 
   :bind (:map global-map
-              ("C-x t 1"   . treemacs-delete-other-windows)
-              ("C-x t t"   . treemacs)
-              ("C-x t B"   . treemacs-bookmark)
-              ("C-x t C-t" . treemacs-find-file)
-              ("C-x t M-t" . treemacs-find-tag))
+              ("C-c t 0"   . treemacs-select-window)
+              ("C-c t 1"   . treemacs-delete-other-windows)
+              ("C-c t t"   . treemacs)
+              ("C-c t b"   . treemacs-bookmark)
+              ("C-c t C-t" . treemacs-find-file)
+              ("C-c t M-t" . treemacs-find-tag)
+              )
 
   :hook (treemacs-mode . projectile-mode))
 
