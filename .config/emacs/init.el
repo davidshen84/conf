@@ -4,54 +4,6 @@
 
 ;;; Code:
 
-(add-hook 'after-init-hook
-          #'(lambda ()
-              (ido-mode t)
-              (fido-vertical-mode t)
-              (show-paren-mode t)
-              (delete-selection-mode t)
-
-              ;; bind list buffer to ibuffer
-              (defalias 'list-buffers 'ibuffer)
-
-              ;; set window style
-              (menu-bar-mode -1)
-              (scroll-bar-mode -1)
-              (tool-bar-mode -1)
-
-              (setq-default
-               ;; initial-frame-alist '((fullscreen . maximized))
-               indent-tabs-mode nil
-               default-terminal-coding-system 'utf-8
-               select-active-regions nil)
-
-              ;; start emacs server
-              (server-start)
-              ;; (pinentry-start)
-              ))
-
-(add-hook 'after-make-frame-functions
-          #'(lambda (frame)
-              (select-frame frame)
-              (if (window-system)
-                  (set-face-attribute
-                   'default nil
-                   :font "Cascadia Code"
-                   :height 160
-                   :inherit nil
-                   :weight 'normal))
-
-              (use-package solarized-theme
-                :if (window-system)
-                :custom
-                (solarized-use-variable-pitch t)
-                :config
-                (load-theme 'solarized-dark t))
-
-              (use-package material-theme
-                :if (not window-system)
-                :config
-                (load-theme 'material t))))
 
 ;; setup elpa package source
 (require 'package)
@@ -65,30 +17,20 @@
 (require 'use-package)
 (use-package use-package-ensure-system-package)
 
+(use-package auth-source
+  :custom
+  (auth-sources '("~/.authinfo.gpg")))
+
 (use-package ace-window)
-(use-package xclip)
+(use-package xclip
+  :config
+  (xclip-mode t))
 (use-package dirtree)
 (use-package iedit)
-(use-package ag)
+;; (use-package ag)
 (use-package highlight-indentation)
 (use-package yaml-mode)
 (use-package python-mode)
-
-(use-package my
-  :load-path "~/github/conf/lisp"
-  :demand t
-  :bind (:map global-map
-              ("C-c n" . #'my/new-scratch-buffer)
-              ("C-c d" . #'my/duplicate-line)
-              ("C-x O" . #'my/previous-window)
-              ("M-o" . #'ace-window)
-              ("C-c C-g" . #'goto-line)
-              ("C-c l" . #'display-line-numbers-mode)
-              ("C-c b" . #'whitespace-mode)
-              ("S-C-<left>" . #'shrink-window-horizontally)
-              ("S-C-<right>" . #'enlarge-window-horizontally)
-              ("<backtab>" . #'ts-fold-toggle)
-              ("C-c <backtab>" . #'ts-fold-open-recursively)))
 
 ;; `hs-minor-mode'
 (add-hook 'hs-minor-mode-hook
@@ -100,10 +42,11 @@
   :config
   (require 'indent-bars-ts)
   :custom
+  ;; (indent-tabs-mode nil)
   (indent-bars-treesit-support t)
   (indent-bars-no-descend-string t)
   (indent-bars-treesit-ignore-blank-lines-types '("module"))
-  :hook ((python-base-mode yaml-mode) . indent-bars-mode))
+  :hook ((python-base-mode yaml-mode json-mode) . indent-bars-mode))
 
 (use-package solarized-theme
   :if (window-system)
@@ -242,6 +185,7 @@
   :config
   (use-package company-prescient
     :config
+    (add-to-list 'completion-styles 'prescient)
     (company-prescient-mode))
   (global-company-mode))
 
@@ -260,9 +204,9 @@
               ("C-x b" . #'consult-buffer)
               ("C-x c s" . #'consult-line)))
 
-(use-package esh-autosuggest
-  :config
-  (add-to-list 'company-backends 'esh-autosuggest))
+;; (use-package esh-autosuggest
+;;   :config
+;;   (add-to-list 'company-backends 'esh-autosuggest))
 
 
 (use-package markdown-mode
@@ -271,9 +215,6 @@
 
 (use-package treemacs
   :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
   :config
   (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
         treemacs-deferred-git-apply-delay      0.5
@@ -350,8 +291,7 @@
               ("C-c t t"   . treemacs)
               ("C-c t b"   . treemacs-bookmark)
               ("C-c t C-t" . treemacs-find-file)
-              ("C-c t M-t" . treemacs-find-tag)
-              )
+              ("C-c t M-t" . treemacs-find-tag))
 
   :hook (treemacs-mode . projectile-mode))
 
@@ -404,16 +344,92 @@
   (global-emojify-mode))
 
 (use-package docker
-  :ensure t
   :config
   (setq docker-compose-command "docker compose"))
+
+(add-hook 'after-init-hook
+          #'(lambda ()
+              ;; (ido-mode t)
+              (fido-vertical-mode t)
+              (show-paren-mode t)
+              (delete-selection-mode t)
+
+              ;; bind list buffer to ibuffer
+              (defalias 'list-buffers 'ibuffer)
+
+              ;; set window style
+              (menu-bar-mode -1)
+              (scroll-bar-mode -1)
+              (tool-bar-mode -1)
+
+              (setq-default
+               ;; initial-frame-alist '((fullscreen . maximized))
+               default-terminal-coding-system 'utf-8
+               select-active-regions nil
+               )
+
+              ;; start emacs server
+              (server-start)
+              ))
+
+(add-hook 'after-make-frame-functions
+          #'(lambda (frame)
+              (select-frame frame)
+              (if (window-system)
+                  (set-face-attribute
+                   'default nil
+                   :font "Cascadia Code"
+                   :height 160
+                   :inherit nil
+                   :weight 'normal))
+
+              (use-package solarized-theme
+                :if (window-system)
+                :custom
+                (solarized-use-variable-pitch t)
+                :config
+                (load-theme 'solarized-dark t))
+
+              (use-package material-theme
+                :if (not window-system)
+                :config
+                (load-theme 'material t))))
+
+(use-package my
+  :load-path "~/github/conf/lisp"
+  :requires (ace-window ts-fold)
+  :bind (:map global-map
+              ("C-c n" . #'my/new-scratch-buffer)
+              ("C-c d" . #'my/duplicate-line)
+              ("C-x O" . #'my/previous-window)
+              ("M-o" . #'ace-window)
+              ("C-c C-g" . #'goto-line)
+              ("C-c l" . #'display-line-numbers-mode)
+              ("C-c b" . #'whitespace-mode)
+              ("S-C-<left>" . #'shrink-window-horizontally)
+              ("S-C-<right>" . #'enlarge-window-horizontally)
+              ("<backtab>" . #'ts-fold-toggle)
+              ("C-c <backtab>" . #'ts-fold-open-recursively)))
+
 
 (provide '.emacs)
 
 ;;; .emacs ends here
 
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(json-mode eat markdown-preview-mode emojify ligature pinentry markdown-mode marginalia company-prescient company which-key ob-http python-mode yaml-mode highlight-indentation iedit magit fringe-helper material-theme indent-bars editorconfig-generate editorconfig consult docker xclip tree-sitter-langs dirtree ace-window)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars noruntime)
 ;; End:
-

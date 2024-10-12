@@ -15,3 +15,11 @@ All the required packages will be automatically pulled by the `use-package` pack
     Local Variables:
     eval: (face-remap-add-relative 'default :family "AR PL KaitiM GB" :foundry "ARPH")
     End:
+
+## stow
+
+Set the current folder to the repository root.
+
+```sh
+stow -v -S -d .  -t ~/.config/ .config
+```
