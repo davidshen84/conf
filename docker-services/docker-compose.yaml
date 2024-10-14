@@ -42,7 +42,7 @@ services:
   #   restart: unless-stopped
 
   portainer:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce:2.21.3-alpine
     command:
       - --http-enabled
     environment:
