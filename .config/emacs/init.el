@@ -286,12 +286,12 @@
     :after (treemacs magit))
 
   :bind (:map global-map
-              ("C-c t 0"   . treemacs-select-window)
-              ("C-c t 1"   . treemacs-delete-other-windows)
-              ("C-c t t"   . treemacs)
-              ("C-c t b"   . treemacs-bookmark)
-              ("C-c t C-t" . treemacs-find-file)
-              ("C-c t M-t" . treemacs-find-tag))
+              ("C-c t t"   . #'treemacs-select-window)
+              ("C-c t 1"   . #'treemacs-delete-other-windows)
+              ("C-c t TAB"   . #'treemacs)
+              ("C-c t b"   . #'treemacs-bookmark)
+              ("C-c t C-s" . #'treemacs-find-file)
+              ("C-c t M-t" . #'treemacs-find-tag))
 
   :hook (treemacs-mode . projectile-mode))
 
@@ -430,6 +430,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars noruntime)
 ;; End:
