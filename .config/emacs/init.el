@@ -337,6 +337,10 @@
 ;; (setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
 
 (use-package eat
+  :config
+  (custom-set-variables
+   '(eat-semi-char-non-bound-keys
+     (add-to-list 'eat-semi-char-non-bound-keys [?\e ?o])))
   :hook (eshell-mode . eat-eshell-mode))
 
 (use-package emojify
