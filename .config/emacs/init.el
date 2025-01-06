@@ -61,7 +61,7 @@
   (enable-theme 'material))
 
 ;; customize emacs path
-(setq exec-path (append exec-path '("~/.local/bin")))
+(setq exec-path (append exec-path (expand-file-name "~/.local/bin")))
 
 ;; `tree-sitter'
 (use-package tree-sitter
