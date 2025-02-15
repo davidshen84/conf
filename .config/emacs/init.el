@@ -112,6 +112,9 @@
 
   :init
   (use-package ob-http)
+  :custom
+  (org-src-preserve-indentation nil)
+  (org-edit-src-content-indentation 0)
   :config
   (require 'org-tempo)
   (require 'org-crypt)
@@ -373,7 +376,8 @@
                )
 
               ;; start emacs server
-              (server-start)
+              (unless (server-running-p)
+                (server-start))
               ))
 
 (add-hook 'after-make-frame-functions
