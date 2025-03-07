@@ -88,10 +88,12 @@
 (add-hook 'ibuffer-mode-hook
           #'(lambda ()
               (ibuffer-switch-to-saved-filter-groups "default")))
-(setq ibuffer-saved-filter-groups '(("default"
-                                     ("magit" (name . "magit"))
-                                     ;; ("erc" (mode . erc-mode))
-                                     )))
+(setq ibuffer-saved-filter-groups
+      '(("default"
+         ("magit" (name . "magit"))
+         ;; ("erc" (mode . erc-mode))
+         ("ssh" (filename . "/ssh.*"))
+         )))
 
 ;; `lisp'
 (add-hook 'emacs-lisp-mode-hook
@@ -344,7 +346,8 @@
   (custom-set-variables
    '(eat-semi-char-non-bound-keys
      (add-to-list 'eat-semi-char-non-bound-keys [?\e ?o])))
-  :hook (eshell-mode . eat-eshell-mode))
+  :hook (eshell-mode . eat-eshell-mode)
+  )
 
 (use-package emojify
   :config
