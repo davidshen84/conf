@@ -31,6 +31,7 @@
 (use-package highlight-indentation)
 (use-package yaml-mode)
 (use-package python-mode)
+(setq dired-listing-switches "-alh")
 
 ;; `hs-minor-mode'
 (add-hook 'hs-minor-mode-hook
