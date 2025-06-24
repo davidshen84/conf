@@ -210,10 +210,14 @@
               ("C-x b" . #'consult-buffer)
               ("C-x c s" . #'consult-line)))
 
-;; (use-package esh-autosuggest
-;;   :config
-;;   (add-to-list 'company-backends 'esh-autosuggest))
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (eshell/addpath
+               (expand-file-name "~/.local/bin"))))
 
+(use-package esh-autosuggest
+  :config
+  (add-to-list 'company-backends 'esh-autosuggest))
 
 (use-package markdown-mode
   :config
