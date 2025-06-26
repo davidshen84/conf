@@ -30,7 +30,7 @@
 ;; (use-package ag)
 (use-package highlight-indentation)
 (use-package yaml-mode)
-(use-package python-mode)
+;; (use-package python-mode)
 (setq dired-listing-switches "-alh")
 
 ;; `hs-minor-mode'
