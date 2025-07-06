@@ -30,7 +30,6 @@
 ;; (use-package ag)
 (use-package highlight-indentation)
 (use-package yaml-mode)
-;; (use-package python-mode)
 (setq dired-listing-switches "-alh")
 
 ;; `hs-minor-mode'
@@ -60,9 +59,6 @@
   :if (not window-system)
   :config
   (enable-theme 'material))
-
-;; customize emacs path
-(setq exec-path (append exec-path (expand-file-name "~/.local/bin")))
 
 ;; `tree-sitter'
 (use-package tree-sitter
@@ -298,7 +294,6 @@
   :bind (:map global-map
               ("C-c t t"   . #'treemacs-select-window)
               ("C-c t 1"   . #'treemacs-delete-other-windows)
-              ("C-c t TAB"   . #'treemacs)
               ("C-c t b"   . #'treemacs-bookmark)
               ("C-c t C-s" . #'treemacs-find-file)
               ("C-c t M-t" . #'treemacs-find-tag))
