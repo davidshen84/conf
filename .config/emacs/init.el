@@ -4,32 +4,81 @@
 
 ;;; Code:
 
+(add-hook 'after-init-hook
+          #'(lambda ()
+              (show-paren-mode t)
+              (delete-selection-mode t)
+
+              ;; set window style
+              (menu-bar-mode -1)
+              (scroll-bar-mode -1)
+              (tool-bar-mode -1)
+
+              (setq-default
+               ;; initial-frame-alist '((fullscreen . maximized))
+               indent-tabs-mode nil
+               default-terminal-coding-system 'utf-8
+               select-active-regions nil)
+
+              ;; start emacs server
+              (server-start)
+              ;; (pinentry-start)
+              ))
+
+(add-hook 'after-make-frame-functions
+          #'(lambda (frame)
+              (select-frame frame)
+              (if (window-system)
+                  (set-face-attribute
+                   'default nil
+                   :font "Cascadia Code"
+                   :height 160
+                   :inherit nil
+                   :weight 'normal))
+
+              (use-package solarized-theme
+                :if (window-system)
+                :custom
+                (solarized-use-variable-pitch t)
+                :config
+                (load-theme 'solarized-dark t))
+
+              (use-package material-theme
+                :if (not window-system)
+                :config
+                (load-theme 'material t))))
 
 ;; setup elpa package source
 (require 'package)
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;; (package-initialize)
 
 (unless (fboundp 'use-package)
   (package-install 'use-package))
 
 (require 'use-package)
-(use-package use-package-ensure-system-package)
+(use-package use-package-ensure-system-package
+  :ensure t)
 
 (use-package auth-source
   :custom
   (auth-sources '("~/.authinfo.gpg")))
-
-(use-package ace-window)
+(use-package ace-window
+  :ensure t)
 (use-package xclip
+  :ensure t
   :config
   (xclip-mode t))
-(use-package dirtree)
-(use-package iedit)
-;; (use-package ag)
-(use-package highlight-indentation)
-(use-package yaml-mode)
+(use-package dirtree
+  :ensure t)
+(use-package iedit
+  :ensure t)
+(use-package ag
+  :ensure t)
+(use-package highlight-indentation
+  :ensure t)
+(use-package yaml-mode
+  :ensure t)
 (setq dired-listing-switches "-alh")
 
 ;; `hs-minor-mode'
@@ -38,6 +87,7 @@
               (define-key hs-minor-mode-map (kbd "<backtab>") #'hs-toggle-hiding)))
 
 (use-package indent-bars
+  :ensure t
   :after (s)
   :config
   (require 'indent-bars-ts)
@@ -49,6 +99,7 @@
   :hook ((python-base-mode yaml-mode json-mode) . indent-bars-mode))
 
 (use-package solarized-theme
+  :ensure t
   :if (window-system)
   :config
   (load-theme 'solarized-dark t)
@@ -56,28 +107,25 @@
   (solarized-use-variable-pitch nil))
 
 (use-package material-theme
+  :ensure t
   :if (not window-system)
   :config
   (enable-theme 'material))
 
 ;; `tree-sitter'
 (use-package tree-sitter
+  :ensure t
   :config
-  (use-package tree-sitter-langs)
-  (global-tree-sitter-mode))
-
-(use-package ts-fold
-  ;; git@github.com:emacs-tree-sitter/ts-fold.git
-  :load-path "~/github/ts-fold"
-  :after (s)
-  :init
-  (use-package fringe-helper)
-  :config
-  (require 'ts-fold-indicators)
-  (global-ts-fold-mode)
-  (global-ts-fold-indicators-mode))
+  (use-package tree-sitter-langs
+    :ensure t)
+  (use-package treesit-fold
+    :ensure t)
+  (global-tree-sitter-mode)
+  (global-treesit-fold-mode)
+  (global-treesit-fold-indicators-mode))
 
 (use-package magit
+  :ensure t
   :custom
   (magit-define-global-key-bindings 'recommended))
 
@@ -110,7 +158,8 @@
          ("C-c a" . org-agenda))
 
   :init
-  (use-package ob-http)
+  (use-package ob-http
+    :ensure t)
   :custom
   (org-src-preserve-indentation nil)
   (org-edit-src-content-indentation 0)
@@ -160,6 +209,7 @@
                nil))
 
 (use-package editorconfig
+  :ensure t
   :custom
   (editorconfig-exclude-modes '(emacs-lisp-mode lisp-mode))
   (editorconfig-get-properties-function 'editorconfig-core-get-properties-hash))
@@ -175,27 +225,73 @@
   (setq erc-default-port-tls 6697))
 
 (use-package which-key
+  :ensure t
   :config (which-key-mode))
 
 (use-package json-mode
+  :ensure t
   :mode "\\.json\\'"
   :interpreter "json"
   :custom
   (js-indent-level 2))
 
 (use-package company
+  :ensure t
   :config
   (use-package company-prescient
+    :ensure t
     :config
     (add-to-list 'completion-styles 'prescient)
     (company-prescient-mode))
   (global-company-mode))
 
 (use-package marginalia
+  :ensure t
   :config
   (marginalia-mode t))
 
+;; `vertico' - vertical completion UI
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode t)
+  :custom
+  (vertico-count 13)
+  (vertico-quick-insert nil)
+  (vertico-resize t)
+  (vertico-cycle t)
+  :bind (:map vertico-map
+              ;; Group navigation
+              ("C-M-n" . vertico-next-group)
+              ("C-M-p" . vertico-previous-group)
+
+              ;; Directory navigation
+              ("RET" . vertico-directory-enter)
+              ("DEL" . vertico-directory-delete-char)
+              ("M-DEL" . vertico-directory-delete-word)))
+
+;; `orderless' - flexible completion matching
+(use-package orderless
+  :ensure t
+  :custom
+  ;; Use orderless for completion styles
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  ;; Use basic style for file paths (better for tramp)
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+;; `savehist' - persist minibuffer history
+(use-package savehist
+  :init
+  (savehist-mode t)
+  :custom
+  ;; Save additional variables
+  (savehist-additional-variables '(search-ring regexp-search-ring)))
+
 (use-package consult
+  :ensure t
+  ;; :custom
+
   :config
   (recentf-mode t)
   :bind (:map global-map
@@ -204,7 +300,8 @@
               ("C-x c g" . #'consult-ripgrep)
               ("C-x c b" . #'consult-bookmark)
               ("C-x b" . #'consult-buffer)
-              ("C-x c s" . #'consult-line)))
+              ("C-x c s" . #'consult-line))
+  )
 
 (add-hook 'eshell-mode-hook
           #'(lambda ()
@@ -212,14 +309,19 @@
                (expand-file-name "~/.local/bin"))))
 
 (use-package esh-autosuggest
+  :ensure t
   :config
   (add-to-list 'company-backends 'esh-autosuggest))
 
 (use-package markdown-mode
+  :ensure t
   :config
-  (use-package markdown-preview-mode))
+  (use-package markdown-preview-mode
+    :ensure t))
+
 
 (use-package treemacs
+  :ensure t
   :defer t
   :config
   (setq treemacs-collapse-dirs                 (if treemacs-python-executable 3 0)
@@ -276,19 +378,23 @@
      (treemacs-git-mode 'simple)))
 
   (use-package projectile
+    :ensure t
     :defer t
     :bind-keymap ("C-c p" . projectile-command-map)
     :custom
     (projectile-switch-project-action #'projectile-dired)
     (projectile-tags-command "uctags -Re -f \"%s\" %s \"%s\""))
 
-  (use-package treemacs-projectile)
+  (use-package treemacs-projectile
+    :ensure t)
 
   (use-package treemacs-icons-dired
+    :ensure t
     :after (treemacs dired)
     :config (treemacs-icons-dired-mode))
 
   (use-package treemacs-magit
+    :ensure t
     :after (treemacs magit))
 
   :bind (:map global-map
@@ -312,6 +418,7 @@
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package ligature
+  :ensure t
   :config
   ;; Enable the "www" ligature in every possible major mode
   (ligature-set-ligatures 't '("www"))
@@ -342,6 +449,7 @@
 ;; (setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
 
 (use-package eat
+  :ensure t
   :config
   (custom-set-variables
    '(eat-semi-char-non-bound-keys
@@ -350,6 +458,7 @@
   )
 
 (use-package emojify
+  :ensure t
   :config
   (global-emojify-mode))
 
