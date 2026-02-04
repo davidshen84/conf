@@ -64,7 +64,10 @@
   :custom
   (auth-sources '("~/.authinfo.gpg")))
 (use-package ace-window
-  :ensure t)
+  :ensure t
+  :bind (:map global-map
+              ("M-o" . #'ace-window)))
+
 (use-package xclip
   :ensure t
   :config
@@ -80,6 +83,21 @@
 (use-package yaml-mode
   :ensure t)
 (setq dired-listing-switches "-alh")
+
+(use-package my
+  :load-path "~/github/conf/lisp"
+  :demand t
+  :bind (:map global-map
+              ("C-c n" . #'my/new-scratch-buffer)
+              ("C-c d" . #'my/duplicate-line)
+              ("C-x O" . #'my/previous-window)
+              ("C-c C-g" . #'goto-line)
+              ("C-c l" . #'display-line-numbers-mode)
+              ("C-c b" . #'whitespace-mode)
+              ("S-C-<left>" . #'shrink-window-horizontally)
+              ("S-C-<right>" . #'enlarge-window-horizontally)
+              ("<backtab>" . #'treesit-fold-toggle)
+	      ))
 
 ;; `hs-minor-mode'
 (add-hook 'hs-minor-mode-hook
@@ -150,20 +168,17 @@
 ;; e.g. -*- epa-file-encrypt-to: ("e@mail.com") -*-
 (require 'epa-file)
 
-;; for org-mod
+;; `org-mode'
 ;; use mode-line to select gpg key
 ;; e.g. -*- org-crypt-key: "e@mail.com" -*-
 (use-package org
-  :bind (("C-c c" . org-capture)
-         ("C-c a" . org-agenda))
-
-  :init
-  (use-package ob-http
-    :ensure t)
+  ;; :init
   :custom
   (org-src-preserve-indentation nil)
   (org-edit-src-content-indentation 0)
   :config
+  (use-package ob-http
+    :ensure t)
   (require 'org-tempo)
   (require 'org-crypt)
 
@@ -190,7 +205,10 @@
      (http . t)
      ;; add more languages
      ))
-  (auto-fill-mode t))
+  (auto-fill-mode t)
+  :bind (:map global-map
+              ("C-c c" . org-capture)
+              ("C-c a" . org-agenda)))
 
 ;; for LaTeX
 ;; (add-hook 'LaTeX-mode-hook 'company-mode)
