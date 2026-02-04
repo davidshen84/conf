@@ -8,6 +8,7 @@
           #'(lambda ()
               (show-paren-mode t)
               (delete-selection-mode t)
+              (defalias 'list-buffers 'ibuffer)
 
               ;; set window style
               (menu-bar-mode -1)
