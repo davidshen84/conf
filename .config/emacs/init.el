@@ -31,7 +31,7 @@
                   (progn
                     (set-face-attribute
                      'default nil
-                     :font "CaskaydiaCoveNerdFont"
+                     :font "CaskaydiaMonoNerdFont"
                      :height 160
                      :inherit nil
                      :weight 'normal)
