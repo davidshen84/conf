@@ -163,7 +163,6 @@
      (http . t)
      ;; add more languages
      ))
-  :hook (org-mode . auto-fill-mode)
   :config
   (use-package ob-http
     :ensure t)
