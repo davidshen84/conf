@@ -16,50 +16,39 @@
               (tool-bar-mode -1)
 
               (setq-default
-               ;; initial-frame-alist '((fullscreen . maximized))
-               indent-tabs-mode nil
                default-terminal-coding-system 'utf-8
                select-active-regions nil)
 
               ;; start emacs server
-              (server-start)
-              ;; (pinentry-start)
+              (unless (server-running-p)
+                (server-start))
               ))
 
 (add-hook 'after-make-frame-functions
           #'(lambda (frame)
               (select-frame frame)
               (if (window-system)
-                  (set-face-attribute
-                   'default nil
-                   :font "Cascadia Code"
-                   :height 160
-                   :inherit nil
-                   :weight 'normal))
+                  (progn
+                    (set-face-attribute
+                     'default nil
+                     :font "CaskaydiaCoveNerdFont"
+                     :height 160
+                     :inherit nil
+                     :weight 'normal)
+                    (load-theme 'solarized-dark t))
 
-              (use-package solarized-theme
-                :if (window-system)
-                :custom
-                (solarized-use-variable-pitch t)
-                :config
-                (load-theme 'solarized-dark t))
-
-              (use-package material-theme
-                :if (not window-system)
-                :config
-                (load-theme 'material t))))
+                (load-theme 'material t)
+                )
+              ))
 
 ;; setup elpa package source
 (require 'package)
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-(unless (fboundp 'use-package)
-  (package-install 'use-package))
+(package-initialize)
 
-(require 'use-package)
-(use-package use-package-ensure-system-package
-  :ensure t)
+(setq dired-listing-switches "-alh")
 
 (use-package auth-source
   :custom
@@ -68,7 +57,6 @@
   :ensure t
   :bind (:map global-map
               ("M-o" . #'ace-window)))
-
 (use-package xclip
   :ensure t
   :config
@@ -77,28 +65,14 @@
   :ensure t)
 (use-package iedit
   :ensure t)
-(use-package ag
-  :ensure t)
 (use-package highlight-indentation
   :ensure t)
 (use-package yaml-mode
   :ensure t)
-(setq dired-listing-switches "-alh")
-
-(use-package my
-  :load-path "~/github/conf/lisp"
-  :demand t
-  :bind (:map global-map
-              ("C-c n" . #'my/new-scratch-buffer)
-              ("C-c d" . #'my/duplicate-line)
-              ("C-x O" . #'my/previous-window)
-              ("C-c C-g" . #'goto-line)
-              ("C-c l" . #'display-line-numbers-mode)
-              ("C-c b" . #'whitespace-mode)
-              ("S-C-<left>" . #'shrink-window-horizontally)
-              ("S-C-<right>" . #'enlarge-window-horizontally)
-              ("<backtab>" . #'treesit-fold-toggle)
-	      ))
+(use-package json-mode
+  :ensure t
+  :custom
+  (js-indent-level 2))
 
 ;; `hs-minor-mode'
 (add-hook 'hs-minor-mode-hook
@@ -120,16 +94,12 @@
 (use-package solarized-theme
   :ensure t
   :if (window-system)
-  :config
-  (load-theme 'solarized-dark t)
   :custom
   (solarized-use-variable-pitch nil))
 
 (use-package material-theme
   :ensure t
-  :if (not window-system)
-  :config
-  (enable-theme 'material))
+  :if (not window-system))
 
 ;; `tree-sitter'
 (use-package tree-sitter
@@ -155,7 +125,7 @@
 (setq ibuffer-saved-filter-groups
       '(("default"
          ("magit" (name . "magit"))
-         ;; ("erc" (mode . erc-mode))
+         ("erc" (mode . erc-mode))
          ("ssh" (filename . "/ssh.*"))
          )))
 
@@ -164,7 +134,7 @@
           #'(lambda ()
               (setq indent-tabs-mode nil)))
 
-;; EasyPG
+;; `EasyPG'
 ;; use mode-line to select the gpg key
 ;; e.g. -*- epa-file-encrypt-to: ("e@mail.com") -*-
 (require 'epa-file)
@@ -173,25 +143,14 @@
 ;; use mode-line to select gpg key
 ;; e.g. -*- org-crypt-key: "e@mail.com" -*-
 (use-package org
-  ;; :init
   :custom
   (org-src-preserve-indentation nil)
   (org-edit-src-content-indentation 0)
-  :config
-  (use-package ob-http
-    :ensure t)
-  (require 'org-tempo)
-  (require 'org-crypt)
-
-  (org-crypt-use-before-save-magic)
-
-  :custom
   (org-capture-templates
    '(("a" "Agenda" entry (file+headline "~/org/agenda.org" "Agenda")
       "* Agenda %?\n  %i\n  %a")
      ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
       "* %?\n")))
-
   (org-tags-exclude-from-inheritance '("crypt"))
   (org-agenda-files (list "~/org/agenda.org"))
   (org-log-done 'time)
@@ -206,13 +165,16 @@
      (http . t)
      ;; add more languages
      ))
-  (auto-fill-mode t)
+  :hook (org-mode . auto-fill-mode)
+  :config
+  (use-package ob-http
+    :ensure t)
+  (require 'org-tempo)
+  (require 'org-crypt)
+  (org-crypt-use-before-save-magic)
   :bind (:map global-map
-              ("C-c c" . org-capture)
-              ("C-c a" . org-agenda)))
-
-;; for LaTeX
-;; (add-hook 'LaTeX-mode-hook 'company-mode)
+              ("C-c o c" . org-capture)
+              ("C-c o a" . org-agenda)))
 
 ;; `xml'
 (add-hook 'nxml-mode-hook
@@ -246,13 +208,6 @@
 (use-package which-key
   :ensure t
   :config (which-key-mode))
-
-(use-package json-mode
-  :ensure t
-  :mode "\\.json\\'"
-  :interpreter "json"
-  :custom
-  (js-indent-level 2))
 
 (use-package company
   :ensure t
@@ -314,12 +269,12 @@
   :config
   (recentf-mode t)
   :bind (:map global-map
-              ;; ("C-x c f" . #'consult-find)
-              ("C-x c r" . #'consult-recent-file)
-              ("C-x c g" . #'consult-ripgrep)
-              ("C-x c b" . #'consult-bookmark)
               ("C-x b" . #'consult-buffer)
-              ("C-x c s" . #'consult-line))
+              ("C-c c b" . #'consult-bookmark)
+              ("C-c c f" . #'consult-find)
+              ("C-c c g" . #'consult-ripgrep)
+              ("C-c c l" . #'consult-line))
+              ("C-c c r" . #'consult-recent-file)
   )
 
 (add-hook 'eshell-mode-hook
@@ -477,11 +432,6 @@
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
 
-;; modern grep setting
-;; (require 'grep)
-;; (grep-apply-setting 'grep-use-null-device nil)
-;; (setq grep-find-command "find . -type f -exec grep -nHi \"{}\" \";\"")
-
 (use-package eat
   :ensure t
   :config
@@ -500,71 +450,20 @@
   :config
   (setq docker-compose-command "docker compose"))
 
-(add-hook 'after-init-hook
-          #'(lambda ()
-              ;; (ido-mode t)
-              (fido-vertical-mode t)
-              (show-paren-mode t)
-              (delete-selection-mode t)
-
-              ;; bind list buffer to ibuffer
-              (defalias 'list-buffers 'ibuffer)
-
-              ;; set window style
-              (menu-bar-mode -1)
-              (scroll-bar-mode -1)
-              (tool-bar-mode -1)
-
-              (setq-default
-               ;; initial-frame-alist '((fullscreen . maximized))
-               default-terminal-coding-system 'utf-8
-               select-active-regions nil
-               )
-
-              ;; start emacs server
-              (unless (server-running-p)
-                (server-start))
-              ))
-
-(add-hook 'after-make-frame-functions
-          #'(lambda (frame)
-              (select-frame frame)
-              (if (window-system)
-                  (set-face-attribute
-                   'default nil
-                   :font "Cascadia Code"
-                   :height 160
-                   :inherit nil
-                   :weight 'normal))
-
-              (use-package solarized-theme
-                :if (window-system)
-                :custom
-                (solarized-use-variable-pitch t)
-                :config
-                (load-theme 'solarized-dark t))
-
-              (use-package material-theme
-                :if (not window-system)
-                :config
-                (load-theme 'material t))))
-
 (use-package my
   :load-path "~/github/conf/lisp"
-  :requires (ace-window ts-fold)
+  :demand t
   :bind (:map global-map
               ("C-c n" . #'my/new-scratch-buffer)
               ("C-c d" . #'my/duplicate-line)
               ("C-x O" . #'my/previous-window)
-              ("M-o" . #'ace-window)
               ("C-c C-g" . #'goto-line)
               ("C-c l" . #'display-line-numbers-mode)
               ("C-c b" . #'whitespace-mode)
               ("S-C-<left>" . #'shrink-window-horizontally)
               ("S-C-<right>" . #'enlarge-window-horizontally)
-              ("<backtab>" . #'ts-fold-toggle)
-              ("C-c <backtab>" . #'ts-fold-open-recursively)))
-
+              ("<backtab>" . #'treesit-fold-toggle)
+	      ))
 
 (provide '.emacs)
 
@@ -576,8 +475,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(json-mode eat markdown-preview-mode emojify ligature pinentry markdown-mode marginalia company-prescient company which-key ob-http python-mode yaml-mode highlight-indentation iedit magit fringe-helper material-theme indent-bars editorconfig-generate editorconfig consult docker xclip tree-sitter-langs dirtree ace-window)))
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
