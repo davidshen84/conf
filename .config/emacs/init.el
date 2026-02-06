@@ -31,22 +31,20 @@
                   (progn
                     (set-face-attribute
                      'default nil
-                     :font "CaskaydiaMonoNerdFont"
-                     :height 160
+                     :font "CaskaydiaCoveNerdFont"
+                     :height 137
                      :inherit nil
                      :weight 'normal)
                     (load-theme 'solarized-dark t))
 
-                (load-theme 'material t)
-                )
-              ))
+                (load-theme 'material t))))
 
 ;; setup elpa package source
 (require 'package)
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-
-(package-initialize)
+(unless package--initialized
+  (package-initialize))
 
 (setq dired-listing-switches "-alh")
 
@@ -198,12 +196,11 @@
 (use-package erc
   :ensure t
   :custom
-  ;; (erc-default-server "irc.libera.chat")
+  (erc-default-server "irc.libera.chat")
+  ;; (erc-default-server "irc.au.libera.chat")
+  (erc-default-port-tls 6697)
   (erc-nick "davidshen84")
-  (erc-prompt-for-password nil)
-  :config
-  (setq erc-default-server "irc.au.libera.chat")
-  (setq erc-default-port-tls 6697))
+  (erc-prompt-for-password nil))
 
 (use-package which-key
   :ensure t
@@ -221,7 +218,7 @@
 
 (use-package marginalia
   :ensure t
-  :config
+  :init
   (marginalia-mode t))
 
 ;; `vertico' - vertical completion UI
@@ -274,8 +271,7 @@
               ("C-c c f" . #'consult-find)
               ("C-c c g" . #'consult-ripgrep)
               ("C-c c l" . #'consult-line))
-              ("C-c c r" . #'consult-recent-file)
-  )
+              ("C-c c r" . #'consult-recent-file))
 
 (add-hook 'eshell-mode-hook
           #'(lambda ()
@@ -292,7 +288,6 @@
   :config
   (use-package markdown-preview-mode
     :ensure t))
-
 
 (use-package treemacs
   :ensure t
@@ -468,7 +463,6 @@
 (provide '.emacs)
 
 ;;; .emacs ends here
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
