@@ -4,7 +4,8 @@ My *nix configuration repository. 😊
 
 ## Emacs Setup
 
-All the required packages will be automatically pulled by the `use-package` package
+All the required packages will be automatically pulled by the
+`use-package` package
 
 ### fix zsh with tramp
 
@@ -18,8 +19,18 @@ All the required packages will be automatically pulled by the `use-package` pack
 
 ## stow
 
+This tool creates symbol links for files and directories in the
+*PACKAGE* at the *TARGET* location. This makes setting up personal
+configurations easy.
+
 Set the current folder to the repository root.
 
 ```sh
-stow -v -S -d .  -t ~/.config/ .config
+stow --verbose --dir . --target ~/ --stow home
+```
+
+## ustow
+
+```sh
+stow --verbose --dir . --target ~/ --delete home
 ```
