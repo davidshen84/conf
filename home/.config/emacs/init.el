@@ -377,8 +377,6 @@
 
 (use-package pinentry
   :ensure t
-  :init
-  (pinentry-start)
   :custom
   (epa-pinentry-mode 'loopback))
 
