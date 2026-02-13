@@ -48,9 +48,10 @@
 
 (setq dired-listing-switches "-alh")
 
-(use-package auth-source
-  :custom
-  (auth-sources '("~/.authinfo.gpg")))
+;; (use-package auth-source
+;;   :custom
+;;   (auth-sources '("~/.authinfo.gpg")))
+
 (use-package ace-window
   :ensure t
   :bind (:map global-map
@@ -375,10 +376,11 @@
   :hook (treemacs-mode . projectile-mode))
 
 (use-package pinentry
+  :ensure t
+  :init
+  (pinentry-start)
   :custom
-  (epa-pinentry-mode 'loopback)
-  :config
-  (pinentry-start))
+  (epa-pinentry-mode 'loopback))
 
 (use-package ediff
   :custom
@@ -441,6 +443,7 @@
   (global-emojify-mode))
 
 (use-package docker
+  :ensure t
   :config
   (setq docker-compose-command "docker compose"))
 

@@ -1,155 +1,65 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH="$HOME/.krew/bin:$HOME/.dotnet/tools:$HOME/go/bin/:$HOME/.local/bin:/snap/bin:$PATH:"
+export ZSH="$HOME/.oh-my-zsh"
 
-# Path to your oh-my-zsh installation.
-export ZSH="/home/dshen/.oh-my-zsh"
-
-export XDG_DATA_DIRS=/usr/local/share/:/usr/share/
-export GNOME_KEYRING_CONTROL=""
-export GNOME_KEYRING_DEFAULT_CONTROL=""
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="random"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    colored-man-pages
     colorize
-    command-not-found
-    docker
-    docker-compose
     emacs
     emoji
     emotty
+    eza
     fzf
-    gh
     git
+    k9s
     kubectl
     kubectx
-    sudo
+    ng
+    systemd
     themes
     tmux
-    ubuntu
+    ufw
+    uv
     z
-    zsh-interactive-cd
+    zsh-autosuggestions
+    zsh-interactive-cd  
+    zsh-navigation-tools
+    zsh-syntax-highlighting
 )
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
+# Initialize zsh completion system
+autoload -Uz compinit
+compinit
+
+# Modern completion settings
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' auto-description 'always'
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=* r:|=*' 'l:|=* r:|=*'
+
+fpath+=/usr/share/zsh/site-functions/
+
+ZSH_THEME="agnoster"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=238'
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
-alias ls="eza"
-alias cat="batcat"
 
-# export MANPATH="/usr/local/man:$MANPATH"
+alias cat="bat"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export KEYID=4E73C60F64D6824F37D12F6A7E927F94CC52AA1A
+export KUBECONFIG="$HOME/.kube/k3s.yaml:$HOME/.kube/xps.yaml"
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+# Path declarations
+export PATH="$HOME/.local/bin:$PATH:$HOME/istio-1.28.0/bin:/home/david/go/bin:$HOME/.pulumi/bin:$HOME/.krew/bin"
+export PATH=/home/david/.opencode/bin:$PATH
+export PATH="$HOME/.npm-global/bin:$PATH"
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+source <(istioctl completion zsh)
+source <(pulumi gen-completion zsh)
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# GW=$(ip route | head -n1 | awk '{print $3}')
-# export DISPLAY=$GW:0.0
-# export LIBGL_ALWAYS_INDIRECT=1
-
-# export VAULT_ADDR=https://vault.quantium.com/
-# export PROMPT='$(kube_ps1)'$PROMPT
-export KUBECONFIG="$HOME/.kube/config"
-export EDITOR=vim
-export VISUAL=less
-
-autoload -Uz +X compinit && compinit
-autoload -Uz +X bashcompinit && bashcompinit
-
-complete -o nospace -C /usr/bin/terraform terraform
-source /etc/bash_completion.d/azure-cli
-source /usr/lib/google-cloud-sdk/completion.bash.inc
-
-[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/zsh"
-
-export GCM_CREDENTIAL_STORE="gpg"
-export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -f '/home/david/google-cloud-sdk/path.zsh.inc' ] && source '/home/david/google-cloud-sdk/path.zsh.inc' || :
+[ -f '/home/david/google-cloud-sdk/completion.zsh.inc' ] && source '/home/david/google-cloud-sdk/completion.zsh.inc' || :
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/zsh" || :
