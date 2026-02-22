@@ -1,3 +1,7 @@
+export PATH="$HOME/.local/bin:$PATH:/home/david/go/bin:$HOME/.pulumi/bin:$HOME/.krew/bin"
+export PATH=/home/david/.opencode/bin:$PATH
+export PATH="$HOME/.npm-global/bin:$PATH"
+
 export ZSH="$HOME/.oh-my-zsh"
 
 plugins=(
@@ -49,11 +53,6 @@ alias cat="bat"
 
 export KEYID=4E73C60F64D6824F37D12F6A7E927F94CC52AA1A
 export KUBECONFIG="$HOME/.kube/k3s.yaml:$HOME/.kube/xps.yaml"
-
-# Path declarations
-export PATH="$HOME/.local/bin:$PATH:$HOME/istio-1.28.0/bin:/home/david/go/bin:$HOME/.pulumi/bin:$HOME/.krew/bin"
-export PATH=/home/david/.opencode/bin:$PATH
-export PATH="$HOME/.npm-global/bin:$PATH"
 
 source <(istioctl completion zsh)
 source <(pulumi gen-completion zsh)

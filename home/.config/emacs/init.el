@@ -28,16 +28,16 @@
 (add-hook 'after-make-frame-functions
           #'(lambda (frame)
               (select-frame frame)
-              (if (window-system)
-                  (progn
-                    (set-face-attribute
-                     'default nil
-                     :font "CaskaydiaCoveNerdFont"
-                     :height 137
-                     :inherit nil
-                     :weight 'normal)
-                    (load-theme 'solarized-dark t))
-
+              (when (window-system)
+                (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+                (set-face-attribute
+                 'default nil
+                 :font "CaskaydiaCoveNerdFont"
+                 :height 137
+                 :inherit nil
+                 :weight 'normal)
+                (load-theme 'solarized-dark t))
+              (unless (window-system)
                 (load-theme 'material t))))
 
 ;; setup elpa package source
@@ -458,8 +458,7 @@
               ("C-c b" . #'whitespace-mode)
               ("S-C-<left>" . #'shrink-window-horizontally)
               ("S-C-<right>" . #'enlarge-window-horizontally)
-              ("<backtab>" . #'treesit-fold-toggle)
-	      ))
+              ("<backtab>" . #'treesit-fold-toggle)))
 
 (provide '.emacs)
 
