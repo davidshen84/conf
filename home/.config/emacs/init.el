@@ -10,11 +10,6 @@
               (delete-selection-mode t)
               (defalias 'list-buffers 'ibuffer)
 
-              ;; set window style
-              (menu-bar-mode -1)
-              (tool-bar-mode -1)
-              (when (window-system)
-                (scroll-bar-mode -1))
 
               (setq-default
                default-terminal-coding-system 'utf-8
@@ -29,7 +24,12 @@
           #'(lambda (frame)
               (select-frame frame)
               (when (window-system)
+                ;; set window style
+                (menu-bar-mode -1)
+                (tool-bar-mode -1)
+                (scroll-bar-mode -1)
                 (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+
                 (set-face-attribute
                  'default nil
                  :font "CaskaydiaCoveNerdFont"
