@@ -270,8 +270,8 @@
               ("C-c c b" . #'consult-bookmark)
               ("C-c c f" . #'consult-find)
               ("C-c c g" . #'consult-ripgrep)
-              ("C-c c l" . #'consult-line))
-              ("C-c c r" . #'consult-recent-file))
+              ("C-c c l" . #'consult-line)
+              ("C-c c r" . #'consult-recent-file)))
 
 (add-hook 'eshell-mode-hook
           #'(lambda ()
