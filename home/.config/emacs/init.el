@@ -446,7 +446,10 @@
   (setq docker-compose-command "docker compose"))
 
 (use-package my
-  :load-path "~/github/conf/lisp"
+  :vc (:url "https://github.com/davidshen84/conf"
+            :rev :newest
+            :lisp-dir "lisp/")
+
   :demand t
   :bind (:map global-map
               ("C-c n" . #'my/new-scratch-buffer)
