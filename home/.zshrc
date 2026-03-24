@@ -6,7 +6,6 @@ export ZSH="$HOME/.oh-my-zsh"
 
 plugins=(
     colorize
-    emacs
     emoji
     emotty
     eza

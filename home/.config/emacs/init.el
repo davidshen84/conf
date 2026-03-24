@@ -16,9 +16,9 @@
                select-active-regions nil)
 
               ;; start emacs server
-              (unless (server-running-p)
-                (server-start))
-              ))
+              ;; (unless (server-running-p)
+              ;;   (server-start))
+          ))
 
 (add-hook 'after-make-frame-functions
           #'(lambda (frame)
