@@ -9,15 +9,10 @@
               (show-paren-mode t)
               (delete-selection-mode t)
               (defalias 'list-buffers 'ibuffer)
-
-
+              (menu-bar-mode -1)
               (setq-default
                default-terminal-coding-system 'utf-8
                select-active-regions nil)
-
-              ;; start emacs server
-              ;; (unless (server-running-p)
-              ;;   (server-start))
           ))
 
 (add-hook 'after-make-frame-functions
@@ -25,7 +20,6 @@
               (select-frame frame)
               (when (window-system)
                 ;; set window style
-                (menu-bar-mode -1)
                 (tool-bar-mode -1)
                 (scroll-bar-mode -1)
 
@@ -100,17 +94,12 @@
   :ensure t
   :if (not window-system))
 
-;; `tree-sitter'
-(use-package tree-sitter
-  :ensure t
-  :config
-  (use-package tree-sitter-langs
-    :ensure t)
-  (use-package treesit-fold
-    :ensure t)
-  (global-tree-sitter-mode)
-  (global-treesit-fold-mode)
-  (global-treesit-fold-indicators-mode))
+(setq treesit-language-source-alist
+      '(
+        (python "https://github.com/tree-sitter/tree-sitter-python")
+        (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp" "main")
+        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+        ))
 
 (use-package magit
   :ensure t
