@@ -1,6 +1,5 @@
-export PATH="$HOME/.local/bin:$PATH:/home/david/go/bin:$HOME/.pulumi/bin:$HOME/.krew/bin"
-export PATH=/home/david/.opencode/bin:$PATH
-export PATH="$HOME/.npm-global/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH:$HOME/go/bin:$HOME/.npm-global/bin"
+export PATH="$PATH:$HOME/.pulumi/bin:$HOME/.krew/bin:$HOME/.opencode/bin"
 
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -50,8 +49,8 @@ setopt HIST_IGNORE_SPACE
 
 alias cat="bat"
 
-export KEYID=4E73C60F64D6824F37D12F6A7E927F94CC52AA1A
-export KUBECONFIG="$HOME/.kube/k3s.yaml:$HOME/.kube/xps.yaml"
+export KEYID=
+export KUBECONFIG=
 
 source <(istioctl completion zsh)
 source <(pulumi gen-completion zsh)
