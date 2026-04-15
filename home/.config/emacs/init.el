@@ -426,8 +426,15 @@
 
 (use-package emojify
   :ensure t
+  :init
+  (setq emojify-download-emojis-p t)
+  (global-emojify-mode t)
   :config
-  (global-emojify-mode))
+  (use-package company-emoji
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-emoji)))
+
 
 (use-package docker
   :ensure t
