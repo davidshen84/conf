@@ -37,6 +37,7 @@
 (require 'package)
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
 (unless package--initialized
   (package-initialize))
 
@@ -162,13 +163,25 @@
   (require 'org-tempo)
   (require 'org-crypt)
   (org-crypt-use-before-save-magic)
-  :bind (:map global-map
-              ("C-c o c" . org-capture)
-              ("C-c o a" . org-agenda)))
+  ;; :bind (:map global-map
+  ;;             ("C-c o c" . org-capture)
+  ;;             ("C-c o a" . org-agenda))
+  )
 
 (use-package ob-http
   :after org
   :ensure t)
+
+(use-package org-roam
+  :after org
+  :ensure t
+  :custom
+  (org-roam-directory "~/org/roam")
+  :config
+  (org-roam-db-autosync-mode)
+  :bind (:map global-map
+              ("C-c n f" . #'org-roam-node-find))
+  )
 
 ;; `xml'
 (add-hook 'nxml-mode-hook
@@ -466,7 +479,6 @@
 (provide '.emacs)
 
 ;;; .emacs ends here
-
 
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars noruntime)
