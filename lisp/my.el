@@ -4,6 +4,15 @@
 
 ;;; Code:
 
+;;;###autoload
+(defvar-keymap my-map
+  :doc "Keymap for `my' package."
+  "n" #'my/new-scratch-buffer
+  "d" #'my/duplicate-line
+  "p" #'my/password
+  ;; "o" #'my/previous-window
+  )
+
 (defun my/prog ()
   "Common development settings."
 

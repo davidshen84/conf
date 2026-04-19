@@ -84,6 +84,10 @@
   (indent-bars-treesit-ignore-blank-lines-types '("module"))
   :hook ((python-base-mode yaml-mode json-mode) . indent-bars-mode))
 
+(use-package treesit-fold
+  :bind (:map treesit-fold-mode-map
+              ("<backtab>" . #'treesit-fold-toggle)))
+
 (use-package solarized-theme
   :ensure t
   :if (window-system)
@@ -154,14 +158,16 @@
      ;; add more languages
      ))
   :config
-  (use-package ob-http
-    :ensure t)
   (require 'org-tempo)
   (require 'org-crypt)
   (org-crypt-use-before-save-magic)
   :bind (:map global-map
               ("C-c o c" . org-capture)
               ("C-c o a" . org-agenda)))
+
+(use-package ob-http
+  :after org
+  :ensure t)
 
 ;; `xml'
 (add-hook 'nxml-mode-hook
@@ -442,21 +448,19 @@
   (setq docker-compose-command "docker compose"))
 
 (use-package my
+  ;; :load-path "/home/david/github/conf/lisp"
   :vc (:url "https://github.com/davidshen84/conf"
             :rev :newest
             :lisp-dir "lisp/")
-
   :demand t
+  :bind-keymap ("C-c m" . my-map)
   :bind (:map global-map
-              ("C-c n" . #'my/new-scratch-buffer)
-              ("C-c d" . #'my/duplicate-line)
-              ("C-x O" . #'my/previous-window)
               ("C-c C-g" . #'goto-line)
               ("C-c l" . #'display-line-numbers-mode)
               ("C-c b" . #'whitespace-mode)
               ("S-C-<left>" . #'shrink-window-horizontally)
               ("S-C-<right>" . #'enlarge-window-horizontally)
-              ("<backtab>" . #'treesit-fold-toggle)))
+              ))
 
 (provide '.emacs)
 
