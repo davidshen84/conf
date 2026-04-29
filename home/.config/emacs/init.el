@@ -85,6 +85,7 @@
   :hook ((python-base-mode yaml-mode json-mode) . indent-bars-mode))
 
 (use-package treesit-fold
+  :ensure t
   :bind (:map treesit-fold-mode-map
               ("<backtab>" . #'treesit-fold-toggle)))
 
