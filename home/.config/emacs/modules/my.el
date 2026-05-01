@@ -22,7 +22,8 @@
   (display-line-numbers-mode t)
   (editorconfig-mode t)
   (eldoc-mode t)
-  (setq truncate-lines t))
+  (setq truncate-lines t)
+  (setq indent-tabs-mode nil))
 
 (add-hook 'prog-mode-hook 'my/prog)
 
