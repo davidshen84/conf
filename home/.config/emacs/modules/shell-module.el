@@ -15,9 +15,7 @@
 (use-package eat
   :ensure t
   :config
-  (custom-set-variables
-   '(eat-semi-char-non-bound-keys
-     (add-to-list 'eat-semi-char-non-bound-keys [?\e ?o])))
+  (add-to-list 'eat-semi-char-non-bound-keys [?\e ?o])
   :hook (eshell-mode . eat-eshell-mode))
 
 (provide 'shell-module)
