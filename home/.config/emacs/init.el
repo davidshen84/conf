@@ -1,5 +1,10 @@
 ;;; init.el --- Emacs configuration entry point  -*- lexical-binding: t; -*-
 
+;;; Commentary:
+
+;; This is the main Emacs configuration entry point.
+;; It loads modular configuration files from the modules directory.
+
 ;;; Code:
 
 ;; Add modules directory to load-path
